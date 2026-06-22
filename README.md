@@ -69,15 +69,13 @@ Response shape:
   skills ontology (ESCO, O*NET, or LinkedIn Skills API) before relying on this
   for production scoring — word overlap misses synonyms (`JS` vs `JavaScript`)
   and over-counts noise words.
-- **No persistence yet.** PostgreSQL schema comes in Phase 1.5, once this
-  pipeline's output shape is validated against real resumes.
+- **Persistence is fully implemented via MongoDB (Mongoose).** Resumes, ATS reports, and Roadmaps are saved automatically to MongoDB.
 - **No auth or rate-limiting.** Add both before any public deployment —
   resume uploads + OpenAI calls are exactly the kind of endpoint that gets
   abused if left open.
-- **No OCR.** Scanned/image-based PDFs will extract empty or garbled text —
-  flag this case to the user rather than silently failing.
+- **OCR is built-in.** Upload screenshots (PNG/JPEG) of resumes, and the parser will process them using Tesseract OCR fallback.
+- **No scanned PDF OCR fallback.** Scanned/image-based PDFs will be flagged to the user, advising them to upload text-based PDFs or raw images.
 
 ## Next phase
 
-Phase 2 (skill-gap + roadmap generation) consumes `structuredResume` as its
-input contract. Don't change this JSON shape without updating Phase 2 too.
+Phase 3 (GitHub Analyzer) will fetch git metadata and evaluate commit consistency.
