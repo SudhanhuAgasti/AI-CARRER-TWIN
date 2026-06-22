@@ -1,116 +1,105 @@
-const db = require('../config/db');
+const Resume = require('../models/resume.model');
+const AtsReport = require('../models/atsReport.model');
+const Roadmap = require('../models/roadmap.model');
+const { connectionState } = require('../config/db');
 
 /**
- * Persists a parsed structured resume into PostgreSQL.
+ * Persists a parsed structured resume into MongoDB using Resume Mongoose Model.
+ * Handles fallbacks gracefully if the database is not configured.
  * 
  * @param {Object} structured - Extracted structured resume fields.
- * @param {string} rawText - Unstructured raw text from PDF/Word.
- * @returns {Promise<string|null>} Created resume UUID (or null if DB not configured)
+ * @param {string} rawText - Unstructured raw text from PDF/Word/Image.
+ * @returns {Promise<string|null>} Created resume ObjectId string (or null if DB not active)
  */
 async function saveResume(structured, rawText) {
   try {
-    const queryText = `
-      INSERT INTO resumes (
-        candidate_name, candidate_email, candidate_phone, 
-        total_years_experience, skills, education, 
-        experience, certifications, raw_text
-      ) 
-      VALUES ($1, $2, $3, $4, $5, $6::jsonb, $7::jsonb, $8, $9)
-      RETURNING id;
-    `;
+    if (!connectionState.isConnected) {
+      console.warn('[DB Service] Mongoose connection not active. Skipping resume save.');
+      return null;
+    }
 
-    const values = [
-      structured.name || null,
-      structured.email || null,
-      structured.phone || null,
-      structured.totalYearsExperience || null,
-      structured.skills || [],
-      JSON.stringify(structured.education || []),
-      JSON.stringify(structured.experience || []),
-      structured.certifications || [],
-      rawText,
-    ];
+    const resumeDoc = new Resume({
+      name: structured.name,
+      email: structured.email,
+      phone: structured.phone,
+      totalYearsExperience: structured.totalYearsExperience,
+      skills: structured.skills,
+      experience: structured.experience,
+      education: structured.education,
+      certifications: structured.certifications,
+      rawText: rawText,
+    });
 
-    const result = await db.query(queryText, values);
-    return result.rows[0]?.id || null;
+    const saved = await resumeDoc.save();
+    return saved._id.toString();
   } catch (error) {
-    console.error('Error in saveResume persistence service:', error);
+    console.error('[DB Service] Error saving resume to MongoDB:', error.message);
     throw error;
   }
 }
 
 /**
- * Persists an ATS evaluation report.
+ * Persists an ATS evaluation report into MongoDB.
  * 
- * @param {string} resumeId - Resume UUID reference
+ * @param {string} resumeId - Resume ObjectId reference
  * @param {Object} atsResult - Deterministic score and checks output
  * @param {string} jobDescription - Optional JD comparison text
  * @param {Object} matchResult - Optional semantic match score result
- * @returns {Promise<string|null>} Created report UUID
+ * @returns {Promise<string|null>} Created report ObjectId string
  */
 async function saveAtsReport(resumeId, atsResult, jobDescription = null, matchResult = null) {
-  if (!resumeId) return null;
   try {
-    const queryText = `
-      INSERT INTO ats_reports (
-        resume_id, overall_score, grade, 
-        checklist_results, job_description, 
-        similarity_score, keyword_overlap
-      ) 
-      VALUES ($1, $2, $3, $4::jsonb, $5, $6, $7::jsonb)
-      RETURNING id;
-    `;
+    if (!connectionState.isConnected || !resumeId) {
+      console.warn('[DB Service] Connection inactive or resumeId invalid. Skipping report save.');
+      return null;
+    }
 
-    const values = [
+    const reportDoc = new AtsReport({
       resumeId,
-      atsResult.score,
-      atsResult.grade,
-      JSON.stringify(atsResult.checks || []),
-      jobDescription || null,
-      matchResult?.similarityScore || null,
-      JSON.stringify(atsResult.keywordOverlap || {}),
-    ];
+      overallScore: atsResult.score,
+      grade: atsResult.grade,
+      checklistResults: atsResult.checks,
+      jobDescription: jobDescription || null,
+      similarityScore: matchResult?.similarityScore || null,
+      keywordOverlap: atsResult.keywordOverlap || { matchedKeywords: [], overlapPercent: 0 },
+    });
 
-    const result = await db.query(queryText, values);
-    return result.rows[0]?.id || null;
+    const saved = await reportDoc.save();
+    return saved._id.toString();
   } catch (error) {
-    console.error('Error in saveAtsReport persistence service:', error);
+    console.error('[DB Service] Error saving ATS report to MongoDB:', error.message);
     throw error;
   }
 }
 
 /**
- * Persists a generated study curriculum roadmap.
+ * Persists a generated study curriculum roadmap into MongoDB.
  * 
- * @param {string} resumeId - Optional Resume UUID reference
+ * @param {string} resumeId - Optional Resume ObjectId reference
  * @param {Object} roadmapResult - Generated roadmap and metrics
  * @param {number} availableHoursPerDay - Target study time
- * @returns {Promise<string|null>} Created roadmap UUID
+ * @returns {Promise<string|null>} Created roadmap ObjectId string
  */
 async function saveRoadmap(resumeId, roadmapResult, availableHoursPerDay) {
   try {
-    const queryText = `
-      INSERT INTO roadmaps (
-        resume_id, target_role, available_hours_per_day,
-        skill_gaps, curriculum, validation_errors
-      )
-      VALUES ($1, $2, $3, $4, $5::jsonb, $6)
-      RETURNING id;
-    `;
+    if (!connectionState.isConnected) {
+      console.warn('[DB Service] Mongoose connection not active. Skipping roadmap save.');
+      return null;
+    }
 
-    const values = [
-      resumeId || null,
-      roadmapResult.targetRole,
+    const roadmapDoc = new Roadmap({
+      resumeId: resumeId || null,
+      targetRole: roadmapResult.targetRole,
       availableHoursPerDay,
-      roadmapResult.skillGaps || [],
-      JSON.stringify(roadmapResult.roadmap || {}),
-      roadmapResult.validationErrors || null,
-    ];
+      skillGaps: roadmapResult.skillGaps,
+      curriculum: roadmapResult.roadmap,
+      validationErrors: roadmapResult.validationErrors || [],
+    });
 
-    const result = await db.query(queryText, values);
-    return result.rows[0]?.id || null;
+    const saved = await roadmapDoc.save();
+    return saved._id.toString();
   } catch (error) {
-    console.error('Error in saveRoadmap persistence service:', error);
+    console.error('[DB Service] Error saving Roadmap to MongoDB:', error.message);
     throw error;
   }
 }

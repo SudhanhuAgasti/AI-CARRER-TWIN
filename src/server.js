@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
+const { connectDB } = require('./config/db');
 const resumeRoutes = require('./routes/resume.routes');
 const plannerRoutes = require('./routes/planner.routes');
 const { errorHandler } = require('./middleware/error.middleware');
@@ -17,6 +18,9 @@ app.use('/api/planner', plannerRoutes);
 
 // Keep error handler last - catches errors from any route via next(err)
 app.use(errorHandler);
+
+// Connect to MongoDB Database
+connectDB();
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
