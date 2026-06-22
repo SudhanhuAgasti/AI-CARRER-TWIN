@@ -1,0 +1,102 @@
+{
+  "roles": {
+    "backend-engineer": {
+      "title": "Backend Engineer",
+      "requiredSkills": [
+        "node.js",
+        "javascript",
+        "express",
+        "sql",
+        "postgresql",
+        "databases",
+        "apis",
+        "system design"
+      ],
+      "preferredSkills": [
+        "docker",
+        "kubernetes",
+        "aws",
+        "redis",
+        "caching",
+        "typescript",
+        "microservices",
+        "testing"
+      ]
+    },
+    "frontend-engineer": {
+      "title": "Frontend Engineer",
+      "requiredSkills": [
+        "javascript",
+        "html",
+        "css",
+        "react",
+        "state management",
+        "apis"
+      ],
+      "preferredSkills": [
+        "typescript",
+        "next.js",
+        "vite",
+        "webpack",
+        "tailwind css",
+        "testing",
+        "performance optimization"
+      ]
+    },
+    "fullstack-engineer": {
+      "title": "Fullstack Engineer",
+      "requiredSkills": [
+        "javascript",
+        "node.js",
+        "react",
+        "databases",
+        "sql",
+        "apis"
+      ],
+      "preferredSkills": [
+        "typescript",
+        "next.js",
+        "express",
+        "postgresql",
+        "aws",
+        "docker",
+        "system design",
+        "testing"
+      ]
+    },
+    "devops-engineer": {
+      "title": "DevOps Engineer",
+      "requiredSkills": [
+        "linux",
+        "bash",
+        "docker",
+        "kubernetes",
+        "ci/cd",
+        "git",
+        "cloud computing"
+      ],
+      "preferredSkills": [
+        "terraform",
+        "ansible",
+        "aws",
+        "prometheus",
+        "grafana",
+        "python",
+        "networking",
+        "security"
+      ]
+    }
+  },
+  "synonyms": {
+    "js": "javascript",
+    "postgres": "postgresql",
+    "rest api": "apis",
+    "rest apis": "apis",
+    "restful apis": "apis",
+    "k8s": "kubernetes",
+    "amazon web services": "aws",
+    "nest.js": "node.js",
+    "nestjs": "node.js",
+    "express.js": "express"
+  }
+}
