@@ -1,15 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { Upload, FileText, Sparkles, AlertCircle } from 'lucide-react';
-import './ResumeUploader.css';
 
 /**
- * ResumeUploader Component
- * Handles drag-and-drop resume uploading, file validation, 
- * job description input, and triggers the analysis payload.
- * 
- * DESIGN RATIONALE:
- * - Direct responsive drag & drop interface.
- * - Prompts clear warnings for scanned documents and handles visual loading states.
+ * ResumeUploader Component (Refactored with Tailwind CSS v4)
+ * Handles drag-and-drop resume uploading, file validation,
+ * and optional job description text inputs.
  */
 export default function ResumeUploader({ onAnalyze, isLoading }) {
   const [file, setFile] = useState(null);
@@ -83,10 +78,15 @@ export default function ResumeUploader({ onAnalyze, isLoading }) {
   };
 
   return (
-    <form className="uploader-form" onSubmit={handleSubmit}>
+    <form className="flex flex-col gap-6 w-full" onSubmit={handleSubmit}>
       {/* Drag & Drop Wrapper */}
       <div 
-        className={`drag-container ${dragActive ? 'drag-active' : ''} ${file ? 'has-file' : ''}`}
+        className={`relative overflow-hidden border-2 border-dashed rounded-2xl p-12 text-center transition-all duration-300 ease-in-out backdrop-blur-md cursor-pointer
+          ${dragActive 
+            ? 'border-cyan-500 bg-slate-900/60 shadow-[0_0_20px_rgba(6,182,212,0.2)]' 
+            : 'border-white/10 bg-slate-900/40 hover:border-violet-500 hover:bg-slate-900/60 hover:shadow-[0_0_20px_rgba(139,92,246,0.2)]'
+          } 
+          ${file ? 'border-solid border-white/20 cursor-default p-8' : ''}`}
         onDragEnter={onDrag}
         onDragLeave={onDrag}
         onDragOver={onDrag}
@@ -96,31 +96,33 @@ export default function ResumeUploader({ onAnalyze, isLoading }) {
         <input 
           ref={fileInputRef}
           type="file" 
-          className="file-input-hidden" 
+          className="hidden" 
           onChange={onFileChange}
           accept=".pdf,.docx,.png,.jpg,.jpeg"
         />
 
         {!file ? (
-          <div className="upload-prompt">
-            <div className="icon-wrapper">
-              <Upload className="upload-icon" />
+          <div className="flex flex-col items-center gap-3">
+            <div className="bg-white/3 border border-white/8 rounded-full p-4 flex items-center justify-center mb-2 transition-transform duration-300 hover:-translate-y-1 hover:border-violet-500/40">
+              <Upload className="w-6 h-6 text-slate-400" />
             </div>
-            <p className="upload-primary-text">Drag & Drop your resume or <span>browse</span></p>
-            <p className="upload-sub-text">Supports PDF, DOCX, PNG, and JPEG (Max 5MB)</p>
+            <p className="font-sans font-medium text-[1.05rem] text-slate-100">
+              Drag & Drop your resume or <span className="text-violet-500 underline underline-offset-4 font-semibold">browse</span>
+            </p>
+            <p className="text-xs text-slate-400">Supports PDF, DOCX, PNG, and JPEG (Max 5MB)</p>
           </div>
         ) : (
-          <div className="file-info-container">
-            <div className="file-icon-wrapper">
-              <FileText className="file-icon" />
+          <div className="flex items-center gap-5 text-left">
+            <div className="bg-violet-500/10 border border-violet-500/20 rounded-xl p-3 flex items-center justify-center">
+              <FileText className="w-6 h-6 text-violet-500" />
             </div>
-            <div className="file-meta">
-              <p className="file-name">{file.name}</p>
-              <p className="file-size">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+            <div className="grow">
+              <p className="font-sans font-semibold text-base text-slate-100 break-all mb-1">{file.name}</p>
+              <p className="text-xs text-slate-400">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
             </div>
             <button 
               type="button" 
-              className="remove-file-btn" 
+              className="bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-slate-100 px-4 py-2 rounded-lg text-xs font-medium cursor-pointer transition-all duration-200" 
               onClick={(e) => {
                 e.stopPropagation();
                 setFile(null);
@@ -134,17 +136,17 @@ export default function ResumeUploader({ onAnalyze, isLoading }) {
       </div>
 
       {error && (
-        <div className="error-alert">
-          <AlertCircle className="error-icon" />
+        <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/20 p-4 rounded-xl text-red-300 text-sm">
+          <AlertCircle className="w-5 h-5 shrink-0" />
           <p>{error}</p>
         </div>
       )}
 
       {/* Optional Job Description Input */}
-      <div className="jd-input-container">
-        <label className="jd-label">Target Job Description (Optional)</label>
+      <div className="flex flex-col gap-2 text-left">
+        <label className="font-sans font-semibold text-sm text-slate-100">Target Job Description (Optional)</label>
         <textarea 
-          className="jd-textarea"
+          className="bg-slate-900/40 border border-white/10 rounded-xl min-h-[120px] p-4 text-slate-100 font-sans text-sm resize-y focus:outline-none focus:border-violet-500 focus:shadow-[0_0_10px_rgba(139,92,246,0.2)] transition-all duration-200"
           placeholder="Paste the job requirements here to compute semantic matching scores..."
           value={jobDescription}
           onChange={(e) => setJobDescription(e.target.value)}
@@ -155,17 +157,17 @@ export default function ResumeUploader({ onAnalyze, isLoading }) {
       {/* Action Button */}
       <button 
         type="submit" 
-        className="submit-analyze-btn" 
+        className="bg-gradient-to-r from-violet-500 to-cyan-500 hover:shadow-[0_6px_20px_rgba(139,92,246,0.35)] hover:-translate-y-0.5 disabled:bg-white/5 disabled:text-slate-500 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none border-none text-white py-4 px-8 rounded-xl font-sans font-bold text-base flex items-center justify-center gap-3 cursor-pointer transition-all duration-300 shadow-[0_4px_15px_rgba(139,92,246,0.2)]" 
         disabled={isLoading || !file}
       >
         {isLoading ? (
-          <div className="loading-spinner-wrapper">
-            <span className="spinner"></span>
+          <div className="flex items-center gap-3">
+            <span className="w-5 h-5 border-2 border-white/10 border-t-white rounded-full animate-spin"></span>
             <span>Running AI Diagnostics...</span>
           </div>
         ) : (
           <>
-            <Sparkles className="btn-sparkle-icon" />
+            <Sparkles className="w-5 h-5" />
             <span>Analyze Resume & Compute ATS</span>
           </>
         )}

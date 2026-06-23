@@ -7,7 +7,6 @@ import ResumeEditor from './components/ResumeEditor/ResumeEditor';
 
 // Import Global Styles
 import './styles/global.css';
-import './App.css';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('resume'); // 'resume' | 'roadmap'
@@ -79,69 +78,75 @@ export default function App() {
         </defs>
       </svg>
 
-      <div className="app-container">
+      <div className="max-w-[1200px] mx-auto px-6 py-8">
         {/* Header Branding */}
-        <header className="app-header">
-          <div className="brand-logo-wrapper">
-            <div className="logo-glow-ring">
-              <span className="logo-dot"></span>
+        <header className="flex flex-col items-center text-center gap-3 mb-12">
+          <div className="flex items-center gap-3 mb-1">
+            <div className="w-6 h-6 rounded-full border-2 border-violet-500 flex items-center justify-center relative shadow-[0_0_10px_rgba(139,92,246,0.25)]">
+              <span className="w-2 h-2 rounded-full background-cyan-400 bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.25)]"></span>
             </div>
-            <h1>AI Career Twin</h1>
+            <h1 className="font-sans text-[1.8rem] font-bold tracking-tight bg-gradient-to-br from-white to-slate-400 bg-clip-text text-transparent">
+              AI Career Twin
+            </h1>
           </div>
-          <p className="brand-tagline">Evaluate, optimize, and map your career trajectory with deterministic AI diagnostics.</p>
+          <p className="text-sm text-slate-400 max-w-[480px] leading-relaxed">
+            Evaluate, optimize, and map your career trajectory with deterministic AI diagnostics.
+          </p>
 
           {/* Navigation Tabs */}
-          <nav className="tab-navigation">
+          <nav className="flex bg-white/2 border border-white/5 p-1.5 rounded-full mt-6 shadow-[0_4px_20px_rgba(0,0,0,0.2)]">
             <button 
-              className={`nav-tab-btn ${activeTab === 'resume' ? 'tab-active' : ''}`}
+              className={`bg-transparent border-none text-slate-400 px-6 py-2.5 rounded-full font-sans font-medium text-xs cursor-pointer flex items-center gap-2 transition-all duration-200
+                ${activeTab === 'resume' ? 'text-white bg-violet-500/15 border border-violet-500/25 shadow-[0_4px_12px_rgba(139,92,246,0.25)]' : 'hover:text-slate-100 hover:bg-white/3'}`}
               onClick={() => setActiveTab('resume')}
             >
-              <ShieldCheck className="tab-icon" />
+              <ShieldCheck className="w-3.5 h-3.5" />
               <span>ATS Resume Scorer</span>
             </button>
             <button 
-              className={`nav-tab-btn ${activeTab === 'roadmap' ? 'tab-active' : ''}`}
-              onClick={() => setActiveTab('roadmap')}
-              disabled={true} /* Disabled initially until Phase 2 integration */
+              className="bg-transparent border-none text-slate-400 px-6 py-2.5 rounded-full font-sans font-medium text-xs opacity-35 cursor-not-allowed flex items-center gap-2"
+              disabled={true}
               title="Phase 2 integration coming soon"
             >
-              <CalendarRange className="tab-icon" />
+              <CalendarRange className="w-3.5 h-3.5" />
               <span>Roadmap Planner (Phase 2)</span>
             </button>
           </nav>
         </header>
 
         {/* Content body */}
-        <main className="app-main-content">
+        <main className="w-full">
           {activeTab === 'resume' && (
-            <div className="tab-content-wrapper">
+            <div className="w-full">
               
               {!analysisResult ? (
-                <div className="uploader-centering-wrapper">
-                  <div className="uploader-intro-text">
-                    <h2>Optimize Your Resume for ATS Parsers</h2>
-                    <p>Upload your file to extract structured fields and compute deterministic scoring benchmarks.</p>
+                <div className="max-w-[640px] mx-auto flex flex-col gap-8 mt-8">
+                  <div className="text-center flex flex-col gap-2">
+                    <h2 className="font-sans text-xl font-bold text-slate-50">Optimize Your Resume for ATS Parsers</h2>
+                    <p className="text-sm text-slate-400">Upload your file to extract structured fields and compute deterministic scoring benchmarks.</p>
                   </div>
                   <ResumeUploader onAnalyze={handleAnalyzeResume} isLoading={isLoading} />
                 </div>
               ) : (
-                <div className="analysis-workspace-fade-in">
+                <div className="animate-[fadeIn_0.4s_ease-out] flex flex-col gap-6">
                   
                   {/* Results Sub-header Navigation */}
-                  <div className="workspace-action-bar">
-                    <button className="back-upload-btn" onClick={() => setAnalysisResult(null)}>
+                  <div className="flex justify-between items-center mb-2">
+                    <button className="bg-transparent border-none text-slate-400 hover:text-slate-100 text-xs font-medium cursor-pointer flex items-center gap-1.5 transition-colors duration-200" onClick={() => setAnalysisResult(null)}>
                       <ArrowLeft size={16} /> Back to Upload
                     </button>
 
-                    <div className="editor-toggle-row">
+                    <div className="flex bg-white/2 border border-white/5 p-1 rounded-lg">
                       <button 
-                        className={`toggle-view-btn ${!editMode ? 'toggle-active' : ''}`}
+                        className={`bg-transparent border-none text-slate-400 px-4 py-2 rounded-md font-sans font-medium text-xs cursor-pointer flex items-center gap-1.5 transition-all duration-200
+                          ${!editMode ? 'text-white bg-white/6 border border-white/5' : ''}`}
                         onClick={() => setEditMode(false)}
                       >
                         <Eye size={14} /> Scorecard
                       </button>
                       <button 
-                        className={`toggle-view-btn ${editMode ? 'toggle-active' : ''}`}
+                        className={`bg-transparent border-none text-slate-400 px-4 py-2 rounded-md font-sans font-medium text-xs cursor-pointer flex items-center gap-1.5 transition-all duration-200
+                          ${editMode ? 'text-white bg-white/6 border border-white/5' : ''}`}
                         onClick={() => setEditMode(true)}
                       >
                         <Edit3 size={14} /> Edit Profile
@@ -151,18 +156,18 @@ export default function App() {
 
                   {/* Dynamic Switch View (Scorecard vs Editor Workspace) */}
                   {!editMode ? (
-                    <div className="scorecard-grid-layout">
-                      <div className="scorer-column">
+                    <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-8 items-start">
+                      <div className="w-full">
                         <AtsScorer atsData={analysisResult.ats} />
                       </div>
-                      <div className="match-column">
+                      <div className="w-full">
                         {analysisResult.match ? (
                           <MatchCard 
                             matchData={analysisResult.match} 
                             keywordOverlap={analysisResult.ats.keywordOverlap} 
                           />
                         ) : (
-                          <div className="no-jd-card">
+                          <div className="bg-slate-900/40 backdrop-blur-md border border-white/5 p-8 rounded-2xl text-center text-slate-400 text-sm leading-relaxed shadow-2xl shadow-black/50">
                             <p>No Job Description was provided. Upload a Job Description to calculate semantic matching and keyword density analysis.</p>
                           </div>
                         )}
