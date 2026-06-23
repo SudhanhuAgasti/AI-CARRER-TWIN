@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { ShieldCheck, CalendarRange, Eye, Edit3, ArrowLeft } from 'lucide-react';
+import { ShieldCheck, CalendarRange, Eye, Edit3, ArrowLeft, ArrowRight } from 'lucide-react';
 import ResumeUploader from './components/ResumeUploader/ResumeUploader';
 import AtsScorer from './components/AtsScorer/AtsScorer';
 import MatchCard from './components/MatchCard/MatchCard';
 import ResumeEditor from './components/ResumeEditor/ResumeEditor';
+import RoleSelector from './components/RoleSelector/RoleSelector';
+import SkillRadar from './components/SkillRadar/SkillRadar';
+import RoadmapTimeline from './components/RoadmapTimeline/RoadmapTimeline';
 
 // Import Global Styles
 import './styles/global.css';
@@ -15,6 +18,10 @@ export default function App() {
   const [editMode, setEditMode] = useState(false);
   const [rawText, setRawText] = useState('');
   const [analysisError, setAnalysisError] = useState(null);
+
+  // Phase 2 states
+  const [roadmapResult, setRoadmapResult] = useState(null);
+  const [isRoadmapLoading, setIsRoadmapLoading] = useState(false);
 
   const API_BASE_URL = 'http://localhost:4000/api';
 
@@ -44,11 +51,9 @@ export default function App() {
 
       const result = await response.json();
       setAnalysisResult(result);
-      // We keep a backup of raw text for the side-by-side editor preview
       setRawText(result.structuredResume.rawText || file.name + ' parsed content...');
     } catch (error) {
       console.error('Analysis error:', error);
-      // Catch Google API 503 errors and make them readable
       if (error.message.includes('503') || error.message.includes('UNAVAILABLE')) {
         setAnalysisError('Google AI servers are currently overloaded (503 Service Unavailable). Please click the analyze button again to retry.');
       } else {
@@ -56,6 +61,42 @@ export default function App() {
       }
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Triggers Phase 2 Roadmap Generation API
+  const handleGenerateRoadmap = async (targetRole, availableHoursPerDay) => {
+    setIsRoadmapLoading(true);
+    setAnalysisError(null);
+
+    // Pull skills from the uploaded resume if present
+    const resumeSkills = analysisResult?.structuredResume?.skills || [];
+    const resumeId = analysisResult?.ids?.resumeId || null;
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/planner/roadmap`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          resumeId,
+          resumeSkills,
+          targetRole,
+          availableHoursPerDay,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Planning failed.');
+      }
+
+      const result = await response.json();
+      setRoadmapResult(result);
+    } catch (error) {
+      console.error('Roadmap planning error:', error);
+      alert(`Error planning roadmap: ${error.message}`);
+    } finally {
+      setIsRoadmapLoading(false);
     }
   };
 
@@ -90,7 +131,7 @@ export default function App() {
         <header className="flex flex-col items-center text-center gap-3 mb-12">
           <div className="flex items-center gap-3 mb-1">
             <div className="w-6 h-6 rounded-full border-2 border-violet-500 flex items-center justify-center relative shadow-[0_0_10px_rgba(139,92,246,0.25)]">
-              <span className="w-2 h-2 rounded-full background-cyan-400 bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.25)]"></span>
+              <span className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.25)]"></span>
             </div>
             <h1 className="font-sans text-[1.8rem] font-bold tracking-tight bg-gradient-to-br from-white to-slate-400 bg-clip-text text-transparent">
               AI Career Twin
@@ -111,9 +152,9 @@ export default function App() {
               <span>ATS Resume Scorer</span>
             </button>
             <button 
-              className="bg-transparent border-none text-slate-400 px-6 py-2.5 rounded-full font-sans font-medium text-xs opacity-35 cursor-not-allowed flex items-center gap-2"
-              disabled={true}
-              title="Phase 2 integration coming soon"
+              className={`bg-transparent border-none text-slate-400 px-6 py-2.5 rounded-full font-sans font-medium text-xs cursor-pointer flex items-center gap-2 transition-all duration-200
+                ${activeTab === 'roadmap' ? 'text-white bg-violet-500/15 border border-violet-500/25 shadow-[0_4px_12px_rgba(139,92,246,0.25)]' : 'hover:text-slate-100 hover:bg-white/3'}`}
+              onClick={() => setActiveTab('roadmap')}
             >
               <CalendarRange className="w-3.5 h-3.5" />
               <span>Roadmap Planner (Phase 2)</span>
@@ -123,9 +164,9 @@ export default function App() {
 
         {/* Content body */}
         <main className="w-full">
+          {/* Tab 1: Resume Scorer */}
           {activeTab === 'resume' && (
             <div className="w-full">
-              
               {!analysisResult ? (
                 <div className="max-w-[640px] mx-auto flex flex-col gap-8 mt-8">
                   <div className="text-center flex flex-col gap-2">
@@ -168,12 +209,28 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Dynamic Switch View (Scorecard vs Editor Workspace) */}
+                  {/* Switch View (Scorecard vs Editor Workspace) */}
                   {!editMode ? (
                     <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-8 items-start">
-                      <div className="w-full">
+                      <div className="w-full flex flex-col gap-6">
                         <AtsScorer atsData={analysisResult.ats} />
+                        
+                        {/* Premium Action: Link directly to Phase 2 Planner */}
+                        <div className="bg-slate-900/40 backdrop-blur-md border border-white/5 rounded-2xl p-6 text-left flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mt-2">
+                          <div>
+                            <h4 className="font-sans font-bold text-sm text-slate-100 mb-1">Bridge Your Gaps</h4>
+                            <p className="text-xs text-slate-400">Generate a custom week-by-week study roadmap based on your extracted resume skills.</p>
+                          </div>
+                          <button 
+                            className="bg-violet-500 hover:bg-violet-600 text-white font-sans font-bold text-xs py-3 px-5 rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer"
+                            onClick={() => setActiveTab('roadmap')}
+                          >
+                            <span>Generate Study Roadmap</span>
+                            <ArrowRight size={14} />
+                          </button>
+                        </div>
                       </div>
+                      
                       <div className="w-full">
                         {analysisResult.match ? (
                           <MatchCard 
@@ -197,7 +254,62 @@ export default function App() {
 
                 </div>
               )}
+            </div>
+          )}
 
+          {/* Tab 2: Roadmap Planner */}
+          {activeTab === 'roadmap' && (
+            <div className="w-full">
+              {!roadmapResult ? (
+                <div className="max-w-[540px] mx-auto flex flex-col gap-6 mt-8">
+                  <div className="text-center flex flex-col gap-2">
+                    <h2 className="font-sans text-xl font-bold text-slate-50">Custom Study Planner</h2>
+                    <p className="text-sm text-slate-400">
+                      Select your target career path to compute skills gap matrices and generate custom roadmaps.
+                    </p>
+                  </div>
+                  
+                  {/* Warning if no resume uploaded yet */}
+                  {!analysisResult && (
+                    <div className="bg-amber-500/10 border border-amber-500/20 p-4 rounded-xl text-amber-300 text-xs text-left">
+                      <p>Note: No resume has been uploaded yet. The roadmap will assume you are starting from scratch. Upload a resume first to extract existing skills.</p>
+                    </div>
+                  )}
+
+                  <RoleSelector 
+                    onGenerate={handleGenerateRoadmap}
+                    isLoading={isRoadmapLoading}
+                    resumeSkills={analysisResult?.structuredResume?.skills || []}
+                  />
+                </div>
+              ) : (
+                <div className="animate-[fadeIn_0.4s_ease-out] flex flex-col gap-6">
+                  
+                  {/* Reset action bar */}
+                  <div className="flex justify-between items-center mb-2">
+                    <button className="bg-transparent border-none text-slate-400 hover:text-slate-100 text-xs font-medium cursor-pointer flex items-center gap-1.5 transition-colors duration-200" onClick={() => setRoadmapResult(null)}>
+                      <ArrowLeft size={16} /> Re-configure Roadmap
+                    </button>
+                  </div>
+
+                  {/* Split Dashboard: Left: Gaps details, Right: Timeline */}
+                  <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-8 items-start">
+                    <div className="w-full">
+                      <SkillRadar 
+                        resumeSkills={analysisResult?.structuredResume?.skills || []}
+                        requiredGaps={roadmapResult.requiredGaps}
+                        preferredGaps={roadmapResult.preferredGaps}
+                        targetRole={roadmapResult.targetRole}
+                      />
+                    </div>
+                    
+                    <div className="w-full">
+                      <RoadmapTimeline roadmapData={roadmapResult.roadmap} />
+                    </div>
+                  </div>
+
+                </div>
+              )}
             </div>
           )}
         </main>
