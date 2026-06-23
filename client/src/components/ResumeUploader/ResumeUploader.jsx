@@ -81,7 +81,7 @@ export default function ResumeUploader({ onAnalyze, isLoading }) {
   return (
     <form className="flex flex-col gap-6 w-full" onSubmit={handleSubmit}>
       {/* Sub-Component 1: Upload Dropzone area */}
-      <UploadDropzone 
+      <UploadDropzone
         file={file}
         dragActive={dragActive}
         onDrag={onDrag}
@@ -101,16 +101,16 @@ export default function ResumeUploader({ onAnalyze, isLoading }) {
       )}
 
       {/* Sub-Component 2: Job description comparison text block */}
-      <JobDescInput 
+      <JobDescInput
         value={jobDescription}
         onChange={setJobDescription}
         disabled={isLoading}
       />
 
       {/* Action Button */}
-      <button 
-        type="submit" 
-        className="bg-gradient-to-r from-violet-500 to-cyan-500 hover:shadow-[0_6px_20px_rgba(139,92,246,0.35)] hover:-translate-y-0.5 disabled:bg-white/5 disabled:text-slate-500 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none border-none text-white py-4 px-8 rounded-xl font-sans font-bold text-base flex items-center justify-center gap-3 cursor-pointer transition-all duration-300 shadow-[0_4px_15px_rgba(139,92,246,0.2)]" 
+      <button
+        type="submit"
+        className="bg-gradient-to-r from-violet-500 to-cyan-500 hover:shadow-[0_6px_20px_rgba(139,92,246,0.35)] hover:-translate-y-0.5 disabled:bg-white/5 disabled:text-slate-500 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none border-none text-white py-4 px-8 rounded-xl font-sans font-bold text-base flex items-center justify-center gap-3 cursor-pointer transition-all duration-300 shadow-[0_4px_15px_rgba(139,92,246,0.2)]"
         disabled={isLoading || !file}
       >
         {isLoading ? (
@@ -120,7 +120,6 @@ export default function ResumeUploader({ onAnalyze, isLoading }) {
           </div>
         ) : (
           <>
-            <Sparkles className="w-5 h-5" />
             <span>Analyze Resume & Compute ATS</span>
           </>
         )}
