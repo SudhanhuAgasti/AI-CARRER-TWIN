@@ -14,6 +14,7 @@ export default function App() {
   const [analysisResult, setAnalysisResult] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [rawText, setRawText] = useState('');
+  const [analysisError, setAnalysisError] = useState(null);
 
   const API_BASE_URL = 'http://localhost:4000/api';
 
@@ -21,6 +22,7 @@ export default function App() {
   const handleAnalyzeResume = async (file, jobDescription) => {
     setIsLoading(true);
     setAnalysisResult(null);
+    setAnalysisError(null);
     setEditMode(false);
 
     const formData = new FormData();
@@ -46,7 +48,12 @@ export default function App() {
       setRawText(result.structuredResume.rawText || file.name + ' parsed content...');
     } catch (error) {
       console.error('Analysis error:', error);
-      alert(`Error analyzing resume: ${error.message}`);
+      // Catch Google API 503 errors and make them readable
+      if (error.message.includes('503') || error.message.includes('UNAVAILABLE')) {
+        setAnalysisError('Google AI servers are currently overloaded (503 Service Unavailable). Please click the analyze button again to retry.');
+      } else {
+        setAnalysisError(error.message || 'Something went wrong during analysis. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -125,6 +132,13 @@ export default function App() {
                     <h2 className="font-sans text-xl font-bold text-slate-50">Optimize Your Resume for ATS Parsers</h2>
                     <p className="text-sm text-slate-400">Upload your file to extract structured fields and compute deterministic scoring benchmarks.</p>
                   </div>
+
+                  {analysisError && (
+                    <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/20 p-4 rounded-xl text-red-300 text-sm text-left">
+                      <p>{analysisError}</p>
+                    </div>
+                  )}
+
                   <ResumeUploader onAnalyze={handleAnalyzeResume} isLoading={isLoading} />
                 </div>
               ) : (
