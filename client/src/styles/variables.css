@@ -1,0 +1,42 @@
+:root {
+  /* Colors (Cyberpunk Premium Glass Mode) */
+  --bg-primary: #030308;
+  --bg-card: rgba(13, 17, 30, 0.45);
+  --bg-card-hover: rgba(20, 27, 47, 0.55);
+  
+  --accent-purple: #8b5cf6;
+  --accent-purple-glow: rgba(139, 92, 246, 0.25);
+  --accent-cyan: #06b6d4;
+  --accent-cyan-glow: rgba(6, 182, 212, 0.25);
+  
+  --color-success: #10b981;
+  --color-success-bg: rgba(16, 185, 129, 0.1);
+  --color-error: #ef4444;
+  --color-error-bg: rgba(239, 68, 68, 0.1);
+  --color-warning: #f59e0b;
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dark: #64748b;
+  
+  /* Glassmorphic Boundaries */
+  --glass-border: 1px solid rgba(255, 255, 255, 0.05);
+  --glass-border-hover: 1px solid rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+  --glass-blur: blur(14px);
+  
+  /* Typography scales */
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  --size-h1: 2.25rem;       /* 36px */
+  --size-h2: 1.5rem;        /* 24px */
+  --size-h3: 1.125rem;      /* 18px */
+  --size-body: 0.875rem;    /* 14px */
+  --size-detail: 0.75rem;   /* 12px */
+  
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+}
