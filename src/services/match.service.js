@@ -1,4 +1,5 @@
 const ai = require('../config/gemini');
+const { retryWithBackoff } = require('../utils/retry');
 
 function cosineSimilarity(a, b) {
   let dot = 0, normA = 0, normB = 0;
@@ -10,11 +11,20 @@ function cosineSimilarity(a, b) {
   return dot / (Math.sqrt(normA) * Math.sqrt(normB));
 }
 
+/**
+ * Generates vector embedding from text using Gemini.
+ * Employs retry with backoff to prevent transient network blocks.
+ * 
+ * @param {string} text 
+ * @returns {Promise<number[]>}
+ */
 async function getEmbedding(text) {
-  const response = await ai.models.embedContent({
-    model: 'gemini-embedding-001',
-    contents: text.slice(0, 8000),
-  });
+  const response = await retryWithBackoff(() =>
+    ai.models.embedContent({
+      model: 'gemini-embedding-001',
+      contents: text.slice(0, 8000),
+    })
+  );
   return response.embeddings[0].values;
 }
 

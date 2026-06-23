@@ -1,5 +1,6 @@
 const ai = require('../config/gemini');
 const { extractSkillGaps } = require('./taxonomy.service');
+const { retryWithBackoff } = require('../utils/retry');
 
 const ROADMAP_SCHEMA = {
   type: 'object',
@@ -60,16 +61,18 @@ Each week must have a clear practical task/project milestone and reference study
 My current gaps are: ${skillGaps.join(', ')}.
 My available time is: ${availableHoursPerDay} hours per day (${availableHoursPerDay * 7} hours per week).`;
 
-  const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash',
-    contents: prompt,
-    config: {
-      systemInstruction,
-      responseMimeType: 'application/json',
-      responseSchema: ROADMAP_SCHEMA,
-      temperature: 0.2,
-    },
-  });
+  const response = await retryWithBackoff(() =>
+    ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: prompt,
+      config: {
+        systemInstruction,
+        responseMimeType: 'application/json',
+        responseSchema: ROADMAP_SCHEMA,
+        temperature: 0.2,
+      },
+    })
+  );
 
   const roadmap = JSON.parse(response.text);
 
