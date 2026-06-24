@@ -18,7 +18,7 @@ export default function AtsGauge({ score, maxScore, grade }) {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-10 bg-slate-900/40 backdrop-blur-md border border-white/5 rounded-2xl p-8 shadow-2xl shadow-black/50 text-center sm:text-left">
+    <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10 bg-slate-900/40 backdrop-blur-md border border-white/5 rounded-2xl p-6 sm:p-8 shadow-2xl shadow-black/50 text-center sm:text-left">
       
       {/* SVG Radial Progress Gauge */}
       <div className="relative w-[140px] h-[140px] shrink-0">

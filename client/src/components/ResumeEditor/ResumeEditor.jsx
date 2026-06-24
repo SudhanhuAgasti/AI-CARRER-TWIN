@@ -74,7 +74,7 @@ export default function ResumeEditor({ structuredResume, rawText, onSave }) {
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 w-full lg:h-[650px] text-left">
       
       {/* Left Column: Raw Extracted Document Preview */}
-      <div className="bg-slate-900/40 border border-white/5 rounded-2xl p-6 flex flex-col h-full">
+      <div className="bg-slate-900/40 border border-white/5 rounded-2xl p-6 flex flex-col h-[250px] sm:h-[300px] lg:h-full shrink-0 lg:shrink">
         <h4 className="font-sans text-sm font-semibold text-slate-50 uppercase tracking-wider mb-4">Raw Document Text</h4>
         <div className="bg-black/25 border border-white/3 rounded-xl p-4 overflow-y-auto grow font-mono text-xs text-slate-400 pre-wrap break-all">
           <pre className="whitespace-pre-wrap">{rawText}</pre>
@@ -82,7 +82,7 @@ export default function ResumeEditor({ structuredResume, rawText, onSave }) {
       </div>
 
       {/* Right Column: Interactive Editor Form */}
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col h-auto lg:h-full">
         <div className="flex justify-between items-center mb-4">
           <h4 className="font-sans text-sm font-semibold text-slate-50 uppercase tracking-wider mb-0">Edit Extracted Profile</h4>
           <button className="bg-violet-500 hover:bg-violet-600 text-white px-5 py-2 rounded-lg font-sans font-bold text-xs cursor-pointer transition-all duration-200" onClick={handleSubmit}>

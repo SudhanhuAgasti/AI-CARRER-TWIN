@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldCheck, CalendarRange, Eye, Edit3, ArrowLeft, ArrowRight } from 'lucide-react';
+import { ShieldCheck, CalendarRange, Eye, Edit3, ArrowLeft, ArrowRight, AlertCircle } from 'lucide-react';
 import ResumeUploader from './components/ResumeUploader/ResumeUploader';
 import AtsScorer from './components/AtsScorer/AtsScorer';
 import MatchCard from './components/MatchCard/MatchCard';
@@ -54,7 +54,9 @@ export default function App() {
       setRawText(result.structuredResume.rawText || file.name + ' parsed content...');
     } catch (error) {
       console.error('Analysis error:', error);
-      if (error.message.includes('503') || error.message.includes('UNAVAILABLE')) {
+      if (error.message.includes('429') || error.message.toLowerCase().includes('quota') || error.message.toLowerCase().includes('rate-limit') || error.message.toLowerCase().includes('resource_exhausted')) {
+        setAnalysisError('Gemini API Quota Exceeded (429 Too Many Requests). You have hit the 20 requests/day limit on the Free Tier. Please update your API Key or try again later.');
+      } else if (error.message.includes('503') || error.message.includes('UNAVAILABLE')) {
         setAnalysisError('Google AI servers are currently overloaded (503 Service Unavailable). Please click the analyze button again to retry.');
       } else {
         setAnalysisError(error.message || 'Something went wrong during analysis. Please try again.');
@@ -142,9 +144,9 @@ export default function App() {
           </p>
 
           {/* Navigation Tabs */}
-          <nav className="flex bg-white/2 border border-white/5 p-1.5 rounded-full mt-6 shadow-[0_4px_20px_rgba(0,0,0,0.2)]">
+          <nav className="flex flex-col sm:flex-row bg-white/2 border border-white/5 p-1.5 rounded-2xl sm:rounded-full mt-6 shadow-[0_4px_20px_rgba(0,0,0,0.2)] w-full sm:w-auto gap-1">
             <button 
-              className={`bg-transparent border-none text-slate-400 px-6 py-2.5 rounded-full font-sans font-medium text-xs cursor-pointer flex items-center gap-2 transition-all duration-200
+              className={`bg-transparent border-none text-slate-400 px-6 py-2.5 rounded-xl sm:rounded-full font-sans font-medium text-xs cursor-pointer flex items-center justify-center gap-2 transition-all duration-200 w-full sm:w-auto
                 ${activeTab === 'resume' ? 'text-white bg-violet-500/15 border border-violet-500/25 shadow-[0_4px_12px_rgba(139,92,246,0.25)]' : 'hover:text-slate-100 hover:bg-white/3'}`}
               onClick={() => setActiveTab('resume')}
             >
@@ -152,7 +154,7 @@ export default function App() {
               <span>ATS Resume Scorer</span>
             </button>
             <button 
-              className={`bg-transparent border-none text-slate-400 px-6 py-2.5 rounded-full font-sans font-medium text-xs cursor-pointer flex items-center gap-2 transition-all duration-200
+              className={`bg-transparent border-none text-slate-400 px-6 py-2.5 rounded-xl sm:rounded-full font-sans font-medium text-xs cursor-pointer flex items-center justify-center gap-2 transition-all duration-200 w-full sm:w-auto
                 ${activeTab === 'roadmap' ? 'text-white bg-violet-500/15 border border-violet-500/25 shadow-[0_4px_12px_rgba(139,92,246,0.25)]' : 'hover:text-slate-100 hover:bg-white/3'}`}
               onClick={() => setActiveTab('roadmap')}
             >
@@ -175,8 +177,18 @@ export default function App() {
                   </div>
 
                   {analysisError && (
-                    <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/20 p-4 rounded-xl text-red-300 text-sm text-left">
-                      <p>{analysisError}</p>
+                    <div className="flex flex-col gap-3 bg-red-500/10 backdrop-blur-md border border-red-500/20 p-6 rounded-2xl text-red-200 text-sm text-left shadow-lg shadow-red-500/5 transition-all duration-300">
+                      <div className="flex items-center gap-2.5">
+                        <AlertCircle className="w-5 h-5 text-red-400 shrink-0 animate-bounce" />
+                        <span className="font-bold text-slate-100">API Diagnostics Suspended</span>
+                      </div>
+                      <p className="text-slate-400 text-xs leading-relaxed">
+                        {analysisError}
+                      </p>
+                      <div className="bg-black/30 border border-white/5 rounded-xl p-3.5 mt-1 font-mono text-[11px] text-slate-300 leading-normal">
+                        <span className="text-slate-500">// Update key in server/.env</span><br/>
+                        GEMINI_API_KEY=<span className="text-cyan-400">your_new_gemini_key</span>
+                      </div>
                     </div>
                   )}
 

@@ -21,7 +21,7 @@ export default function SkillsEditor({ skills, onChange, onAdd, onRemove }) {
         </button>
       </div>
       
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 gap-2">
         {skills.map((skill, index) => (
           <div key={index} className="flex items-center bg-black/15 border border-white/5 rounded-lg p-1">
             <input 

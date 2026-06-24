@@ -21,8 +21,8 @@ export default function MatchScorePanel({ similarityScore, interpretation }) {
       </div>
 
       {/* Main Score Panel */}
-      <div className="grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-8 items-center z-10 text-left">
-        <div className="flex flex-col items-center justify-center bg-white/2 border border-white/5 p-6 rounded-2xl aspect-square">
+      <div className="grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-6 sm:gap-8 items-center z-10 text-left">
+        <div className="flex flex-col items-center justify-center bg-white/2 border border-white/5 p-4 sm:p-6 rounded-2xl aspect-square max-w-[140px] mx-auto sm:mx-0 w-full">
           <span className={`font-sans text-[2.2rem] font-bold leading-none ${getPercentageColor(similarityScore)}`}>
             {similarityScore}%
           </span>

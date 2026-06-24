@@ -16,6 +16,13 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   position: relative;
+  display: block; /* Overrides default template flex settings */
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
 }
 
 /* Ambient Animated Mesh Background */
