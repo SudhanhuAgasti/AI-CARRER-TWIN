@@ -136,10 +136,35 @@ async function saveGithubReport(username, profile, heuristics, summaries) {
   }
 }
 
+/**
+ * Fetches a GitHub profiling report for a specific user if it was created after a given date.
+ * Allows implementation of caching layer.
+ * 
+ * @param {string} username - GitHub username
+ * @param {Date} sinceDate - Earliest creation date allowed
+ * @returns {Promise<Object|null>} Saved GithubReport document or null
+ */
+async function getRecentGithubReport(username, sinceDate) {
+  try {
+    if (!connectionState.isConnected) {
+      return null;
+    }
+    
+    return await GithubReport.findOne({
+      username: username.toLowerCase().trim(),
+      createdAt: { $gte: sinceDate },
+    }).exec();
+  } catch (error) {
+    console.error('[DB Service] Error retrieving GitHub report:', error.message);
+    return null;
+  }
+}
+
 module.exports = {
   saveResume,
   saveAtsReport,
   saveRoadmap,
   saveGithubReport,
+  getRecentGithubReport,
 };
 

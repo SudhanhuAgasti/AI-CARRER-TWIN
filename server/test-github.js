@@ -31,6 +31,7 @@ async function runTest() {
     console.log('=========================================');
     console.log(`Report ID: ${data.ids.reportId}`);
     console.log(`Username: ${data.username}`);
+    console.log(`Served From Cache: ${data.cached ? 'Yes (⚡)' : 'No (Fresh API Calls)'}`);
     console.log(`Profile:`, data.profile);
     console.log('\n--- Heuristics Scores ---');
     console.log(`Overall Score: ${data.heuristics.overallScore}/100`);

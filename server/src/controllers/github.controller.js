@@ -8,7 +8,7 @@ const {
 } = require('../services/github.service');
 const { profileGithubAccount } = require('../services/githubProfiler.service');
 const { summarizeRepository } = require('../services/githubSummarizer.service');
-const { saveGithubReport } = require('../services/db.service');
+const { saveGithubReport, getRecentGithubReport } = require('../services/db.service');
 
 /**
  * Controller handling POST /api/github/analyze.
@@ -32,6 +32,26 @@ async function analyzeGithubUser(req, res, next) {
     const cleanUsername = username.trim();
     console.log(`[GitHub Controller] Initiating profiling for user: ${cleanUsername}`);
 
+    // --- CACHING LAYER ---
+    // Check if analysis has been performed for this user in the last 24 hours
+    const oneDayAgo = new Date();
+    oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+    
+    const cachedReport = await getRecentGithubReport(cleanUsername, oneDayAgo);
+    if (cachedReport) {
+      console.log(`[GitHub Controller] Cache hit for user '${cleanUsername}'. Serving from DB cache.`);
+      return res.json({
+        ids: {
+          reportId: cachedReport._id.toString(),
+        },
+        username: cachedReport.username,
+        profile: cachedReport.profile,
+        heuristics: cachedReport.heuristics,
+        summaries: cachedReport.summaries,
+        cached: true,
+      });
+    }
+
     // 1. Fetch user general profile details
     const profile = await fetchUserProfile(cleanUsername);
 
@@ -40,6 +60,12 @@ async function analyzeGithubUser(req, res, next) {
 
     // Filter out forks (only analyze repository code owned/written by the user)
     const sourceRepos = repos.filter(repo => !repo.fork);
+
+    if (sourceRepos.length === 0) {
+      const err = new Error(`User '${cleanUsername}' has no public source repositories to analyze.`);
+      err.status = 422;
+      throw err;
+    }
 
     // Select top 5 featured repositories for detailed profiling and LLM analysis
     // Order by stars count (prominence) first, then recently updated

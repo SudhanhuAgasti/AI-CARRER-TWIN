@@ -2,6 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
+if (!process.env.GITHUB_TOKEN) {
+  console.warn(
+    '[Warning] GITHUB_TOKEN is not defined in .env. Public GitHub API requests will be rate-limited to 60 requests/hour.'
+  );
+}
+
 const { connectDB } = require('./config/db');
 const resumeRoutes = require('./routes/resume.routes');
 const plannerRoutes = require('./routes/planner.routes');
