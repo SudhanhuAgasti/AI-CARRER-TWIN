@@ -12,6 +12,7 @@ const { connectDB } = require('./config/db');
 const resumeRoutes = require('./routes/resume.routes');
 const plannerRoutes = require('./routes/planner.routes');
 const githubRoutes = require('./routes/github.routes');
+const interviewRoutes = require('./routes/interview.routes');
 const { errorHandler } = require('./middleware/error.middleware');
 
 const app = express();
@@ -23,6 +24,7 @@ app.get('/health', (req, res) => res.json({ status: 'ok' }));
 app.use('/api/resume', resumeRoutes);
 app.use('/api/planner', plannerRoutes);
 app.use('/api/github', githubRoutes);
+app.use('/api/interview', interviewRoutes);
 
 // Keep error handler last - catches errors from any route via next(err)
 app.use(errorHandler);
