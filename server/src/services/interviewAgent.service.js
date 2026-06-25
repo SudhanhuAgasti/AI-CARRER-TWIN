@@ -74,12 +74,27 @@ async function runQuestionGeneratorNode(session, resume = null) {
   const historySnippet = session.chatHistory.map(h => `${h.role === 'agent' ? 'Interviewer' : 'Candidate'}: ${h.content}`).join('\n');
   const skillsList = resume ? (resume.skills || []).join(', ') : 'standard industry stack';
   
+  // Set difficulty tone guidelines dynamically based on candidate seniority level
+  let seniorityGuideline = '';
+  if (session.experienceLevel === 'junior') {
+    seniorityGuideline = 'Maintain a supportive, friendly, and encouraging tone. Focus on language syntax, basic data structures (arrays, objects), basic HTTP concepts, and database queries. Help guide them with simple hints if they struggle.';
+  } else if (session.experienceLevel === 'mid') {
+    seniorityGuideline = 'Maintain a professional, standard developer tone. Focus on backend frameworks (e.g. Express), standard database structures, API routes, error handling patterns, and clean programming principles.';
+  } else if (session.experienceLevel === 'senior') {
+    seniorityGuideline = 'Maintain a strict, technical, and slightly demanding tone. Focus on distributed systems trade-offs, scalability, database indexing, caching strategies (Redis), concurrency patterns, and system bottlenecks.';
+  } else if (session.experienceLevel === 'lead') {
+    seniorityGuideline = 'Maintain a highly analytical, strict, and senior-management tone. Focus on high availability, database partitioning/sharding, asynchronous queue architecture, managing tech debt, cross-team conflict resolution, and architectural trade-off evaluations.';
+  }
+
   const systemInstruction = `You are an expert Technical Interviewer conducting a professional live mock interview.
 Your candidate is applying for a ${session.experienceLevel} level ${session.targetRole} role.
 Candidate skills: ${skillsList}.
 Your style is professional, concise, and realistic. You ask exactly one targeted question at a time.
 Avoid generic pleasantries. Focus on checking deep technical knowledge, practical implementations, or engineering behaviors.
-Current Topic: ${session.currentTopic}`;
+Current Topic: ${session.currentTopic}
+
+Seniority Instructions:
+${seniorityGuideline}`;
 
   let prompt = '';
   if (session.chatHistory.length === 0) {

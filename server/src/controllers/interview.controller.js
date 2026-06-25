@@ -87,6 +87,19 @@ async function submitAnswer(req, res, next) {
       throw err;
     }
 
+    // --- SESSION TIMEOUT GUARD (1 HOUR INACTIVITY LIMIT) ---
+    const lastActive = session.updatedAt || session.createdAt;
+    const oneHourMs = 60 * 60 * 1000;
+    if (Date.now() - new Date(lastActive).getTime() > oneHourMs) {
+      session.status = 'completed';
+      session.isLocked = false;
+      await session.save();
+      
+      const err = new Error('This interview session has expired due to inactivity (timeout limit of 1 hour exceeded).');
+      err.status = 400;
+      throw err;
+    }
+
     if (session.status === 'completed') {
       const err = new Error('This interview session has already been completed.');
       err.status = 400;
