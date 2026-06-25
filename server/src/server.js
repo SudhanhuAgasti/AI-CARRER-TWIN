@@ -5,6 +5,7 @@ const cors = require('cors');
 const { connectDB } = require('./config/db');
 const resumeRoutes = require('./routes/resume.routes');
 const plannerRoutes = require('./routes/planner.routes');
+const githubRoutes = require('./routes/github.routes');
 const { errorHandler } = require('./middleware/error.middleware');
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.json({ limit: '2mb' }));
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 app.use('/api/resume', resumeRoutes);
 app.use('/api/planner', plannerRoutes);
+app.use('/api/github', githubRoutes);
 
 // Keep error handler last - catches errors from any route via next(err)
 app.use(errorHandler);

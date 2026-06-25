@@ -1,6 +1,7 @@
 const Resume = require('../models/resume.model');
 const AtsReport = require('../models/atsReport.model');
 const Roadmap = require('../models/roadmap.model');
+const GithubReport = require('../models/githubReport.model');
 const { connectionState } = require('../config/db');
 
 /**
@@ -104,8 +105,41 @@ async function saveRoadmap(resumeId, roadmapResult, availableHoursPerDay) {
   }
 }
 
+/**
+ * Persists a generated GitHub profiling report into MongoDB.
+ * 
+ * @param {string} username - GitHub username
+ * @param {Object} profile - Basic profile data
+ * @param {Object} heuristics - Evaluated scores and checklist
+ * @param {Array<Object>} summaries - Repository summary arrays
+ * @returns {Promise<string|null>} Created report ObjectId string
+ */
+async function saveGithubReport(username, profile, heuristics, summaries) {
+  try {
+    if (!connectionState.isConnected) {
+      console.warn('[DB Service] Mongoose connection not active. Skipping GitHub report save.');
+      return null;
+    }
+
+    const reportDoc = new GithubReport({
+      username,
+      profile,
+      heuristics,
+      summaries,
+    });
+
+    const saved = await reportDoc.save();
+    return saved._id.toString();
+  } catch (error) {
+    console.error('[DB Service] Error saving GitHub report to MongoDB:', error.message);
+    throw error;
+  }
+}
+
 module.exports = {
   saveResume,
   saveAtsReport,
   saveRoadmap,
+  saveGithubReport,
 };
+
