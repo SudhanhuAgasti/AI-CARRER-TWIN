@@ -168,6 +168,17 @@ async function runTest() {
     console.log('====================================================');
     console.log(`Unified Score: ${dashboard.unifiedScore}/100`);
     console.log('Breakdown:', dashboard.breakdown);
+
+    // Verify cache retrieval helper
+    const { getCachedDashboard } = require('./src/services/dashboard.service');
+    console.log('\n[Step 6b] Testing getCachedDashboard helper...');
+    const cachedDashboard = await getCachedDashboard(resumeId);
+    if (cachedDashboard && cachedDashboard.unifiedScore === dashboard.unifiedScore) {
+      console.log('✅ getCachedDashboard cache verification passed.');
+    } else {
+      console.warn('❌ getCachedDashboard verification failed.');
+    }
+
     console.log('\nLive Actions List:');
     dashboard.liveActionList.forEach((action, i) => {
       console.log(`[${action.priority.toUpperCase()}] ${i + 1}. (${action.category}) ${action.task}`);

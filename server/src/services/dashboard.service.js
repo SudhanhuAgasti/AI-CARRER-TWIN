@@ -78,13 +78,13 @@ async function compileReadinessDashboard(resumeId, githubUsername = null) {
   // 4. Build text summaries of reports for LLM context synthesis
   let resumeGaps = 'No ATS analysis available.';
   if (atsReport) {
-    const failedChecks = atsReport.checklistResults.filter(c => !c.passed).map(c => c.name).join(', ');
+    const failedChecks = (atsReport.checklistResults || []).filter(c => !c.passed).map(c => c.name).join(', ');
     resumeGaps = `ATS Score: ${atsScore}/100. Failed checks: [${failedChecks || 'none'}]. Match Score: ${matchScore}/100.`;
   }
 
   let githubGaps = 'No GitHub report available.';
   if (githubReport) {
-    const failedChecks = githubReport.heuristics.checks.filter(c => !c.passed).map(c => c.name).join(', ');
+    const failedChecks = (githubReport.heuristics && githubReport.heuristics.checks || []).filter(c => !c.passed).map(c => c.name).join(', ');
     githubGaps = `GitHub Score: ${githubScore}/100. Areas for improvement: [${failedChecks || 'none'}].`;
   }
 
@@ -149,7 +149,12 @@ Generate a structured live action checklist prioritizing high-impact fixes.`;
   return dashboardDoc;
 }
 
+async function getCachedDashboard(resumeId) {
+  return await ReadinessDashboard.findOne({ resumeId }).exec();
+}
+
 module.exports = {
   compileReadinessDashboard,
+  getCachedDashboard,
   DASHBOARD_SYNTHESIS_SCHEMA,
 };
