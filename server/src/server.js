@@ -13,6 +13,8 @@ const resumeRoutes = require('./routes/resume.routes');
 const plannerRoutes = require('./routes/planner.routes');
 const githubRoutes = require('./routes/github.routes');
 const interviewRoutes = require('./routes/interview.routes');
+const linkedinRoutes = require('./routes/linkedin.routes');
+const dashboardRoutes = require('./routes/dashboard.routes');
 const { errorHandler } = require('./middleware/error.middleware');
 
 const app = express();
@@ -25,6 +27,8 @@ app.use('/api/resume', resumeRoutes);
 app.use('/api/planner', plannerRoutes);
 app.use('/api/github', githubRoutes);
 app.use('/api/interview', interviewRoutes);
+app.use('/api/linkedin', linkedinRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // Keep error handler last - catches errors from any route via next(err)
 app.use(errorHandler);
