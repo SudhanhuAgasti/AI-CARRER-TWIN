@@ -52,7 +52,15 @@ async function compileReadinessDashboard(resumeId, githubUsername = null) {
 
   // 2. Extract scores (default to 0 or null if not yet run/present)
   const atsScore = atsReport ? atsReport.overallScore : 0;
-  const matchScore = atsReport ? (atsReport.similarityScore ? Math.round(atsReport.similarityScore * 100) : 0) : 0;
+  
+  let matchScore = 0;
+  if (atsReport && atsReport.similarityScore) {
+    // If it's stored as a decimal <= 1 (e.g. 0.82), convert to percentage. Otherwise use it directly.
+    matchScore = atsReport.similarityScore <= 1 
+      ? Math.round(atsReport.similarityScore * 100) 
+      : Math.round(atsReport.similarityScore);
+  }
+
   const githubScore = githubReport ? githubReport.heuristics.overallScore : 0;
   const interviewScore = latestInterview ? (latestInterview.finalFeedback.overallScore || 0) : 0;
   const linkedinScore = linkedinReport ? linkedinReport.overallScore : 0;
