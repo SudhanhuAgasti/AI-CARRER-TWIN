@@ -9,6 +9,7 @@ if (!process.env.GITHUB_TOKEN) {
 }
 
 const { connectDB } = require('./config/db');
+const InterviewSession = require('./models/interviewSession.model');
 const resumeRoutes = require('./routes/resume.routes');
 const plannerRoutes = require('./routes/planner.routes');
 const githubRoutes = require('./routes/github.routes');
@@ -33,8 +34,17 @@ app.use('/api/dashboard', dashboardRoutes);
 // Keep error handler last - catches errors from any route via next(err)
 app.use(errorHandler);
 
-// Connect to MongoDB Database
-connectDB();
+// Connect to MongoDB Database and clear locks
+connectDB().then(async () => {
+  try {
+    const res = await InterviewSession.updateMany({ isLocked: true }, { isLocked: false }).exec();
+    if (res.modifiedCount > 0) {
+      console.log(`[Server Boot] Cleared ${res.modifiedCount} dangling concurrency locks.`);
+    }
+  } catch (err) {
+    console.error('[Server Boot] Failed to clear dangling concurrency locks:', err.message);
+  }
+});
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

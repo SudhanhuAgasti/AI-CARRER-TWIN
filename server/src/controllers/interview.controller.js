@@ -1,5 +1,6 @@
 const InterviewSession = require('../models/interviewSession.model');
 const Resume = require('../models/resume.model');
+const Roadmap = require('../models/roadmap.model');
 const { transcribeAudio } = require('../services/audio.service');
 const {
   containsPromptInjection,
@@ -27,12 +28,19 @@ async function startInterview(req, res, next) {
 
     // Fetch candidate resume info if resumeId is provided
     let resume = null;
+    let skillGaps = [];
     if (resumeId) {
       resume = await Resume.findById(resumeId).exec();
       if (!resume) {
         const err = new Error('Associated resume not found');
         err.status = 404;
         throw err;
+      }
+
+      // Fetch potential skill gaps from candidate roadmap (Phase 2)
+      const roadmapDoc = await Roadmap.findOne({ resumeId }).exec();
+      if (roadmapDoc && roadmapDoc.skillGaps) {
+        skillGaps = roadmapDoc.skillGaps;
       }
     }
 
@@ -47,7 +55,7 @@ async function startInterview(req, res, next) {
 
     // Run Node 1: Question Generator to yield the opening question
     console.log(`[Interview Controller] Launching interview session for role: ${targetRole}`);
-    const firstQuestion = await runQuestionGeneratorNode(session, resume);
+    const firstQuestion = await runQuestionGeneratorNode(session, resume, skillGaps);
 
     // Save initial message in history
     session.chatHistory.push({
@@ -119,9 +127,11 @@ async function submitAnswer(req, res, next) {
 
     // 1. Determine the candidate response text (Text or Voice)
     let candidateAnswer = '';
+    let transcribedText = null;
     if (req.file) {
       // Audio transcription fallback
       candidateAnswer = await transcribeAudio(req.file.buffer, req.file.mimetype);
+      transcribedText = candidateAnswer;
     } else {
       candidateAnswer = req.body.answer || '';
     }
@@ -196,6 +206,7 @@ async function submitAnswer(req, res, next) {
         evaluations: session.evaluations,
         finalFeedback: session.finalFeedback,
         chatHistory: session.chatHistory,
+        ...(transcribedText && { transcribedText }),
       });
     }
 
@@ -209,11 +220,18 @@ async function submitAnswer(req, res, next) {
 
     // Generate the next question
     let resume = null;
+    let skillGaps = [];
     if (session.resumeId) {
       resume = await Resume.findById(session.resumeId).exec();
+      
+      // Fetch potential skill gaps from candidate roadmap (Phase 2)
+      const roadmapDoc = await Roadmap.findOne({ resumeId: session.resumeId }).exec();
+      if (roadmapDoc && roadmapDoc.skillGaps) {
+        skillGaps = roadmapDoc.skillGaps;
+      }
     }
     
-    const nextQuestion = await runQuestionGeneratorNode(session, resume);
+    const nextQuestion = await runQuestionGeneratorNode(session, resume, skillGaps);
 
     // Save next question in history
     session.chatHistory.push({
@@ -232,6 +250,7 @@ async function submitAnswer(req, res, next) {
       chatHistory: session.chatHistory,
       questionCount: session.questionCount,
       maxQuestions: session.maxQuestions,
+      ...(transcribedText && { transcribedText }),
     });
   } catch (err) {
     if (session) {

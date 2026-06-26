@@ -70,7 +70,7 @@ function containsPromptInjection(input) {
  * @param {Object|null} resume - Optional associated resume details
  * @returns {Promise<string>} Next interview question
  */
-async function runQuestionGeneratorNode(session, resume = null) {
+async function runQuestionGeneratorNode(session, resume = null, skillGaps = []) {
   const historySnippet = session.chatHistory.map(h => `${h.role === 'agent' ? 'Interviewer' : 'Candidate'}: ${h.content}`).join('\n');
   const skillsList = resume ? (resume.skills || []).join(', ') : 'standard industry stack';
   
@@ -86,9 +86,13 @@ async function runQuestionGeneratorNode(session, resume = null) {
     seniorityGuideline = 'Maintain a highly analytical, strict, and senior-management tone. Focus on high availability, database partitioning/sharding, asynchronous queue architecture, managing tech debt, cross-team conflict resolution, and architectural trade-off evaluations.';
   }
 
+  const gapsGuideline = skillGaps && skillGaps.length > 0
+    ? `\nPrioritized Areas to Assess (The candidate has identified gaps in these areas. Prioritize asking questions that test these topics): ${skillGaps.join(', ')}`
+    : '';
+
   const systemInstruction = `You are an expert Technical Interviewer conducting a professional live mock interview.
 Your candidate is applying for a ${session.experienceLevel} level ${session.targetRole} role.
-Candidate skills: ${skillsList}.
+Candidate skills: ${skillsList}.${gapsGuideline}
 Your style is professional, concise, and realistic. You ask exactly one targeted question at a time.
 Avoid generic pleasantries. Focus on checking deep technical knowledge, practical implementations, or engineering behaviors.
 Current Topic: ${session.currentTopic}
