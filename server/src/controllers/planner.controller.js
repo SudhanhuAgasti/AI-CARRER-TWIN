@@ -1,4 +1,5 @@
 const { generateRoadmap } = require('../services/planner.service');
+const { generateMicroProject } = require('../services/microProject.service');
 const { getSupportedRoles } = require('../services/taxonomy.service');
 const { saveRoadmap } = require('../services/db.service');
 
@@ -60,6 +61,35 @@ async function createRoadmap(req, res, next) {
 }
 
 /**
+ * Controller handling POST /api/planner/micro-project.
+ * Generates a targeted micro-project repo specification for a specific skill gap.
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @param {Express.NextFunction} next 
+ */
+async function createMicroProjectController(req, res, next) {
+  try {
+    const { skillGap, targetRole } = req.body;
+
+    if (!skillGap || typeof skillGap !== 'string' || skillGap.trim().length === 0) {
+      const err = new Error('skillGap string parameter is required');
+      err.status = 400;
+      throw err;
+    }
+
+    const projectSpec = await generateMicroProject(skillGap, targetRole || 'Software Engineer');
+
+    res.json({
+      success: true,
+      microProject: projectSpec,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
  * Controller handling GET /api/planner/roles.
  * Returns lists of all supported career profiles.
  * 
@@ -73,5 +103,7 @@ function listRoles(req, res) {
 
 module.exports = {
   createRoadmap,
+  createMicroProjectController,
   listRoles,
 };
+
