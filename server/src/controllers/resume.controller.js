@@ -2,6 +2,7 @@ const { extractText } = require('../services/parser.service');
 const { extractStructuredResume } = require('../services/extraction.service');
 const { computeAtsScore } = require('../services/ats.service');
 const { computeMatchScore } = require('../services/match.service');
+const { morphResume } = require('../services/resumeMorpher.service');
 const { saveResume, saveAtsReport } = require('../services/db.service');
 
 /**
@@ -69,4 +70,40 @@ async function analyzeResume(req, res, next) {
   }
 }
 
-module.exports = { analyzeResume };
+/**
+ * Controller handling POST /api/resume/morph.
+ * Tailors structured resume content against a specific job description.
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @param {Express.NextFunction} next 
+ */
+async function morphResumeController(req, res, next) {
+  try {
+    const { resumeData, jobDescription } = req.body;
+
+    if (!resumeData) {
+      const err = new Error('structuredResume or resumeData object is required');
+      err.status = 400;
+      throw err;
+    }
+
+    if (!jobDescription || typeof jobDescription !== 'string' || jobDescription.trim().length === 0) {
+      const err = new Error('jobDescription text string is required');
+      err.status = 400;
+      throw err;
+    }
+
+    const morphedOutput = await morphResume(resumeData, jobDescription);
+
+    res.json({
+      success: true,
+      morphedResume: morphedOutput,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { analyzeResume, morphResumeController };
+
