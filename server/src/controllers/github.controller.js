@@ -8,8 +8,9 @@ const {
 } = require('../services/github.service');
 const { profileGithubAccount } = require('../services/githubProfiler.service');
 const { summarizeRepository } = require('../services/githubSummarizer.service');
-const { analyzeCodeCodeAst } = require('../services/githubAst.service');
+const { analyzeCodeAst } = require('../services/githubAst.service');
 const { saveGithubReport, getRecentGithubReport } = require('../services/db.service');
+
 
 /**
  * Controller handling POST /api/github/analyze.
@@ -120,7 +121,8 @@ async function analyzeGithubUser(req, res, next) {
       path: `${repo.name}/README.md`,
       content: repo.readmeText || repo.description || `Repository: ${repo.name}`
     }));
-    const astFingerprint = await analyzeCodeCodeAst(sourceFiles);
+    const astFingerprint = await analyzeCodeAst(sourceFiles);
+
 
     // 6. Generate LLM summaries for the selected repos
     console.log(`[GitHub Controller] Generating AI summaries for featured repositories...`);

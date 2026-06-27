@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { analyzeCodeCodeAst } = require('./src/services/githubAst.service');
+const { analyzeCodeAst } = require('./src/services/githubAst.service');
 
 async function testAstService() {
   console.log('🧪 Starting Deep AST Static Code Analysis Test...\n');
@@ -35,7 +35,8 @@ const producer = kafka.producer();
   ];
 
   try {
-    const result = await analyzeCodeCodeAst(sampleSourceFiles);
+    const result = await analyzeCodeAst(sampleSourceFiles);
+
     console.log('✅ AST Fingerprint Generated Successfully!\n');
     console.log('--------------------------------------------------');
     console.log('Clean Code Score:', result.cleanCodeScore);

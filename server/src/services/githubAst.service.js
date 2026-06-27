@@ -115,4 +115,5 @@ Tasks:
   }
 }
 
-module.exports = { analyzeCodeCodeAst: analyzeCodeAst, AST_ANALYSIS_SCHEMA };
+module.exports = { analyzeCodeAst, AST_ANALYSIS_SCHEMA };
+
