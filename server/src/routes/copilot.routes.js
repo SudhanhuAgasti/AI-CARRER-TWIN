@@ -5,11 +5,15 @@
  */
 
 const express = require('express');
-const { generateElevatorPitchController } = require('../controllers/copilot.controller');
+const { generateElevatorPitchController, generateOutreachController } = require('../controllers/copilot.controller');
 
 const router = express.Router();
 
 // POST /api/copilot/elevator-pitch -> generate structured spoken introduction scripts
 router.post('/elevator-pitch', generateElevatorPitchController);
 
+// POST /api/copilot/outreach -> generate cold LinkedIn and Email messages for hiring managers
+router.post('/outreach', generateOutreachController);
+
 module.exports = router;
+
