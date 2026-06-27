@@ -1,5 +1,6 @@
 const Resume = require('../models/resume.model');
 const { compileReadinessDashboard, getCachedDashboard } = require('../services/dashboard.service');
+const { generatePublicCandidateBadge, searchVerifiedCandidates } = require('../services/recruiterMarketplace.service');
 
 /**
  * Controller handling Unified Readiness Dashboard request.
@@ -83,7 +84,37 @@ async function recompileDashboard(req, res, next) {
   }
 }
 
+/**
+ * Controller handling GET /api/dashboard/:resumeId/verify-badge.
+ * Generates a public verified candidate badge.
+ */
+async function getCandidateBadgeController(req, res, next) {
+  try {
+    const { resumeId } = req.params;
+    const badge = await generatePublicCandidateBadge(resumeId);
+    res.json({ success: true, badge });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * Controller handling GET /api/dashboard/marketplace/search.
+ * Searches verified pre-vetted candidates for tech recruiters.
+ */
+async function searchRecruiterMarketplaceController(req, res, next) {
+  try {
+    const candidates = await searchVerifiedCandidates(req.query);
+    res.json({ success: true, count: candidates.length, candidates });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   getDashboard,
   recompileDashboard,
+  getCandidateBadgeController,
+  searchRecruiterMarketplaceController,
 };
+
