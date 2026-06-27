@@ -8,12 +8,13 @@ const {
 } = require('../services/github.service');
 const { profileGithubAccount } = require('../services/githubProfiler.service');
 const { summarizeRepository } = require('../services/githubSummarizer.service');
+const { analyzeCodeCodeAst } = require('../services/githubAst.service');
 const { saveGithubReport, getRecentGithubReport } = require('../services/db.service');
 
 /**
  * Controller handling POST /api/github/analyze.
  * Coordinates fetching profile details, running deterministic heuristic metrics,
- * performing LLM-based repository project summaries, and persisting reports.
+ * performing AST static code analysis, LLM project summaries, and persisting reports.
  * 
  * @param {Express.Request} req 
  * @param {Express.Response} res 
@@ -48,6 +49,7 @@ async function analyzeGithubUser(req, res, next) {
         profile: cachedReport.profile,
         heuristics: cachedReport.heuristics,
         summaries: cachedReport.summaries,
+        astFingerprint: cachedReport.astFingerprint || null,
         cached: true,
       });
     }
@@ -112,13 +114,21 @@ async function analyzeGithubUser(req, res, next) {
     // 4. Evaluate deterministic profiling metrics
     const heuristics = profileGithubAccount(profile, sourceRepos, detailedRepos);
 
-    // 5. Generate LLM summaries for the selected repos
+    // 5. Run Deep AST Static Code Analysis on repository contents
+    console.log(`[GitHub Controller] Performing Deep AST Static Analysis and Architecture Profiling...`);
+    const sourceFiles = detailedRepos.map(repo => ({
+      path: `${repo.name}/README.md`,
+      content: repo.readmeText || repo.description || `Repository: ${repo.name}`
+    }));
+    const astFingerprint = await analyzeCodeCodeAst(sourceFiles);
+
+    // 6. Generate LLM summaries for the selected repos
     console.log(`[GitHub Controller] Generating AI summaries for featured repositories...`);
     const summaries = await Promise.all(
       detailedRepos.map(repo => summarizeRepository(repo, repo.readmeText))
     );
 
-    // 6. Persist results in MongoDB
+    // 7. Persist results in MongoDB
     let reportId = null;
     try {
       reportId = await saveGithubReport(cleanUsername, profile, heuristics, summaries);
@@ -135,6 +145,7 @@ async function analyzeGithubUser(req, res, next) {
       username: cleanUsername,
       profile,
       heuristics,
+      astFingerprint,
       summaries,
     });
   } catch (err) {
@@ -143,3 +154,4 @@ async function analyzeGithubUser(req, res, next) {
 }
 
 module.exports = { analyzeGithubUser };
+
