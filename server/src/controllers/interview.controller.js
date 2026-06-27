@@ -2,6 +2,8 @@ const InterviewSession = require('../models/interviewSession.model');
 const Resume = require('../models/resume.model');
 const Roadmap = require('../models/roadmap.model');
 const { transcribeAudio } = require('../services/audio.service');
+const { evaluateSystemDesign } = require('../services/systemDesignEvaluator.service');
+const { analyzeSpeechTelemetry } = require('../services/speechTelemetry.service');
 const {
   containsPromptInjection,
   runQuestionGeneratorNode,
@@ -128,10 +130,13 @@ async function submitAnswer(req, res, next) {
     // 1. Determine the candidate response text (Text or Voice)
     let candidateAnswer = '';
     let transcribedText = null;
+    let vocalTelemetry = null;
+
     if (req.file) {
-      // Audio transcription fallback
+      // Audio transcription fallback and speech telemetry
       candidateAnswer = await transcribeAudio(req.file.buffer, req.file.mimetype);
       transcribedText = candidateAnswer;
+      vocalTelemetry = analyzeSpeechTelemetry(transcribedText, Number(req.body.durationSeconds) || 10);
     } else {
       candidateAnswer = req.body.answer || '';
     }
@@ -207,6 +212,7 @@ async function submitAnswer(req, res, next) {
         finalFeedback: session.finalFeedback,
         chatHistory: session.chatHistory,
         ...(transcribedText && { transcribedText }),
+        ...(vocalTelemetry && { vocalTelemetry }),
       });
     }
 
@@ -251,6 +257,7 @@ async function submitAnswer(req, res, next) {
       questionCount: session.questionCount,
       maxQuestions: session.maxQuestions,
       ...(transcribedText && { transcribedText }),
+      ...(vocalTelemetry && { vocalTelemetry }),
     });
   } catch (err) {
     if (session) {
@@ -261,6 +268,31 @@ async function submitAnswer(req, res, next) {
         console.error('[Interview Controller] Failed to release lock in catch block:', dbErr.message);
       }
     }
+    next(err);
+  }
+}
+
+/**
+ * Controller handling POST /api/interview/system-design.
+ * Evaluates System Design whiteboard layout.
+ */
+async function evaluateSystemDesignController(req, res, next) {
+  try {
+    const { scenarioTitle, nodes, edges } = req.body;
+
+    if (!scenarioTitle) {
+      const err = new Error('scenarioTitle string is required');
+      err.status = 400;
+      throw err;
+    }
+
+    const evaluation = await evaluateSystemDesign(scenarioTitle, nodes || [], edges || []);
+
+    res.json({
+      success: true,
+      evaluation,
+    });
+  } catch (err) {
     next(err);
   }
 }
@@ -287,5 +319,7 @@ async function getInterviewSession(req, res, next) {
 module.exports = {
   startInterview,
   submitAnswer,
+  evaluateSystemDesignController,
   getInterviewSession,
 };
+
