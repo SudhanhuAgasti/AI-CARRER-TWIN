@@ -11,6 +11,8 @@ const interviewRoutes = require('./routes/interview.routes');
 const linkedinRoutes = require('./routes/linkedin.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
 const copilotRoutes = require('./routes/copilot.routes');
+const telemetryRoutes = require('./routes/telemetry.routes');
+const sandboxRoutes = require('./routes/sandbox.routes');
 const { errorHandler } = require('./middleware/error.middleware');
 
 const app = express();
@@ -26,6 +28,8 @@ app.use('/api/interview', interviewRoutes);
 app.use('/api/linkedin', linkedinRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/copilot', copilotRoutes);
+app.use('/api/telemetry', telemetryRoutes);
+app.use('/api/sandbox', sandboxRoutes);
 
 // Keep error handler last - catches errors from any route via next(err)
 app.use(errorHandler);

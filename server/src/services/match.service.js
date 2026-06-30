@@ -43,4 +43,4 @@ async function computeMatchScore(resumeText, jobDescription) {
   };
 }
 
-module.exports = { computeMatchScore, cosineSimilarity };
+module.exports = { computeMatchScore, cosineSimilarity, getEmbedding };
