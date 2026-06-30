@@ -157,4 +157,20 @@ graph TD
 * **Multi-Duration Pitches:** Generates structured 30-second, 60-second, and 2-minute spoken intro scripts.
 * **Tell-Me-About-Yourself Strategy:** Helps candidates hooks interviewers immediately with structured accomplishments, key technical competencies, and passion statements.
 
+---
+
+## 🔮 Phase 8 — Market Drift Telemetry & Verified Execution Sandbox (Production Elite Upgrade)
+
+*Objective: Deliver continuous real-time market matching telemetry and cryptographically verified proof-of-work sandboxing to automate career positioning and validate engineering claims.*
+
+### 📡 1. Real-Time Job Market Drift Telemetry Engine
+* **Job Board Stream Ingestion:** Periodically ingests live job listings from target companies and parses them into vector embeddings.
+* **Semantic Drift Monitoring:** Constantly tracks candidate resume alignment against target job board updates. Triggers push alerts when a candidate's competitive match score drops due to changing market technology requirements.
+* **Proactive Micro-Remediation:** Automatically recommends micro-projects and skills to fill newly emerged gaps.
+
+### 🛡️ 2. Cryptographically Verified AST & Sandbox Proof-of-Work
+* **Static AST Scoring:** Integrates candidate's GitHub repositories to calculate clean architecture indices, security vulnerabilities (OWASP), and pattern compliance scores.
+* **Isolated Sandbox Execution:** Compiles and runs candidate projects inside a secure, containerized sandbox to verify test pass rates, memory-leak profiles, and response latency.
+* **Shareable Verification Hash:** Generates a cryptographically signed verification summary URL (e.g., `/verify/:candidateId`) for tech recruiters to audit candidate metrics with high trust.
+
 
