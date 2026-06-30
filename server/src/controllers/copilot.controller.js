@@ -16,16 +16,10 @@ async function generateElevatorPitchController(req, res, next) {
   try {
     const { resumeData, targetRole, experienceLevel } = req.body;
 
-    if (!resumeData || typeof resumeData !== 'object') {
-      const err = new Error('structuredResume or resumeData object is required.');
-      err.status = 400;
-      throw err;
-    }
-
     const pitchData = await generateElevatorPitch(
       resumeData,
-      targetRole || 'Software Engineer',
-      experienceLevel || 'senior'
+      targetRole,
+      experienceLevel
     );
 
     res.json({
@@ -45,16 +39,10 @@ async function generateOutreachController(req, res, next) {
   try {
     const { candidateData, targetCompany, targetManagerRole } = req.body;
 
-    if (!candidateData || typeof candidateData !== 'object') {
-      const err = new Error('candidateData object is required.');
-      err.status = 400;
-      throw err;
-    }
-
     const outreachData = await generateColdOutreach(
       candidateData,
-      targetCompany || 'Target Company',
-      targetManagerRole || 'Engineering Manager'
+      targetCompany,
+      targetManagerRole
     );
 
     res.json({
@@ -74,17 +62,11 @@ async function generateNegotiationController(req, res, next) {
   try {
     const { targetRole, location, currentOffer, candidateData } = req.body;
 
-    if (!targetRole || !location) {
-      const err = new Error('targetRole and location are required parameters.');
-      err.status = 400;
-      throw err;
-    }
-
     const negotiationData = await generateNegotiationStrategy(
       targetRole,
       location,
-      currentOffer || null,
-      candidateData || null
+      currentOffer,
+      candidateData
     );
 
     res.json({

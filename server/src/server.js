@@ -38,6 +38,7 @@ app.use(errorHandler);
 
 
 // Connect to MongoDB Database and clear locks
+const mongoose = require('mongoose');
 connectDB().then(async () => {
   try {
     const res = await InterviewSession.updateMany({ isLocked: true }, { isLocked: false }).exec();
@@ -50,6 +51,28 @@ connectDB().then(async () => {
 });
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`AI Career Twin API running on http://localhost:${PORT}`);
 });
+
+// Graceful Shutdown Handler
+const gracefulShutdown = (signal) => {
+  console.log(`\n[Process] Received ${signal}. Starting graceful shutdown...`);
+  
+  server.close(async () => {
+    console.log('[Server] HTTP server closed.');
+    try {
+      if (mongoose.connection.readyState !== 0) {
+        await mongoose.connection.close();
+        console.log('[Database] MongoDB connection closed cleanly.');
+      }
+      process.exit(0);
+    } catch (err) {
+      console.error('[Shutdown Error] Failed to close DB connection cleanly:', err.message);
+      process.exit(1);
+    }
+  });
+};
+
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
