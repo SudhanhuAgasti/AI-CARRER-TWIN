@@ -8,7 +8,7 @@ const crypto = require('crypto');
 const config = require('../config');
 
 // HMAC Secret used to sign the verification payloads. Fallback to a baseline key if not defined.
-const HMAC_SECRET = config.geminiApiKey || 'career-twin-cryptographic-verification-salt';
+const HMAC_SECRET = config.cryptoSecret;
 
 /**
  * Simulates a containerized isolated sandbox execution, measures telemetry,

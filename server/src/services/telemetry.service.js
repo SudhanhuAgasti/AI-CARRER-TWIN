@@ -64,6 +64,9 @@ async function calculateMarketDrift(resumeText, liveMarketJobs) {
 
     // 2. Calculate average Vector Embedding for live market jobs
     const jdEmbeddings = await Promise.all(liveMarketJobs.map(jd => getEmbedding(jd)));
+    if (jdEmbeddings.length === 0) {
+      throw new Error('Failed to generate embeddings for target job descriptions.');
+    }
     const dimensions = resumeEmbedding.length;
     const avgJdEmbedding = new Array(dimensions).fill(0);
 
