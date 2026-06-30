@@ -1,8 +1,4 @@
-/**
- * @file validation.middleware.js
- * @description Express middleware to validate request body/params against Zod schemas.
- * @author Senior Fullstack Engineer (9+ years experience)
- */
+const { ValidationError } = require('../utils/errors');
 
 /**
  * Creates an Express middleware to validate request body against a Zod schema.
@@ -21,10 +17,7 @@ function validateBody(schema) {
         message: err.message,
       }));
 
-      const validationError = new Error('Validation failed');
-      validationError.status = 400;
-      validationError.details = formattedErrors;
-      return next(validationError);
+      return next(new ValidationError('Validation failed', formattedErrors));
     }
 
     // Replace req.body with the parsed/coerced data from Zod

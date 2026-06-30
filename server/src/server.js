@@ -1,12 +1,6 @@
-require('dotenv').config();
+const config = require('./config');
 const express = require('express');
 const cors = require('cors');
-
-if (!process.env.GITHUB_TOKEN) {
-  console.warn(
-    '[Warning] GITHUB_TOKEN is not defined in .env. Public GitHub API requests will be rate-limited to 60 requests/hour.'
-  );
-}
 
 const { connectDB } = require('./config/db');
 const InterviewSession = require('./models/interviewSession.model');
@@ -50,9 +44,8 @@ connectDB().then(async () => {
   }
 });
 
-const PORT = process.env.PORT || 4000;
-const server = app.listen(PORT, () => {
-  console.log(`AI Career Twin API running on http://localhost:${PORT}`);
+const server = app.listen(config.port, () => {
+  console.log(`AI Career Twin API running on http://localhost:${config.port}`);
 });
 
 // Graceful Shutdown Handler
