@@ -139,3 +139,22 @@ graph TD
 * **Public Verified Candidate Profile:** Shareable tamper-proof URL (e.g., `career-twin.ai/p/candidate-id`) showing verified candidate scores.
 * **B2B Reverse Hiring Marketplace:** Tech recruiters and hiring managers search pre-vetted candidates backed by verified AST code quality and interview transcripts.
 
+---
+
+## 💎 Phase 7 — AI Career Advancement & Negotiation Copilot Suite (Phase 6+ Supercharger)
+
+*Objective: Provide end-to-end career conversion tools that help candidates land interviews, ace opening introductions, and maximize salary compensation offers.*
+
+### 💰 1. AI Salary & Compensation Negotiation Copilot
+* **Benchmark Engine:** Calculates target compensation ranges based on candidate verified readiness score, target role, and location benchmarks.
+* **Counter-Offer Generator:** Generates professional email scripts and strategy blueprints for negotiating base salary, equity grants, and signing bonuses.
+
+### ✉️ 2. Automated Hiring Manager Cold Outreach Generator
+* **High-Converting Templates:** Creates customized cold LinkedIn InMails and cold emails for engineering managers and recruiters.
+* **Proof-of-Work Highlighting:** Automatically embeds verified AST code quality scores, system design metrics, and ATS match highlights directly into outreach messages.
+
+### 🎙️ 3. Spoken Elevator Pitch & Intro Generator
+* **Multi-Duration Pitches:** Generates structured 30-second, 60-second, and 2-minute spoken intro scripts.
+* **Tell-Me-About-Yourself Strategy:** Helps candidates hooks interviewers immediately with structured accomplishments, key technical competencies, and passion statements.
+
+

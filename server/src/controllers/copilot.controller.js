@@ -6,6 +6,7 @@
 
 const { generateElevatorPitch } = require('../services/elevatorPitch.service');
 const { generateColdOutreach } = require('../services/outreachGenerator.service');
+const { generateNegotiationStrategy } = require('../services/negotiation.service');
 
 /**
  * Controller handling POST /api/copilot/elevator-pitch.
@@ -65,8 +66,39 @@ async function generateOutreachController(req, res, next) {
   }
 }
 
+/**
+ * Controller handling POST /api/copilot/negotiate.
+ * Generates structured compensation benchmarks, email templates, and spoken verbal objection-handling scripts.
+ */
+async function generateNegotiationController(req, res, next) {
+  try {
+    const { targetRole, location, currentOffer, candidateData } = req.body;
+
+    if (!targetRole || !location) {
+      const err = new Error('targetRole and location are required parameters.');
+      err.status = 400;
+      throw err;
+    }
+
+    const negotiationData = await generateNegotiationStrategy(
+      targetRole,
+      location,
+      currentOffer || null,
+      candidateData || null
+    );
+
+    res.json({
+      success: true,
+      negotiation: negotiationData,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   generateElevatorPitchController,
   generateOutreachController,
+  generateNegotiationController,
 };
 
