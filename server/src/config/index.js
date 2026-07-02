@@ -14,7 +14,7 @@ const configSchema = z.object({
   mongodbUri: z.string().default('mongodb://127.0.0.1:27017/ai-career-twin'),
   geminiApiKey: z.string().optional(),
   githubToken: z.string().optional(),
-  cryptoSecret: z.string().default('career-twin-cryptographic-verification-salt'),
+  hmacSecret: z.string().default('career-twin-cryptographic-verification-salt-secure-default'),
   nodeEnv: z.enum(['development', 'production', 'test']).default('development'),
 });
 
@@ -23,7 +23,7 @@ const parsed = configSchema.safeParse({
   mongodbUri: process.env.MONGODB_URI || process.env.MONGODB_URI_LOCAL, // Support typical variants
   geminiApiKey: process.env.GEMINI_API_KEY,
   githubToken: process.env.GITHUB_TOKEN,
-  cryptoSecret: process.env.CRYPTO_SIGNING_SECRET,
+  hmacSecret: process.env.HMAC_SECRET,
   nodeEnv: process.env.NODE_ENV,
 });
 

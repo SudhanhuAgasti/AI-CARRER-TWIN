@@ -7,8 +7,8 @@
 const crypto = require('crypto');
 const config = require('../config');
 
-// HMAC Secret used to sign the verification payloads. Fallback to a baseline key if not defined.
-const HMAC_SECRET = config.cryptoSecret;
+// HMAC Secret used to sign the verification payloads.
+const HMAC_SECRET = config.hmacSecret;
 
 /**
  * Simulates a containerized isolated sandbox execution, measures telemetry,

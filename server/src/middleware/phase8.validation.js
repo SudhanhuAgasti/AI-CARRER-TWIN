@@ -11,7 +11,8 @@ const telemetryAnalysisSchema = z.object({
   resumeText: z.string({ required_error: 'resumeText is required' }).trim().min(10, 'resumeText must be at least 10 characters long'),
   liveMarketJobs: z
     .array(z.string().trim().min(1), { required_error: 'liveMarketJobs array is required' })
-    .min(1, 'liveMarketJobs must contain at least one job description'),
+    .min(1, 'liveMarketJobs must contain at least one job description')
+    .max(5, 'liveMarketJobs cannot exceed 5 items to prevent rate limits'),
 });
 
 // Schema for POST /api/sandbox/generate

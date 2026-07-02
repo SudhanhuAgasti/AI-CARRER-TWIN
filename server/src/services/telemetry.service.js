@@ -61,12 +61,23 @@ async function calculateMarketDrift(resumeText, liveMarketJobs) {
   try {
     // 1. Calculate Vector Embedding for Candidate Resume
     const resumeEmbedding = await getEmbedding(resumeText);
-
-    // 2. Calculate average Vector Embedding for live market jobs
-    const jdEmbeddings = await Promise.all(liveMarketJobs.map(jd => getEmbedding(jd)));
-    if (jdEmbeddings.length === 0) {
-      throw new Error('Failed to generate embeddings for target job descriptions.');
+    if (!Array.isArray(resumeEmbedding) || resumeEmbedding.length === 0) {
+      throw new Error('Candidate resume embedding calculation returned invalid dimensions.');
     }
+
+    // 2. Calculate average Vector Embedding for live market jobs sequentially to prevent LLM API 429 Rate Limits
+    const jdEmbeddings = [];
+    for (const jd of liveMarketJobs) {
+      const emb = await getEmbedding(jd);
+      if (Array.isArray(emb) && emb.length === resumeEmbedding.length) {
+        jdEmbeddings.push(emb);
+      }
+    }
+
+    if (jdEmbeddings.length === 0) {
+      throw new Error('None of the live market job descriptions yielded valid matching dimensions.');
+    }
+
     const dimensions = resumeEmbedding.length;
     const avgJdEmbedding = new Array(dimensions).fill(0);
 
