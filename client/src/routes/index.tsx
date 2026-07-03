@@ -23,6 +23,8 @@ const Dashboard = lazy(() => import('../features/dashboard/pages/Dashboard'));
 const ResumeAnalyzer = lazy(() => import('../features/resume/pages/ResumeAnalyzer'));
 const InterviewWorkspace = lazy(() => import('../features/interview/pages/InterviewWorkspace'));
 const SkillGapWorkspace = lazy(() => import('../features/skill-gap/pages/SkillGapWorkspace'));
+const LinkedinOptimizer = lazy(() => import('../features/linkedin/pages/LinkedinOptimizer'));
+const SettingsControl = lazy(() => import('../features/settings/pages/SettingsControl'));
 
 // Lazy page skeletons
 function PageLoader() {
@@ -127,25 +129,21 @@ export function AppRoutes() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/linkedin"
             element={
               <ProtectedRoute>
-                <div className="p-8 border border-border bg-card rounded-xl text-left">
-                  <h2 className="text-xl font-bold mb-2">LinkedIn Optimizer</h2>
-                  <p className="text-sm text-muted-foreground">LinkedIn profile check and optimizer (coming in Phase 8).</p>
-                </div>
+                <LinkedinOptimizer />
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/settings"
             element={
               <ProtectedRoute>
-                <div className="p-8 border border-border bg-card rounded-xl text-left">
-                  <h2 className="text-xl font-bold mb-2">Settings</h2>
-                  <p className="text-sm text-muted-foreground">Theme selection, user profiles, and API key management (coming in Phase 8).</p>
-                </div>
+                <SettingsControl />
               </ProtectedRoute>
             }
           />
