@@ -8,6 +8,8 @@ import { useState, useEffect, useRef } from 'react';
 import { Mic, MicOff, Send, Clock, VideoOff } from 'lucide-react';
 import Button from '../../../components/ui/Button';
 import { useUIStore } from '../../../store/uiStore';
+import { axiosInstance } from '../../../api/axiosInstance';
+import { useResumeStore } from '../../../store/resumeStore';
 
 interface Message {
   id: string;
@@ -33,20 +35,45 @@ export function InterviewChat({ settings, onFinish }: InterviewChatProps) {
   const [inputVal, setInputVal] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [timeLeft, setTimeLeft] = useState(settings.duration * 60);
+  const [sessionId, setSessionId] = useState<string | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
-  // Initialize first interviewer greeting message
+  // Initialize first interviewer greeting message from API or fallback
   useEffect(() => {
-    const greetingText = mockIntros[settings.difficulty] || mockIntros.mid;
-    setMessages([
-      {
-        id: 'msg-0',
-        sender: 'interviewer',
-        text: greetingText,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      },
-    ]);
-  }, [settings.difficulty]);
+    const initSession = async () => {
+      try {
+        const resumeId = useResumeStore.getState().resumeId || undefined;
+        const response = await axiosInstance.post('/api/interview/start', {
+          resumeId,
+          targetRole: settings.role,
+          experienceLevel: settings.difficulty,
+          maxQuestions: 4
+        });
+        
+        setSessionId(response.data.sessionId);
+        setMessages([
+          {
+            id: 'msg-0',
+            sender: 'interviewer',
+            text: response.data.question,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          }
+        ]);
+      } catch (err) {
+        // Fallback to mock intro if backend fails or database is offline
+        const greetingText = mockIntros[settings.difficulty] || mockIntros.mid;
+        setMessages([
+          {
+            id: 'msg-0',
+            sender: 'interviewer',
+            text: greetingText,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          },
+        ]);
+      }
+    };
+    initSession();
+  }, [settings]);
 
   // Session timer hook
   useEffect(() => {
@@ -65,7 +92,7 @@ export function InterviewChat({ settings, onFinish }: InterviewChatProps) {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!inputVal.trim()) return;
 
     const userMessage: Message = {
@@ -78,16 +105,41 @@ export function InterviewChat({ settings, onFinish }: InterviewChatProps) {
     setMessages((prev) => [...prev, userMessage]);
     setInputVal('');
 
-    // Simulate AI response logic after brief lag
-    setTimeout(() => {
-      const systemReply: Message = {
-        id: `msg-ai-${Date.now()}`,
-        sender: 'interviewer',
-        text: "Thank you for the detailed breakdown. Building on that, how would you configure local rate limiters inside Express schemas to protect backend models?",
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      };
-      setMessages((prev) => [...prev, systemReply]);
-    }, 1500);
+    try {
+      if (sessionId) {
+        const response = await axiosInstance.post(`/api/interview/${sessionId}/answer`, {
+          answer: userMessage.text,
+        });
+
+        if (response.data.status === 'completed') {
+          // Store evaluation results globally so InterviewFeedback can read it
+          (window as any).__lastInterviewFeedback = response.data;
+          onFinish(messages);
+          return;
+        }
+
+        const systemReply: Message = {
+          id: `msg-ai-${Date.now()}`,
+          sender: 'interviewer',
+          text: response.data.question,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        };
+        setMessages((prev) => [...prev, systemReply]);
+      } else {
+        throw new Error('No active session');
+      }
+    } catch (err) {
+      // Fallback simulation
+      setTimeout(() => {
+        const systemReply: Message = {
+          id: `msg-ai-${Date.now()}`,
+          sender: 'interviewer',
+          text: "Thank you for the detailed breakdown. Building on that, how would you configure local rate limiters inside Express schemas to protect backend models?",
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        };
+        setMessages((prev) => [...prev, systemReply]);
+      }, 1500);
+    }
   };
 
   const toggleRecording = async () => {

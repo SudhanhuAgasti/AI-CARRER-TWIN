@@ -10,6 +10,9 @@ import Button from '../../../components/ui/Button';
 import { useUIStore } from '../../../store/uiStore';
 import { Globe, Sparkles, ClipboardCopy, CheckCircle2, RefreshCw } from 'lucide-react';
 
+import { axiosInstance } from '../../../api/axiosInstance';
+import { useResumeStore } from '../../../store/resumeStore';
+
 interface Suggestion {
   id: string;
   field: string;
@@ -17,31 +20,42 @@ interface Suggestion {
   suggestion: string;
 }
 
-const mockSuggestions: Suggestion[] = [
-  {
-    id: 's-1',
-    field: 'Profile Headline',
-    original: 'Software engineer at ABC Corp',
-    suggestion: 'Senior Software Engineer \| Full Stack Architect \| React 19, TypeScript & Node.js Developer \| Specializing in sandboxed runtime telemetry pipelines',
-  },
-  {
-    id: 's-2',
-    field: 'Summary/About Section',
-    original: 'I am a developer with experience in JavaScript databases.',
-    suggestion: 'Results-driven Senior Frontend Developer with 9+ years experience building highly concurrent web applications. Expert in React 19 compilers, Zustand, and TanStack caching mechanisms. Proven record designing stateless container execution diagnostics.',
-  },
-];
-
 export function LinkedinOptimizer() {
   const { addToast } = useUIStore();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<Suggestion[]>([]);
+  const [profileText, setProfileText] = useState('I am a developer with experience in JavaScript databases.');
 
   const handleFetchSuggestions = async () => {
+    if (!profileText.trim()) return;
     setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setData(mockSuggestions);
+      // Use resumeId from store or fallback to a mock MongoDB hex ObjectId
+      const resumeId = useResumeStore.getState().resumeId || '64af2c789182390aefd00921';
+      
+      const response = await axiosInstance.post('/api/linkedin/analyze', {
+        resumeId,
+        targetRole: 'Senior Software Engineer',
+        profileText: profileText.trim()
+      });
+
+      const analysis = response.data;
+      const mappedSuggestions: Suggestion[] = [
+        {
+          id: 's-1',
+          field: 'Profile Headline',
+          original: profileText.slice(0, 50) + '...',
+          suggestion: analysis.headlineCheck || 'Senior Engineer',
+        },
+        {
+          id: 's-2',
+          field: 'Summary Recommendation',
+          original: profileText,
+          suggestion: analysis.summaryCheck || 'Optimized Summary Details',
+        }
+      ];
+
+      setData(mappedSuggestions);
       addToast({
         type: 'success',
         title: 'LinkedIn Optimization Loaded',
@@ -51,7 +65,7 @@ export function LinkedinOptimizer() {
       addToast({
         type: 'error',
         title: 'Fetch Failed',
-        message: 'Could not fetch suggestions.',
+        message: 'Could not fetch suggestions. Make sure a resume is uploaded first.',
       });
     } finally {
       setLoading(false);
@@ -79,25 +93,39 @@ export function LinkedinOptimizer() {
           </p>
         </div>
         
-        <Button size="sm" onClick={handleFetchSuggestions} isLoading={loading}>
+        <Button size="sm" onClick={handleFetchSuggestions} isLoading={loading} disabled={!profileText.trim()}>
           <RefreshCw className="mr-1.5 h-4 w-full shrink-0" />
           Fetch Recommendations
         </Button>
       </div>
 
       {data.length === 0 ? (
-        <Card className="max-w-xl mx-auto text-center py-12">
+        <Card className="max-w-xl mx-auto text-left py-12">
           <CardContent className="space-y-4 pt-6">
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
               <Globe className="h-6 w-6" />
             </div>
-            <div className="space-y-1">
+            <div className="space-y-1 text-center">
               <p className="text-sm font-semibold">LinkedIn Profile Analytics</p>
               <p className="text-xs text-muted-foreground">
                 Fetch and evaluate suggestions matching current target career benchmarks.
               </p>
             </div>
-            <Button size="sm" onClick={handleFetchSuggestions} isLoading={loading}>
+            
+            <div className="space-y-1.5 pt-2">
+              <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                Paste Your Current LinkedIn Summary / Headline
+              </label>
+              <textarea
+                value={profileText}
+                onChange={(e) => setProfileText(e.target.value)}
+                placeholder="Paste your current LinkedIn summary or headline text here..."
+                rows={4}
+                className="w-full rounded-lg border border-border bg-background px-3.5 py-2.5 text-xs text-foreground outline-none focus:border-primary"
+              />
+            </div>
+
+            <Button className="w-full" size="sm" onClick={handleFetchSuggestions} isLoading={loading} disabled={!profileText.trim()}>
               Run Optimizer Analysis
             </Button>
           </CardContent>

@@ -4,8 +4,10 @@
  * @author Senior Staff Frontend Engineer (9+ years experience)
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CheckCircle2, Circle, ChevronRight, BookOpen, ExternalLink } from 'lucide-react';
+import { axiosInstance } from '../../../api/axiosInstance';
+import { useResumeStore } from '../../../store/resumeStore';
 
 interface MilestoneNode {
   id: string;
@@ -80,14 +82,61 @@ interface RoadmapTimelineProps {
 }
 
 export function RoadmapTimeline({ selectedRoleId }: RoadmapTimelineProps) {
-  const nodes = mockTimelineData[selectedRoleId] || mockTimelineData['role-1'];
-  const [activeNodeId, setActiveNodeId] = useState<string>(nodes[0]?.id || '');
-  const [completedNodeIds, setCompletedNodeIds] = useState<string[]>(
-    nodes.filter((n) => n.completed).map((n) => n.id)
-  );
+  const [nodes, setNodes] = useState<MilestoneNode[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [activeNodeId, setActiveNodeId] = useState<string>('');
+  const [completedNodeIds, setCompletedNodeIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchRoadmap = async () => {
+      setLoading(true);
+      try {
+        const resumeSkills = useResumeStore.getState().structuredResume?.skills || ['React', 'NodeJS', 'Express'];
+        const resumeId = useResumeStore.getState().resumeId || undefined;
+        
+        const response = await axiosInstance.post('/api/planner/roadmap', {
+          resumeSkills,
+          targetRole: selectedRoleId === 'role-2' ? 'Staff Backend Architect' : 'Senior Software Engineer',
+          availableHoursPerDay: 2,
+          resumeId
+        });
+
+        const apiSteps = response.data?.roadmapSteps || response.data?.steps || [];
+        const mappedNodes: MilestoneNode[] = apiSteps.map((step: any, idx: number) => ({
+          id: `ms-api-${idx}`,
+          phase: `Phase ${idx + 1}`,
+          title: step.title || step.topic,
+          duration: step.duration || '1 week',
+          description: step.description || 'Focus on architectural patterns.',
+          skills: step.skills || [],
+          links: step.resources?.map((res: any) => ({ name: res.name || 'Resource', url: res.url || '#' })) || [],
+          completed: false,
+        }));
+
+        if (mappedNodes.length > 0) {
+          setNodes(mappedNodes);
+          setActiveNodeId(mappedNodes[0].id);
+          setCompletedNodeIds([]);
+        } else {
+          const defaultNodes = mockTimelineData[selectedRoleId] || mockTimelineData['role-1'];
+          setNodes(defaultNodes);
+          setActiveNodeId(defaultNodes[0]?.id || '');
+          setCompletedNodeIds(defaultNodes.filter((n) => n.completed).map((n) => n.id));
+        }
+      } catch (err) {
+        const defaultNodes = mockTimelineData[selectedRoleId] || mockTimelineData['role-1'];
+        setNodes(defaultNodes);
+        setActiveNodeId(defaultNodes[0]?.id || '');
+        setCompletedNodeIds(defaultNodes.filter((n) => n.completed).map((n) => n.id));
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchRoadmap();
+  }, [selectedRoleId]);
 
   const toggleComplete = (e: React.MouseEvent, nodeId: string) => {
-    e.stopPropagation(); // Avoid triggering details toggle when checking complete status
+    e.stopPropagation();
     setCompletedNodeIds((prev) =>
       prev.includes(nodeId) ? prev.filter((id) => id !== nodeId) : [...prev, nodeId]
     );
@@ -102,9 +151,14 @@ export function RoadmapTimeline({ selectedRoleId }: RoadmapTimelineProps) {
         </span>
       </div>
 
-      <div className="relative border-l border-border/60 pl-6 ml-3.5 space-y-6">
-        {nodes.map((node) => {
-          const isActive = activeNodeId === node.id;
+      {loading ? (
+        <div className="py-10 text-center text-xs text-muted-foreground animate-pulse">
+          Analyzing career path and generating your custom learning roadmap...
+        </div>
+      ) : (
+        <div className="relative border-l border-border/60 pl-6 ml-3.5 space-y-6">
+          {nodes.map((node) => {
+            const isActive = activeNodeId === node.id;
           const isDone = completedNodeIds.includes(node.id);
 
           return (
@@ -199,7 +253,8 @@ export function RoadmapTimeline({ selectedRoleId }: RoadmapTimelineProps) {
             </div>
           );
         })}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

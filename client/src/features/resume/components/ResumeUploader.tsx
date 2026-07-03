@@ -5,6 +5,8 @@
  */
 
 import { useState, useRef } from 'react';
+import { axiosInstance } from '../../../api/axiosInstance';
+import { useResumeStore } from '../../../store/resumeStore';
 import { UploadCloud, AlertCircle, CheckCircle2 } from 'lucide-react';
 import Button from '../../../components/ui/Button';
 
@@ -74,24 +76,21 @@ export function ResumeUploader({ onUploadSuccess }: ResumeUploaderProps) {
     setError(null);
 
     try {
-      // Simulate parser API latency
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const formData = new FormData();
+      formData.append('file', file);
       
-      const mockParsedContent = `
-        Sudhanshu Agasti
-        Senior Software Engineer
-        
-        Summary: Full Stack developer with experience in React, NodeJS, Express, and Database Architectures.
-        
-        Experience:
-        - Built isolated Docker execution environments for coding playground interfaces.
-        - Designed standard MongoDB routing endpoints with Express.js backends.
-        - Configured custom CSS styling themes utilizing HSL color properties.
-      `;
+      const response = await axiosInstance.post('/api/resume/analyze', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      // Save analysis results to Zustand store
+      useResumeStore.getState().setResumeData(response.data);
       
-      onUploadSuccess(file.name, mockParsedContent);
-    } catch (err) {
-      setError('Error parsing resume. Please try again.');
+      onUploadSuccess(file.name, JSON.stringify(response.data.structuredResume));
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Error parsing resume. Please check if backend is running.');
     } finally {
       setLoading(false);
     }

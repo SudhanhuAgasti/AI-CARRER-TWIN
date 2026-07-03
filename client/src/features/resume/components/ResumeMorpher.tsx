@@ -10,6 +10,9 @@ import Button from '../../../components/ui/Button';
 import { useUIStore } from '../../../store/uiStore';
 import { ArrowRight, RotateCw, Check, ClipboardCopy } from 'lucide-react';
 
+import { axiosInstance } from '../../../api/axiosInstance';
+import { useResumeStore } from '../../../store/resumeStore';
+
 interface BulletPoint {
   id: string;
   original: string;
@@ -32,22 +35,33 @@ export function ResumeMorpher() {
   const selectedBullet = bullets.find((b) => b.id === selectedId);
 
   const handleMorph = async () => {
-    if (!selectedId || !targetJd.trim()) return;
+    if (!selectedId || !targetJd.trim() || !selectedBullet) return;
     setMorphing(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      const mockMorphedOutputs: Record<string, string> = {
-        'b-1': 'Designed and implemented high-performance RESTful APIs using Node.js and Express, improving system design latency checks by 32%.',
-        'b-2': 'Architected reusable React 19 UI design tokens and clean layout wrappers using responsive Tailwind CSS styling schemas.',
-        'b-3': 'Led secure Docker container sandbox deployments and automated AST code evaluations with SHA-256 integrity tokens.',
+      const activeResumeData = useResumeStore.getState().structuredResume || {
+        skills: ['React', 'NodeJS', 'Express', 'Docker'],
+        experience: [
+          {
+            title: 'Software Engineer',
+            company: 'Development Corp',
+            bullets: [selectedBullet.original],
+          }
+        ]
       };
+
+      const response = await axiosInstance.post('/api/resume/morph', {
+        resumeData: activeResumeData,
+        jobDescription: targetJd,
+      });
+
+      const tailoredBullet = response.data?.morphedResume?.tailoredExperience?.[0]?.tailoredBullets?.[0]
+        || 'Optimized developer workflows using modular architectures.';
 
       setBullets((prev) =>
         prev.map((b) =>
           b.id === selectedId
-            ? { ...b, morphed: mockMorphedOutputs[selectedId] || 'Optimized developer workflows.' }
+            ? { ...b, morphed: tailoredBullet }
             : b
         )
       );

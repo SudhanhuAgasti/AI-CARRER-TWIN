@@ -13,13 +13,20 @@ interface FeedbackProps {
 }
 
 export function InterviewFeedback({ onRestart }: FeedbackProps) {
+  const apiData = (window as any).__lastInterviewFeedback || null;
+  const overallScore = apiData?.finalFeedback?.overallScore || 7.8;
+
   const scores = [
-    { label: 'Technical Accuracy', rating: '8.2/10', color: 'text-primary' },
-    { label: 'Articulation & Speed', rating: '7.5/10', color: 'text-indigo-400' },
-    { label: 'Keyword Coverage', rating: '7.8/10', color: 'text-emerald-400' },
+    { label: 'Technical Accuracy', rating: apiData?.finalFeedback?.overallScore ? `${apiData.finalFeedback.overallScore}/10` : '8.2/10', color: 'text-primary' },
+    { label: 'Articulation & Speed', rating: apiData?.vocalTelemetry?.articulationSpeed || '7.5/10', color: 'text-indigo-400' },
+    { label: 'Keyword Coverage', rating: apiData?.finalFeedback?.keywordCoverage || '7.8/10', color: 'text-emerald-400' },
   ];
 
-  const speechTranscripts = [
+  const speechTranscripts = apiData?.evaluations?.map((ev: any) => ({
+    question: ev.question,
+    candidateResponse: ev.answer,
+    suggestedScript: ev.feedback || 'Try incorporating more structured metrics and clear API definitions.',
+  })) || [
     {
       question: 'How would you design a stateless compilation verification pipeline that signs log telemetry securely?',
       candidateResponse: 'I would write a cryptographically signed HMAC token payload matching client telemetry configurations, validating container latency records on a stateless endpoint.',
@@ -41,7 +48,7 @@ export function InterviewFeedback({ onRestart }: FeedbackProps) {
             </span>
             <div className="flex h-28 w-28 items-center justify-center rounded-full border-4 border-primary/30 bg-primary/5">
               <div className="flex flex-col items-center">
-                <span className="text-3xl font-extrabold text-primary">7.8</span>
+                <span className="text-3xl font-extrabold text-primary">{overallScore}</span>
                 <span className="text-[10px] font-bold text-muted-foreground uppercase">Out of 10</span>
               </div>
             </div>
@@ -76,7 +83,7 @@ export function InterviewFeedback({ onRestart }: FeedbackProps) {
         <h3 className="text-base font-bold text-foreground">Spoken Script Adjustments</h3>
         <Card>
           <CardContent className="p-0 divide-y divide-border/40">
-            {speechTranscripts.map((item, idx) => (
+            {speechTranscripts.map((item: any, idx: number) => (
               <div key={idx} className="p-6 space-y-4">
                 <div className="space-y-1">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-primary block">

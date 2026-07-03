@@ -7,15 +7,20 @@
 import { Card, CardContent } from '../../../components/ui/Card';
 import { CheckCircle2, AlertCircle, TrendingUp, Sparkles, BookOpen } from 'lucide-react';
 
+import { useResumeStore } from '../../../store/resumeStore';
+
 interface AtsReportProps {
-  score: number;
+  score?: number;
 }
 
-export function AtsReport({ score }: AtsReportProps) {
-  const missingKeywords = ['TypeScript', 'Kubernetes', 'CI/CD Pipelines', 'GraphQL', 'Tailwind CSS'];
-  const matchingKeywords = ['React', 'NodeJS', 'MongoDB', 'Express', 'Docker', 'Rest APIs'];
+export function AtsReport({ score: propScore = 80 }: AtsReportProps) {
+  const storeAtsReport = useResumeStore((state) => state.atsReport);
+  
+  const score = storeAtsReport ? storeAtsReport.score : propScore;
+  const missingKeywords = storeAtsReport?.missingKeywords || ['TypeScript', 'Kubernetes', 'CI/CD Pipelines', 'GraphQL', 'Tailwind CSS'];
+  const matchingKeywords = storeAtsReport?.matchingKeywords || ['React', 'NodeJS', 'MongoDB', 'Express', 'Docker', 'Rest APIs'];
 
-  const structureChecks = [
+  const structureChecks = storeAtsReport?.structureChecks || [
     { label: 'Contact Details Present', passed: true },
     { label: 'Core Skillset Summary Block', passed: true },
     { label: 'Work Experience Chronology', passed: true },

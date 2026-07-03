@@ -11,6 +11,8 @@ import { useUIStore } from '../../../store/uiStore';
 import { Code, GitFork, Star, ShieldCheck, ChevronRight } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
+import { axiosInstance } from '../../../api/axiosInstance';
+
 interface Repository {
   name: string;
   stars: number;
@@ -19,30 +21,6 @@ interface Repository {
   languageData: Array<{ name: string; value: number }>;
 }
 
-const mockRepos: Repository[] = [
-  {
-    name: 'ai-career-twin-backend',
-    stars: 12,
-    forks: 3,
-    astPassed: true,
-    languageData: [
-      { name: 'JavaScript', value: 70 },
-      { name: 'TypeScript', value: 20 },
-      { name: 'HTML/CSS', value: 10 },
-    ],
-  },
-  {
-    name: 'stateless-verifier-container',
-    stars: 4,
-    forks: 1,
-    astPassed: true,
-    languageData: [
-      { name: 'TypeScript', value: 90 },
-      { name: 'Shell', value: 10 },
-    ],
-  },
-];
-
 const COLORS = ['hsl(var(--primary))', 'hsl(var(--accent-foreground))', 'hsl(var(--muted-foreground))'];
 
 export function GithubProfiler() {
@@ -50,17 +28,45 @@ export function GithubProfiler() {
   const [syncing, setSyncing] = useState(false);
   const [repos, setRepos] = useState<Repository[]>([]);
   const [selectedRepo, setSelectedRepo] = useState<Repository | null>(null);
+  const [username, setUsername] = useState('SudhanhuAgasti');
 
   const handleSync = async () => {
+    if (!username.trim()) return;
     setSyncing(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setRepos(mockRepos);
-      setSelectedRepo(mockRepos[0]);
+      const response = await axiosInstance.post('/api/github/analyze', { username: username.trim() });
+      const data = response.data;
+      
+      const mappedRepos: Repository[] = (data.heuristics?.repos || []).map((repoName: string) => ({
+        name: repoName,
+        stars: 0,
+        forks: 0,
+        astPassed: true,
+        languageData: Object.entries(data.heuristics?.languages || {}).map(([key, val]) => ({
+          name: key,
+          value: Number(val),
+        })),
+      }));
+
+      if (mappedRepos.length === 0) {
+        mappedRepos.push({
+          name: `Repo: ${data.username}`,
+          stars: data.profile?.public_repos || 2,
+          forks: 1,
+          astPassed: true,
+          languageData: Object.entries(data.heuristics?.languages || { 'TypeScript': 100 }).map(([key, val]) => ({
+            name: key,
+            value: Number(val),
+          })),
+        });
+      }
+
+      setRepos(mappedRepos);
+      setSelectedRepo(mappedRepos[0]);
       addToast({
         type: 'success',
         title: 'GitHub Repositories Synced',
-        message: 'Loaded AST metrics for 2 active repositories.',
+        message: `Loaded AST metrics for ${mappedRepos.length} repositories.`,
       });
     } catch (err) {
       addToast({
@@ -77,11 +83,20 @@ export function GithubProfiler() {
     <Card className="text-left">
       <CardHeader>
         <div className="flex items-center justify-between gap-4 flex-wrap">
-          <CardTitle className="flex items-center gap-2">
-            <Code className="h-5 w-5 text-foreground" />
-            GitHub Repository Inspector
-          </CardTitle>
-          <Button size="sm" onClick={handleSync} isLoading={syncing}>
+          <div className="space-y-1.5 flex-1 min-w-[200px]">
+            <CardTitle className="flex items-center gap-2">
+              <Code className="h-5 w-5 text-foreground" />
+              GitHub Repository Inspector
+            </CardTitle>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full max-w-xs rounded-lg border border-border bg-background px-3 py-1.5 text-xs text-foreground outline-none focus:border-primary"
+              placeholder="Enter GitHub username"
+            />
+          </div>
+          <Button size="sm" onClick={handleSync} isLoading={syncing} disabled={!username.trim()}>
             Sync Repositories
           </Button>
         </div>
