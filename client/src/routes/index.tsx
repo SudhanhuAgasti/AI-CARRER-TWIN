@@ -20,6 +20,7 @@ const ForgotPassword = lazy(() => import('../features/auth/pages/ForgotPassword'
 const ResetPassword = lazy(() => import('../features/auth/pages/ResetPassword'));
 const OtpVerification = lazy(() => import('../features/auth/pages/OtpVerification'));
 const Dashboard = lazy(() => import('../features/dashboard/pages/Dashboard'));
+const ResumeAnalyzer = lazy(() => import('../features/resume/pages/ResumeAnalyzer'));
 
 // Lazy page skeletons
 function PageLoader() {
@@ -98,15 +99,11 @@ export function AppRoutes() {
             }
           />
 
-          {/* Fallback redirects for empty routes */}
           <Route
             path="/resume"
             element={
               <ProtectedRoute>
-                <div className="p-8 border border-border bg-card rounded-xl text-left">
-                  <h2 className="text-xl font-bold mb-2">Resume + ATS Analyzer</h2>
-                  <p className="text-sm text-muted-foreground">Resume parser and ATS scoring feature view (coming in Phase 5).</p>
-                </div>
+                <ResumeAnalyzer />
               </ProtectedRoute>
             }
           />
