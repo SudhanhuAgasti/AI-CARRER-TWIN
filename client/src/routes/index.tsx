@@ -21,6 +21,7 @@ const ResetPassword = lazy(() => import('../features/auth/pages/ResetPassword'))
 const OtpVerification = lazy(() => import('../features/auth/pages/OtpVerification'));
 const Dashboard = lazy(() => import('../features/dashboard/pages/Dashboard'));
 const ResumeAnalyzer = lazy(() => import('../features/resume/pages/ResumeAnalyzer'));
+const InterviewWorkspace = lazy(() => import('../features/interview/pages/InterviewWorkspace'));
 const SkillGapWorkspace = lazy(() => import('../features/skill-gap/pages/SkillGapWorkspace'));
 
 // Lazy page skeletons
@@ -117,14 +118,12 @@ export function AppRoutes() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/interview"
             element={
               <ProtectedRoute>
-                <div className="p-8 border border-border bg-card rounded-xl text-left">
-                  <h2 className="text-xl font-bold mb-2">Mock Interviews</h2>
-                  <p className="text-sm text-muted-foreground">Interactive audio and whiteboarding mock interviews sandbox (coming in Phase 7).</p>
-                </div>
+                <InterviewWorkspace />
               </ProtectedRoute>
             }
           />
