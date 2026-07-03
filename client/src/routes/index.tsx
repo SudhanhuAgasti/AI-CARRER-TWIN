@@ -19,20 +19,7 @@ const Register = lazy(() => import('../features/auth/pages/Register'));
 const ForgotPassword = lazy(() => import('../features/auth/pages/ForgotPassword'));
 const ResetPassword = lazy(() => import('../features/auth/pages/ResetPassword'));
 const OtpVerification = lazy(() => import('../features/auth/pages/OtpVerification'));
-
-// Placeholder dashboard page (will be replaced by full dashboard features in Phase 4)
-function MockDashboard() {
-  return (
-    <div className="space-y-6 text-left">
-      <div className="rounded-xl border border-border bg-card p-8 shadow-sm">
-        <h2 className="text-2xl font-bold tracking-tight mb-2">Welcome to the Readiness Dashboard</h2>
-        <p className="text-muted-foreground text-sm leading-relaxed max-w-xl">
-          Use the navigation menu on the left to analyze your resume, optimize LinkedIn parameters, target skill gaps, and start interactive mock interviews.
-        </p>
-      </div>
-    </div>
-  );
-}
+const Dashboard = lazy(() => import('../features/dashboard/pages/Dashboard'));
 
 // Lazy page skeletons
 function PageLoader() {
@@ -106,7 +93,7 @@ export function AppRoutes() {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <MockDashboard />
+                <Dashboard />
               </ProtectedRoute>
             }
           />
