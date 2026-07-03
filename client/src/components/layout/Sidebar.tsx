@@ -39,8 +39,9 @@ export function Sidebar() {
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-card transition-transform duration-300 md:sticky md:transform-none
-          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-card transition-transform duration-300 
+          md:sticky md:top-16 md:h-[calc(100vh-4rem)] md:transform-none
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}
       >
         {/* Header container */}
