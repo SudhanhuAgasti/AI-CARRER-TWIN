@@ -21,6 +21,7 @@ const ResetPassword = lazy(() => import('../features/auth/pages/ResetPassword'))
 const OtpVerification = lazy(() => import('../features/auth/pages/OtpVerification'));
 const Dashboard = lazy(() => import('../features/dashboard/pages/Dashboard'));
 const ResumeAnalyzer = lazy(() => import('../features/resume/pages/ResumeAnalyzer'));
+const SkillGapWorkspace = lazy(() => import('../features/skill-gap/pages/SkillGapWorkspace'));
 
 // Lazy page skeletons
 function PageLoader() {
@@ -107,14 +108,12 @@ export function AppRoutes() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/skill-gap"
             element={
               <ProtectedRoute>
-                <div className="p-8 border border-border bg-card rounded-xl text-left">
-                  <h2 className="text-xl font-bold mb-2">Skill Gap & Planner</h2>
-                  <p className="text-sm text-muted-foreground">Study curriculum and daily/weekly planner (coming in Phase 6).</p>
-                </div>
+                <SkillGapWorkspace />
               </ProtectedRoute>
             }
           />
