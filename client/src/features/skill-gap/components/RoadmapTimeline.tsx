@@ -94,9 +94,16 @@ export function RoadmapTimeline({ selectedRoleId }: RoadmapTimelineProps) {
         const resumeSkills = useResumeStore.getState().structuredResume?.skills || ['React', 'NodeJS', 'Express'];
         const resumeId = useResumeStore.getState().resumeId || undefined;
         
+        const roleMap: Record<string, string> = {
+          'role-1': 'fullstack-engineer',
+          'role-2': 'backend-engineer',
+          'role-3': 'frontend-engineer',
+        };
+        const targetRole = roleMap[selectedRoleId] || 'fullstack-engineer';
+
         const response = await axiosInstance.post('/api/planner/roadmap', {
           resumeSkills,
-          targetRole: selectedRoleId === 'role-2' ? 'Staff Backend Architect' : 'Senior Software Engineer',
+          targetRole,
           availableHoursPerDay: 2,
           resumeId
         });

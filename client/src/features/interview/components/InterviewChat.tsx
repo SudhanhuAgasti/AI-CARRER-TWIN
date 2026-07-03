@@ -42,10 +42,21 @@ export function InterviewChat({ settings, onFinish }: InterviewChatProps) {
   useEffect(() => {
     const initSession = async () => {
       try {
-        const resumeId = useResumeStore.getState().resumeId || undefined;
+        const storeResumeId = useResumeStore.getState().resumeId;
+        const isValidObjectId = storeResumeId && /^[0-9a-fA-F]{24}$/.test(storeResumeId);
+        const resumeId = isValidObjectId ? storeResumeId : undefined;
+        
+        const normalizeRole = (roleStr: string): string => {
+          const str = roleStr.toLowerCase();
+          if (str.includes('frontend') || str.includes('front-end')) return 'frontend-engineer';
+          if (str.includes('backend') || str.includes('back-end') || str.includes('architect')) return 'backend-engineer';
+          if (str.includes('devops') || str.includes('cloud') || str.includes('sre')) return 'devops-engineer';
+          return 'fullstack-engineer';
+        };
+
         const response = await axiosInstance.post('/api/interview/start', {
           resumeId,
-          targetRole: settings.role,
+          targetRole: normalizeRole(settings.role),
           experienceLevel: settings.difficulty,
           maxQuestions: 4
         });

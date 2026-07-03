@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../../../components/ui/Card';
 import Button from '../../../components/ui/Button';
 import { useUIStore } from '../../../store/uiStore';
-import { Globe, Sparkles, ClipboardCopy, CheckCircle2, RefreshCw } from 'lucide-react';
+import { Globe, Sparkles, ClipboardCopy, CheckCircle2, RefreshCw, AlertCircle } from 'lucide-react';
 
 import { axiosInstance } from '../../../api/axiosInstance';
 import { useResumeStore } from '../../../store/resumeStore';
@@ -25,16 +25,26 @@ export function LinkedinOptimizer() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<Suggestion[]>([]);
   const [profileText, setProfileText] = useState('I am a developer with experience in JavaScript databases.');
+  
+  const storeResumeId = useResumeStore((state) => state.resumeId);
+  const isValidObjectId = !!(storeResumeId && /^[0-9a-fA-F]{24}$/.test(storeResumeId));
 
   const handleFetchSuggestions = async () => {
     if (!profileText.trim()) return;
     setLoading(true);
     try {
-      // Use resumeId from store or fallback to a mock MongoDB hex ObjectId
-      const resumeId = useResumeStore.getState().resumeId || '64af2c789182390aefd00921';
+      if (!isValidObjectId) {
+        addToast({
+          type: 'error',
+          title: 'Resume Context Required',
+          message: 'Please upload your resume first on the Resume + ATS Analyzer page.',
+        });
+        setLoading(false);
+        return;
+      }
       
       const response = await axiosInstance.post('/api/linkedin/analyze', {
-        resumeId,
+        resumeId: storeResumeId,
         targetRole: 'Senior Software Engineer',
         profileText: profileText.trim()
       });
@@ -93,7 +103,7 @@ export function LinkedinOptimizer() {
           </p>
         </div>
         
-        <Button size="sm" onClick={handleFetchSuggestions} isLoading={loading} disabled={!profileText.trim()}>
+        <Button size="sm" onClick={handleFetchSuggestions} isLoading={loading} disabled={!profileText.trim() || !isValidObjectId}>
           <RefreshCw className="mr-1.5 h-4 w-full shrink-0" />
           Fetch Recommendations
         </Button>
@@ -111,6 +121,13 @@ export function LinkedinOptimizer() {
                 Fetch and evaluate suggestions matching current target career benchmarks.
               </p>
             </div>
+
+            {!isValidObjectId && (
+              <div className="flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/5 p-3.5 text-xs text-destructive">
+                <AlertCircle className="h-4.5 w-4.5 shrink-0" />
+                <p className="font-semibold">Please upload your resume first on the Resume page. LinkedIn optimization requires resume context.</p>
+              </div>
+            )}
             
             <div className="space-y-1.5 pt-2">
               <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
@@ -125,7 +142,7 @@ export function LinkedinOptimizer() {
               />
             </div>
 
-            <Button className="w-full" size="sm" onClick={handleFetchSuggestions} isLoading={loading} disabled={!profileText.trim()}>
+            <Button className="w-full" size="sm" onClick={handleFetchSuggestions} isLoading={loading} disabled={!profileText.trim() || !isValidObjectId}>
               Run Optimizer Analysis
             </Button>
           </CardContent>
