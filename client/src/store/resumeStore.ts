@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface AtsReportData {
   score: number;
@@ -25,25 +26,33 @@ interface ResumeState {
   clearResumeData: () => void;
 }
 
-export const useResumeStore = create<ResumeState>((set) => ({
-  resumeId: null,
-  reportId: null,
-  structuredResume: null,
-  atsReport: null,
-  setResumeData: (data) =>
-    set({
-      resumeId: data.ids.resumeId,
-      reportId: data.ids.reportId,
-      structuredResume: data.structuredResume,
-      atsReport: data.ats,
-    }),
-  clearResumeData: () =>
-    set({
+export const useResumeStore = create<ResumeState>()(
+  persist(
+    (set) => ({
       resumeId: null,
       reportId: null,
       structuredResume: null,
       atsReport: null,
+      setResumeData: (data) =>
+        set({
+          resumeId: data.ids.resumeId,
+          reportId: data.ids.reportId,
+          structuredResume: data.structuredResume,
+          atsReport: data.ats,
+        }),
+      clearResumeData: () =>
+        set({
+          resumeId: null,
+          reportId: null,
+          structuredResume: null,
+          atsReport: null,
+        }),
     }),
-}));
+    {
+      name: 'ai-career-twin-resume',
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+);
 
 export default useResumeStore;

@@ -7,6 +7,7 @@
 import { LayoutDashboard, FileText, MessageSquare, Globe, Settings, X, GraduationCap, Sparkles, Terminal } from 'lucide-react';
 import { useUIStore } from '../../store/uiStore';
 import { type ComponentType } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 interface NavItem {
   name: string;
@@ -27,8 +28,9 @@ const navItems: NavItem[] = [
 
 export function Sidebar() {
   const { sidebarOpen, setSidebar } = useUIStore();
+  const location = useLocation();
 
-  const activeHref = window.location.pathname; // Simulated path selection for standalone route integrations
+  const activeHref = location.pathname;
 
   return (
     <>
@@ -67,9 +69,9 @@ export function Sidebar() {
             const isActive = activeHref === item.href;
 
             return (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
+                to={item.href}
                 className={`flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-xs font-semibold tracking-wide transition-all duration-200 select-none
                   ${isActive 
                     ? 'bg-primary text-primary-foreground shadow-sm shadow-primary/20' 
@@ -79,7 +81,7 @@ export function Sidebar() {
               >
                 <Icon className="h-4 w-4 shrink-0" />
                 {item.name}
-              </a>
+              </Link>
             );
           })}
         </nav>
