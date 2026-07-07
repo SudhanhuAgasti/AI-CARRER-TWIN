@@ -157,7 +157,7 @@ class ShardManager {
         resumeText: resumeText,
         liveMarketJobs: [jobDescription]
       });
-      setTelemetryResult(response.data.analysis);
+      setTelemetryResult(response.data.telemetry || response.data.analysis);
       addToast({
         type: 'success',
         title: 'Telemetry Scan Complete',
