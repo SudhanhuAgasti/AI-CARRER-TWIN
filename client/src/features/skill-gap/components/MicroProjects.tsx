@@ -68,12 +68,15 @@ export function MicroProjects({ selectedRoleId }: MicroProjectsProps) {
     }
   };
 
-  const startSandbox = (projTitle: string) => {
+  const startSandbox = (projTitle: string, link: string) => {
     addToast({
       type: 'info',
       title: 'Launching Sandbox Container',
       message: `Spanning isolated execution environments for project "${projTitle}"...`,
     });
+    setTimeout(() => {
+      window.location.href = link;
+    }, 1200);
   };
 
   return (
@@ -112,7 +115,7 @@ export function MicroProjects({ selectedRoleId }: MicroProjectsProps) {
                 <span className="text-[10px] font-bold text-muted-foreground">
                   Est. time: {proj.expectedDuration}
                 </span>
-                <Button size="sm" className="h-8 text-[11px]" onClick={() => startSandbox(proj.title)}>
+                <Button size="sm" className="h-8 text-[11px]" onClick={() => startSandbox(proj.title, proj.sandboxLink)}>
                   Start Coding Task
                 </Button>
               </div>

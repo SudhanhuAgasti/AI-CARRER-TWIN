@@ -25,6 +25,8 @@ const InterviewWorkspace = lazy(() => import('../features/interview/pages/Interv
 const SkillGapWorkspace = lazy(() => import('../features/skill-gap/pages/SkillGapWorkspace'));
 const LinkedinOptimizer = lazy(() => import('../features/linkedin/pages/LinkedinOptimizer'));
 const SettingsControl = lazy(() => import('../features/settings/pages/SettingsControl'));
+const CopilotWorkspace = lazy(() => import('../features/copilot/pages/CopilotWorkspace'));
+const CodeSandbox = lazy(() => import('../features/sandbox/pages/CodeSandbox'));
 
 // Lazy page skeletons
 function PageLoader() {
@@ -144,6 +146,24 @@ export function AppRoutes() {
             element={
               <ProtectedRoute>
                 <SettingsControl />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/copilot"
+            element={
+              <ProtectedRoute>
+                <CopilotWorkspace />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/sandbox"
+            element={
+              <ProtectedRoute>
+                <CodeSandbox />
               </ProtectedRoute>
             }
           />

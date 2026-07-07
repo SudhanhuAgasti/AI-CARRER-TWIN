@@ -4,7 +4,7 @@
  * @author Senior Staff Frontend Engineer (9+ years experience)
  */
 
-import { LayoutDashboard, FileText, MessageSquare, Globe, Settings, X, GraduationCap } from 'lucide-react';
+import { LayoutDashboard, FileText, MessageSquare, Globe, Settings, X, GraduationCap, Sparkles, Terminal } from 'lucide-react';
 import { useUIStore } from '../../store/uiStore';
 import { type ComponentType } from 'react';
 
@@ -20,6 +20,8 @@ const navItems: NavItem[] = [
   { name: 'Skill Gap & Planner', href: '/skill-gap', icon: GraduationCap },
   { name: 'Mock Interviews', href: '/interview', icon: MessageSquare },
   { name: 'LinkedIn Optimizer', href: '/linkedin', icon: Globe },
+  { name: 'Career Copilot', href: '/copilot', icon: Sparkles },
+  { name: 'Coding Sandbox', href: '/sandbox', icon: Terminal },
   { name: 'Settings', href: '/settings', icon: Settings },
 ];
 
