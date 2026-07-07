@@ -1,30 +1,25 @@
-/**
- * @file ResumeAnalyzer.tsx
- * @description Parent Resume parser workspace handling tabs switcher, uploaders, and reports.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
-
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../../../components/ui/Card';
 import ResumeUploader from '../components/ResumeUploader';
 import AtsReport from '../components/AtsReport';
 import ResumeMorpher from '../components/ResumeMorpher';
 import { Cpu, CheckSquare } from 'lucide-react';
+import { useResumeStore } from '../../../store/resumeStore';
 
 type ActiveTab = 'ats' | 'morpher';
 
 export function ResumeAnalyzer() {
-  const [resumeUploaded, setResumeUploaded] = useState(false);
-  const [fileName, setFileName] = useState('');
+  const { resumeId, structuredResume, clearResumeData } = useResumeStore();
+  const resumeUploaded = !!(resumeId || structuredResume);
+  const [fileName, setFileName] = useState(structuredResume?.name ? `${structuredResume.name}_Resume` : 'Uploaded Resume');
   const [activeTab, setActiveTab] = useState<ActiveTab>('ats');
 
   const handleUploadSuccess = (uploadedFileName: string, _content: string) => {
     setFileName(uploadedFileName);
-    setResumeUploaded(true);
   };
 
   const handleReset = () => {
-    setResumeUploaded(false);
+    clearResumeData();
     setFileName('');
   };
 

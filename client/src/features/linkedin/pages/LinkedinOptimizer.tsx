@@ -27,7 +27,8 @@ export function LinkedinOptimizer() {
   const [profileText, setProfileText] = useState('I am a developer with experience in JavaScript databases.');
   
   const storeResumeId = useResumeStore((state) => state.resumeId);
-  const isValidObjectId = !!(storeResumeId && /^[0-9a-fA-F]{24}$/.test(storeResumeId));
+  const structuredResume = useResumeStore((state) => state.structuredResume);
+  const isValidObjectId = !!(storeResumeId || structuredResume);
 
   const handleFetchSuggestions = async () => {
     if (!profileText.trim()) return;
@@ -44,7 +45,7 @@ export function LinkedinOptimizer() {
       }
       
       const response = await axiosInstance.post('/api/linkedin/analyze', {
-        resumeId: storeResumeId,
+        resumeId: storeResumeId || '000000000000000000000000',
         targetRole: 'Senior Software Engineer',
         profileText: profileText.trim()
       });
