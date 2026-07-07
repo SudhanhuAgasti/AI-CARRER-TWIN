@@ -51,18 +51,27 @@ export function LinkedinOptimizer() {
       });
 
       const analysis = response.data;
+      
+      const headlineStr = typeof analysis.headlineCheck === 'object' && analysis.headlineCheck 
+        ? `Strength: ${analysis.headlineCheck.strength}\n\nSuggestions:\n${analysis.headlineCheck.suggestions?.map((s: string) => `• ${s}`).join('\n') || ''}`
+        : String(analysis.headlineCheck || 'Senior Engineer');
+
+      const summaryStr = typeof analysis.summaryCheck === 'object' && analysis.summaryCheck
+        ? `Quality Score: ${analysis.summaryCheck.qualityScore}/10\n\nAnalysis:\n${analysis.summaryCheck.analysis}\n\nMissing Keywords:\n${analysis.summaryCheck.missingKeywords?.join(', ') || 'None'}`
+        : String(analysis.summaryCheck || 'Optimized Summary Details');
+
       const mappedSuggestions: Suggestion[] = [
         {
           id: 's-1',
           field: 'Profile Headline',
           original: profileText.slice(0, 50) + '...',
-          suggestion: analysis.headlineCheck || 'Senior Engineer',
+          suggestion: headlineStr,
         },
         {
           id: 's-2',
           field: 'Summary Recommendation',
           original: profileText,
-          suggestion: analysis.summaryCheck || 'Optimized Summary Details',
+          suggestion: summaryStr,
         }
       ];
 
