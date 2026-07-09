@@ -1,7 +1,6 @@
 /**
  * @file axiosInstance.ts
  * @description Standard Axios HTTP client instance configured with authorization headers and JWT auto-refresh interceptors.
- * @author Senior Staff Frontend Engineer (9+ years experience)
  */
 
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
@@ -100,11 +99,11 @@ axiosInstance.interceptors.response.use(
           }
 
           processQueue(null, newToken);
-          
+
           if (originalRequest.headers) {
             originalRequest.headers.Authorization = `Bearer ${newToken}`;
           }
-          
+
           return axiosInstance(originalRequest);
         } else {
           throw new Error('Refresh token request rejected by server');

@@ -305,22 +305,47 @@ export function CopilotWorkspace() {
                   {/* Elevator Pitch Result */}
                   {activeTab === 'pitch' && (
                     <div className="space-y-4">
-                      {result['30s'] && (
+                      {(result.pitch30Sec || result['30s']) && (
                         <div className="space-y-1.5 bg-muted/30 p-3 rounded-lg border border-border/40">
                           <div className="flex justify-between items-center">
                             <span className="font-bold text-foreground">30-Second Elevator Pitch</span>
-                            <button onClick={() => handleCopy(result['30s'])} className="p-1 hover:text-primary"><ClipboardCopy className="h-3.5 w-3.5" /></button>
+                            <button onClick={() => handleCopy(result.pitch30Sec || result['30s'])} className="p-1 hover:text-primary"><ClipboardCopy className="h-3.5 w-3.5" /></button>
                           </div>
-                          <p className="text-muted-foreground leading-relaxed italic">&quot;{result['30s']}&quot;</p>
+                          <p className="text-muted-foreground leading-relaxed italic">&quot;{result.pitch30Sec || result['30s']}&quot;</p>
                         </div>
                       )}
-                      {result['60s'] && (
+                      {(result.pitch60Sec || result['60s']) && (
                         <div className="space-y-1.5 bg-muted/30 p-3 rounded-lg border border-border/40">
                           <div className="flex justify-between items-center">
                             <span className="font-bold text-foreground">60-Second Extended Pitch</span>
-                            <button onClick={() => handleCopy(result['60s'])} className="p-1 hover:text-primary"><ClipboardCopy className="h-3.5 w-3.5" /></button>
+                            <button onClick={() => handleCopy(result.pitch60Sec || result['60s'])} className="p-1 hover:text-primary"><ClipboardCopy className="h-3.5 w-3.5" /></button>
                           </div>
-                          <p className="text-muted-foreground leading-relaxed italic">&quot;{result['60s']}&quot;</p>
+                          <p className="text-muted-foreground leading-relaxed italic">&quot;{result.pitch60Sec || result['60s']}&quot;</p>
+                        </div>
+                      )}
+                      {result.pitch2Min && (
+                        <div className="space-y-1.5 bg-muted/30 p-3 rounded-lg border border-border/40">
+                          <div className="flex justify-between items-center">
+                            <span className="font-bold text-foreground">2-Minute Comprehensive Pitch</span>
+                            <button onClick={() => handleCopy(result.pitch2Min)} className="p-1 hover:text-primary"><ClipboardCopy className="h-3.5 w-3.5" /></button>
+                          </div>
+                          <p className="text-muted-foreground leading-relaxed italic">&quot;{result.pitch2Min}&quot;</p>
+                        </div>
+                      )}
+                      {result.keyHookStatement && (
+                        <div className="space-y-1.5 bg-primary/5 p-3 rounded-lg border border-primary/20">
+                          <span className="font-bold text-foreground block">Key Opening Hook</span>
+                          <p className="text-muted-foreground leading-relaxed italic">&quot;{result.keyHookStatement}&quot;</p>
+                        </div>
+                      )}
+                      {result.vocalDeliveryTips && result.vocalDeliveryTips.length > 0 && (
+                        <div className="space-y-1.5 bg-muted/30 p-3 rounded-lg border border-border/40">
+                          <span className="font-bold text-foreground block">Vocal Delivery Tips</span>
+                          <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
+                            {result.vocalDeliveryTips.map((tip: string, idx: number) => (
+                              <li key={idx}>{tip}</li>
+                            ))}
+                          </ul>
                         </div>
                       )}
                     </div>
@@ -329,22 +354,38 @@ export function CopilotWorkspace() {
                   {/* Outreach Result */}
                   {activeTab === 'outreach' && (
                     <div className="space-y-4">
-                      {result.linkedInInMail && (
+                      {result.linkedInInMailBody && (
                         <div className="space-y-1.5 bg-muted/30 p-3 rounded-lg border border-border/40">
-                          <div className="flex justify-between items-center">
-                            <span className="font-bold text-foreground">LinkedIn InMail Template</span>
-                            <button onClick={() => handleCopy(result.linkedInInMail)} className="p-1 hover:text-primary"><ClipboardCopy className="h-3.5 w-3.5" /></button>
+                          <div className="flex justify-between items-center border-b border-border/40 pb-1.5 mb-1.5">
+                            <span className="font-bold text-foreground">LinkedIn InMail</span>
+                            <button onClick={() => handleCopy(`Subject: ${result.linkedInInMailSubject}\n\n${result.linkedInInMailBody}`)} className="p-1 hover:text-primary" title="Copy Subject & Body"><ClipboardCopy className="h-3.5 w-3.5" /></button>
                           </div>
-                          <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{result.linkedInInMail}</p>
+                          {result.linkedInInMailSubject && (
+                            <p className="text-foreground font-semibold mb-1">Subject: {result.linkedInInMailSubject}</p>
+                          )}
+                          <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{result.linkedInInMailBody}</p>
                         </div>
                       )}
-                      {result.coldEmail && (
+                      {result.coldEmailBody && (
                         <div className="space-y-1.5 bg-muted/30 p-3 rounded-lg border border-border/40">
-                          <div className="flex justify-between items-center">
+                          <div className="flex justify-between items-center border-b border-border/40 pb-1.5 mb-1.5">
                             <span className="font-bold text-foreground">Cold Email Template</span>
-                            <button onClick={() => handleCopy(result.coldEmail)} className="p-1 hover:text-primary"><ClipboardCopy className="h-3.5 w-3.5" /></button>
+                            <button onClick={() => handleCopy(`Subject: ${result.coldEmailSubject}\n\n${result.coldEmailBody}`)} className="p-1 hover:text-primary" title="Copy Subject & Body"><ClipboardCopy className="h-3.5 w-3.5" /></button>
                           </div>
-                          <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{result.coldEmail}</p>
+                          {result.coldEmailSubject && (
+                            <p className="text-foreground font-semibold mb-1">Subject: {result.coldEmailSubject}</p>
+                          )}
+                          <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{result.coldEmailBody}</p>
+                        </div>
+                      )}
+                      {result.outreachStrategyTips && result.outreachStrategyTips.length > 0 && (
+                        <div className="space-y-1.5 bg-muted/30 p-3 rounded-lg border border-border/40">
+                          <span className="font-bold text-foreground block">Outreach Strategy Tips</span>
+                          <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
+                            {result.outreachStrategyTips.map((tip: string, idx: number) => (
+                              <li key={idx}>{tip}</li>
+                            ))}
+                          </ul>
                         </div>
                       )}
                     </div>
@@ -355,32 +396,75 @@ export function CopilotWorkspace() {
                     <div className="space-y-4">
                       {result.benchmarks && (
                         <div className="space-y-1.5 bg-emerald-500/5 p-3.5 rounded-lg border border-emerald-500/20">
-                          <span className="font-bold text-foreground block">Compensation Benchmarks ({result.benchmarks.percentile || '75th'} Percentile)</span>
-                          <div className="grid grid-cols-2 gap-4 mt-2">
+                          <span className="font-bold text-foreground block">Compensation Benchmarks ({result.benchmarks.currency || 'USD'})</span>
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2 border-b border-border/40 pb-3">
                             <div>
-                              <span className="text-[10px] text-muted-foreground uppercase block">Base Range</span>
-                              <span className="text-sm font-bold text-foreground">{result.benchmarks.baseSalaryRange}</span>
+                              <span className="text-[10px] text-muted-foreground uppercase block">25th Percentile</span>
+                              <span className="text-xs font-bold text-foreground">{result.benchmarks.percentile25?.toLocaleString()}</span>
                             </div>
-                            {result.benchmarks.equityRange && (
-                              <div>
-                                <span className="text-[10px] text-muted-foreground uppercase block">Equity Range</span>
-                                <span className="text-sm font-bold text-foreground">{result.benchmarks.equityRange}</span>
-                              </div>
-                            )}
+                            <div>
+                              <span className="text-[10px] text-muted-foreground uppercase block">50th (Median)</span>
+                              <span className="text-xs font-bold text-foreground">{result.benchmarks.percentile50?.toLocaleString()}</span>
+                            </div>
+                            <div>
+                              <span className="text-[10px] text-muted-foreground uppercase block">75th Percentile</span>
+                              <span className="text-xs font-bold text-foreground">{result.benchmarks.percentile75?.toLocaleString()}</span>
+                            </div>
+                            <div>
+                              <span className="text-[10px] text-muted-foreground uppercase block">90th Percentile</span>
+                              <span className="text-xs font-bold text-foreground">{result.benchmarks.percentile90?.toLocaleString()}</span>
+                            </div>
                           </div>
+                          {result.benchmarks.breakdownText && (
+                            <p className="text-[11px] text-muted-foreground mt-2 leading-relaxed">{result.benchmarks.breakdownText}</p>
+                          )}
                         </div>
                       )}
                       
-                      {result.objectionHandlingScripts && (
+                      {result.negotiationStrategyBlueprint && result.negotiationStrategyBlueprint.length > 0 && (
+                        <div className="space-y-1.5 bg-muted/30 p-3 rounded-lg border border-border/40">
+                          <span className="font-bold text-foreground block">Strategic Steps Blueprint</span>
+                          <ul className="list-decimal pl-4 space-y-1 text-muted-foreground">
+                            {result.negotiationStrategyBlueprint.map((step: string, idx: number) => (
+                              <li key={idx}>{step}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {result.counterOfferEmails && (
+                        <div className="space-y-4">
+                          {result.counterOfferEmails.politeIncreaseEmail && (
+                            <div className="space-y-1.5 bg-muted/30 p-3 rounded-lg border border-border/40">
+                              <div className="flex justify-between items-center border-b border-border/40 pb-1.5 mb-1.5">
+                                <span className="font-bold text-foreground">Counter Offer Email (Polite Request)</span>
+                                <button onClick={() => handleCopy(result.counterOfferEmails.politeIncreaseEmail)} className="p-1 hover:text-primary"><ClipboardCopy className="h-3.5 w-3.5" /></button>
+                              </div>
+                              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{result.counterOfferEmails.politeIncreaseEmail}</p>
+                            </div>
+                          )}
+                          {result.counterOfferEmails.competingOfferEmail && (
+                            <div className="space-y-1.5 bg-muted/30 p-3 rounded-lg border border-border/40">
+                              <div className="flex justify-between items-center border-b border-border/40 pb-1.5 mb-1.5">
+                                <span className="font-bold text-foreground">Counter Offer Email (Using Competing Offer)</span>
+                                <button onClick={() => handleCopy(result.counterOfferEmails.competingOfferEmail)} className="p-1 hover:text-primary"><ClipboardCopy className="h-3.5 w-3.5" /></button>
+                              </div>
+                              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{result.counterOfferEmails.competingOfferEmail}</p>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      
+                      {result.negotiationScripts && result.negotiationScripts.length > 0 && (
                         <div className="space-y-2">
                           <span className="font-bold text-foreground block">Objection Objection-Handling Scripts</span>
-                          {result.objectionHandlingScripts.map((script: any, idx: number) => (
+                          {result.negotiationScripts.map((script: any, idx: number) => (
                             <div key={idx} className="bg-muted/30 p-3 rounded-lg border border-border/40 space-y-1">
                               <div className="flex justify-between items-center">
                                 <span className="font-bold text-foreground">{script.scenario || `Script ${idx+1}`}</span>
-                                <button onClick={() => handleCopy(script.script)} className="p-1 hover:text-primary"><ClipboardCopy className="h-3.5 w-3.5" /></button>
+                                <button onClick={() => handleCopy(script.spokenResponse)} className="p-1 hover:text-primary"><ClipboardCopy className="h-3.5 w-3.5" /></button>
                               </div>
-                              <p className="text-muted-foreground leading-relaxed italic">&quot;{script.script}&quot;</p>
+                              <p className="text-muted-foreground leading-relaxed italic">&quot;{script.spokenResponse}&quot;</p>
                             </div>
                           ))}
                         </div>
