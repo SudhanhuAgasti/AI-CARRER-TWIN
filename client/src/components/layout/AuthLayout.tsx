@@ -1,7 +1,6 @@
 /**
  * @file AuthLayout.tsx
  * @description Authentication split layout component for Login, Register, and recovery screens.
- * @author Senior Staff Frontend Engineer (9+ years experience)
  */
 
 import React from 'react';
@@ -13,13 +12,13 @@ interface AuthLayoutProps {
 export function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <div className="grid min-h-screen grid-cols-1 overflow-hidden lg:grid-cols-12 bg-background text-foreground">
-      
+
       {/* Left Column: Visual branding panels (Visible only on desktop screens) */}
       <div className="hidden lg:flex lg:col-span-5 flex-col justify-between bg-card p-12 border-r border-border/80 relative overflow-hidden select-none">
-        
+
         {/* Subtle decorative background grid pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--color-primary)/10,transparent_50%)]" />
-        
+
         <div className="relative z-10 flex items-center gap-2">
           <span className="font-bold tracking-tight text-lg bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-transparent">
             AI Career Twin

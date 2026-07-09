@@ -1,8 +1,6 @@
 /**
  * @file ProtectedRoute.tsx
- * @description Route guard requiring user authentication to access children.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Route guard requiring user authentication to access children */
 
 import React from 'react';
 import { Navigate } from 'react-router-dom';

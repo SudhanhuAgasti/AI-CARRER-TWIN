@@ -1,8 +1,7 @@
 /**
  * @file auth.validation.ts
- * @description Zod schema definitions for auth forms.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Zod schema definitions for auth forms
+  */
 
 import { z } from 'zod';
 

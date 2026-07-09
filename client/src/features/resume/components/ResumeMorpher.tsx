@@ -1,8 +1,6 @@
 /**
  * @file ResumeMorpher.tsx
- * @description Playground allowing users to select resume bullets and dynamically rephrase them.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Playground allowing users to select resume bullets and dynamically rephrase them */
 
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../../../components/ui/Card';
@@ -93,7 +91,7 @@ export function ResumeMorpher() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 text-left">
-      
+
       {/* Left Pane: Bullets list & Target JD */}
       <div className="lg:col-span-7 space-y-5">
         <Card>
@@ -107,8 +105,8 @@ export function ResumeMorpher() {
                   key={b.id}
                   onClick={() => setSelectedId(b.id)}
                   className={`w-full rounded-lg border p-4 text-xs font-semibold text-left transition-all leading-relaxed
-                    ${selectedId === b.id 
-                      ? 'border-primary bg-primary/5 text-foreground ring-1 ring-primary' 
+                    ${selectedId === b.id
+                      ? 'border-primary bg-primary/5 text-foreground ring-1 ring-primary'
                       : 'border-border bg-card text-muted-foreground hover:bg-accent/40'
                     }
                   `}
@@ -158,7 +156,7 @@ export function ResumeMorpher() {
               </div>
             ) : (
               <div className="space-y-5 flex-1 flex flex-col justify-between">
-                
+
                 {/* Original bullet */}
                 <div className="space-y-2">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">

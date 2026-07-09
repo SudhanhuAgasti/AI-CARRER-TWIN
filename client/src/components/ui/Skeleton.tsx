@@ -1,8 +1,7 @@
 /**
  * @file Skeleton.tsx
- * @description Pulse loading skeleton placeholder.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Pulse loading skeleton placeholder
+  */
 
 import { type HTMLAttributes } from 'react';
 

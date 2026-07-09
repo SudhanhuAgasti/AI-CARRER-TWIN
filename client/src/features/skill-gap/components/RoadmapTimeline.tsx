@@ -1,8 +1,6 @@
 /**
  * @file RoadmapTimeline.tsx
- * @description Interactive milestone roadmap nodes tracker.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Interactive milestone roadmap nodes tracker */
 
 import { useState, useEffect } from 'react';
 import { CheckCircle2, Circle, ChevronRight, BookOpen, ExternalLink } from 'lucide-react';
@@ -93,7 +91,7 @@ export function RoadmapTimeline({ selectedRoleId }: RoadmapTimelineProps) {
       try {
         const resumeSkills = useResumeStore.getState().structuredResume?.skills || ['React', 'NodeJS', 'Express'];
         const resumeId = useResumeStore.getState().resumeId || undefined;
-        
+
         const roleMap: Record<string, string> = {
           'role-1': 'fullstack-engineer',
           'role-2': 'backend-engineer',
@@ -166,100 +164,100 @@ export function RoadmapTimeline({ selectedRoleId }: RoadmapTimelineProps) {
         <div className="relative border-l border-border/60 pl-6 ml-3.5 space-y-6">
           {nodes.map((node) => {
             const isActive = activeNodeId === node.id;
-          const isDone = completedNodeIds.includes(node.id);
+            const isDone = completedNodeIds.includes(node.id);
 
-          return (
-            <div
-              key={node.id}
-              onClick={() => setActiveNodeId(node.id)}
-              className="relative cursor-pointer group select-none"
-            >
-              
-              {/* Timeline marker icon */}
-              <div className="absolute -left-9.5 top-1 flex h-7 w-7 items-center justify-center rounded-full bg-background border border-border transition-colors group-hover:border-primary">
-                {isDone ? (
-                  <button onClick={(e) => toggleComplete(e, node.id)} aria-label="Mark incomplete">
-                    <CheckCircle2 className="h-4.5 w-4.5 text-emerald-500" />
-                  </button>
-                ) : (
-                  <button onClick={(e) => toggleComplete(e, node.id)} aria-label="Mark complete">
-                    <Circle className="h-4.5 w-4.5 text-muted-foreground group-hover:text-primary" />
-                  </button>
-                )}
-              </div>
+            return (
+              <div
+                key={node.id}
+                onClick={() => setActiveNodeId(node.id)}
+                className="relative cursor-pointer group select-none"
+              >
 
-              <div className="space-y-2">
-                {/* Node Summary details */}
-                <div className="flex items-center justify-between gap-4">
-                  <div className="space-y-0.5">
-                    <span className="text-[10px] font-bold text-primary uppercase tracking-wider block">
-                      {node.phase} ({node.duration})
-                    </span>
-                    <h4 className="text-sm font-bold text-foreground leading-normal block group-hover:text-primary transition-colors">
-                      {node.title}
-                    </h4>
-                  </div>
-                  <ChevronRight
-                    className={`h-4.5 w-4.5 text-muted-foreground transition-transform duration-200 shrink-0
-                      ${isActive ? 'rotate-90 text-primary' : ''}
-                    `}
-                  />
+                {/* Timeline marker icon */}
+                <div className="absolute -left-9.5 top-1 flex h-7 w-7 items-center justify-center rounded-full bg-background border border-border transition-colors group-hover:border-primary">
+                  {isDone ? (
+                    <button onClick={(e) => toggleComplete(e, node.id)} aria-label="Mark incomplete">
+                      <CheckCircle2 className="h-4.5 w-4.5 text-emerald-500" />
+                    </button>
+                  ) : (
+                    <button onClick={(e) => toggleComplete(e, node.id)} aria-label="Mark complete">
+                      <Circle className="h-4.5 w-4.5 text-muted-foreground group-hover:text-primary" />
+                    </button>
+                  )}
                 </div>
 
-                {/* Collapsible active node body details */}
-                {isActive && (
-                  <div className="rounded-lg bg-card border border-border p-4.5 space-y-4.5 mt-2 animate-in fade-in slide-in-from-top-1 duration-150">
-                    <p className="text-xs text-muted-foreground leading-relaxed">
-                      {node.description}
-                    </p>
-
-                    {/* Skill tags */}
-                    <div className="space-y-1.5">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
-                        Core Skill Benchmarks
+                <div className="space-y-2">
+                  {/* Node Summary details */}
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="space-y-0.5">
+                      <span className="text-[10px] font-bold text-primary uppercase tracking-wider block">
+                        {node.phase} ({node.duration})
                       </span>
-                      <div className="flex flex-wrap gap-1.5">
-                        {node.skills.map((skill) => (
-                          <span
-                            key={skill}
-                            className="rounded bg-muted px-2 py-0.5 text-[10px] font-semibold text-foreground border border-border/40"
-                          >
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
+                      <h4 className="text-sm font-bold text-foreground leading-normal block group-hover:text-primary transition-colors">
+                        {node.title}
+                      </h4>
                     </div>
+                    <ChevronRight
+                      className={`h-4.5 w-4.5 text-muted-foreground transition-transform duration-200 shrink-0
+                      ${isActive ? 'rotate-90 text-primary' : ''}
+                    `}
+                    />
+                  </div>
 
-                    {/* Study resources links */}
-                    {node.links.length > 0 && (
+                  {/* Collapsible active node body details */}
+                  {isActive && (
+                    <div className="rounded-lg bg-card border border-border p-4.5 space-y-4.5 mt-2 animate-in fade-in slide-in-from-top-1 duration-150">
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        {node.description}
+                      </p>
+
+                      {/* Skill tags */}
                       <div className="space-y-1.5">
                         <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
-                          Curated Material
+                          Core Skill Benchmarks
                         </span>
-                        <div className="flex flex-col gap-1.5">
-                          {node.links.map((link) => (
-                            <a
-                              key={link.name}
-                              href={link.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-flex items-center gap-1.5 text-xs text-primary font-semibold hover:underline"
+                        <div className="flex flex-wrap gap-1.5">
+                          {node.skills.map((skill) => (
+                            <span
+                              key={skill}
+                              className="rounded bg-muted px-2 py-0.5 text-[10px] font-semibold text-foreground border border-border/40"
                             >
-                              <BookOpen className="h-3.5 w-3.5" />
-                              {link.name}
-                              <ExternalLink className="h-3 w-3" />
-                            </a>
+                              {skill}
+                            </span>
                           ))}
                         </div>
                       </div>
-                    )}
-                  </div>
-                )}
 
+                      {/* Study resources links */}
+                      {node.links.length > 0 && (
+                        <div className="space-y-1.5">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
+                            Curated Material
+                          </span>
+                          <div className="flex flex-col gap-1.5">
+                            {node.links.map((link) => (
+                              <a
+                                key={link.name}
+                                href={link.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-1.5 text-xs text-primary font-semibold hover:underline"
+                              >
+                                <BookOpen className="h-3.5 w-3.5" />
+                                {link.name}
+                                <ExternalLink className="h-3 w-3" />
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
         </div>
       )}
     </div>

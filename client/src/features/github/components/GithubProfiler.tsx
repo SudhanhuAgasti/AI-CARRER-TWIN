@@ -1,8 +1,6 @@
 /**
  * @file GithubProfiler.tsx
- * @description GitHub AST inspector, repo list selector, and complexity metrics.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description GitHub AST inspector, repo list selector, and complexity metrics. */
 
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../../../components/ui/Card';
@@ -36,7 +34,7 @@ export function GithubProfiler() {
     try {
       const response = await axiosInstance.post('/api/github/analyze', { username: username.trim() });
       const data = response.data;
-      
+
       const mappedRepos: Repository[] = (data.heuristics?.repos || []).map((repoName: string) => ({
         name: repoName,
         stars: 0,
@@ -101,7 +99,7 @@ export function GithubProfiler() {
           </Button>
         </div>
       </CardHeader>
-      
+
       <CardContent className="space-y-6 pt-6">
         {repos.length === 0 ? (
           <div className="text-center py-10 text-muted-foreground space-y-2 select-none">
@@ -110,7 +108,7 @@ export function GithubProfiler() {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
+
             {/* Left list (Repos select) */}
             <div className="lg:col-span-5 space-y-2">
               <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
@@ -138,7 +136,7 @@ export function GithubProfiler() {
             {/* Right: Selected Repo details */}
             {selectedRepo && (
               <div className="lg:col-span-7 space-y-5 rounded-xl border border-border/80 bg-accent/10 p-5">
-                
+
                 {/* Meta stats */}
                 <div className="flex items-center justify-between gap-4 flex-wrap pb-3.5 border-b border-border/40">
                   <h4 className="text-sm font-bold text-foreground truncate">{selectedRepo.name}</h4>
@@ -172,7 +170,7 @@ export function GithubProfiler() {
                   <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block text-left">
                     Language Distribution
                   </span>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
                     <div className="h-[120px] w-full flex items-center justify-center">
                       <ResponsiveContainer width="100%" height="100%">

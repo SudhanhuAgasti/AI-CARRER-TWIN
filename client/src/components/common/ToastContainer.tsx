@@ -1,7 +1,6 @@
 /**
  * @file ToastContainer.tsx
  * @description Toast notifications stack container overlay.
- * @author Senior Staff Frontend Engineer (9+ years experience)
  */
 
 

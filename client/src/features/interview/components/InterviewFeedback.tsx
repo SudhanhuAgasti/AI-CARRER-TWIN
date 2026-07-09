@@ -1,8 +1,6 @@
 /**
  * @file InterviewFeedback.tsx
- * @description Mock Interview session evaluation feedback details.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Mock Interview session evaluation feedback details */
 
 import { Card, CardContent } from '../../../components/ui/Card';
 import Button from '../../../components/ui/Button';
@@ -27,19 +25,19 @@ export function InterviewFeedback({ onRestart }: FeedbackProps) {
     candidateResponse: ev.answer,
     suggestedScript: ev.feedback || 'Try incorporating more structured metrics and clear API definitions.',
   })) || [
-    {
-      question: 'How would you design a stateless compilation verification pipeline that signs log telemetry securely?',
-      candidateResponse: 'I would write a cryptographically signed HMAC token payload matching client telemetry configurations, validating container latency records on a stateless endpoint.',
-      suggestedScript: 'Utilize Node.js crypto timingSafeEqual to avoid timing breaches. Wrap process latency and container metadata logs inside an HMAC-SHA256 signature payload. The endpoint verifies logs statelessly by recalculating signature hashes.',
-    },
-  ];
+      {
+        question: 'How would you design a stateless compilation verification pipeline that signs log telemetry securely?',
+        candidateResponse: 'I would write a cryptographically signed HMAC token payload matching client telemetry configurations, validating container latency records on a stateless endpoint.',
+        suggestedScript: 'Utilize Node.js crypto timingSafeEqual to avoid timing breaches. Wrap process latency and container metadata logs inside an HMAC-SHA256 signature payload. The endpoint verifies logs statelessly by recalculating signature hashes.',
+      },
+    ];
 
   return (
     <div className="space-y-6 text-left">
-      
+
       {/* Overview evaluation cards */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
-        
+
         {/* Left Score Gauge */}
         <Card className="md:col-span-4 flex flex-col justify-center items-center p-6 text-center">
           <CardContent className="space-y-4 pt-6">
@@ -65,7 +63,7 @@ export function InterviewFeedback({ onRestart }: FeedbackProps) {
               <Award className="h-4.5 w-4.5 text-primary" />
               Evaluation Metrics Breakdown
             </h3>
-            
+
             <div className="space-y-4.5">
               {scores.map((score, idx) => (
                 <div key={idx} className="flex items-center justify-between border-b border-border/40 pb-3 last:border-0 last:pb-0">
@@ -91,7 +89,7 @@ export function InterviewFeedback({ onRestart }: FeedbackProps) {
                   </span>
                   <p className="text-xs font-bold text-foreground leading-relaxed">{item.question}</p>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="space-y-1.5">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1">

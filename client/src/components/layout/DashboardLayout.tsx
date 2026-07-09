@@ -1,8 +1,6 @@
 /**
  * @file DashboardLayout.tsx
- * @description Master layout wrapper for authenticated user dashboard pages.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Master layout wrapper for authenticated user dashboard pages */
 
 import React from 'react';
 import Navbar from './Navbar';

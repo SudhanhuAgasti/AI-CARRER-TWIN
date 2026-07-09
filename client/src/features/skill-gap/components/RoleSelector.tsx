@@ -1,8 +1,6 @@
 /**
  * @file RoleSelector.tsx
- * @description Target role selection drop-down selector.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Target role selection drop-down selector */
 
 import { Briefcase, ChevronDown } from 'lucide-react';
 
@@ -42,18 +40,18 @@ export function RoleSelector({ selectedRoleId, onRoleSelect }: RoleSelectorProps
             </option>
           ))}
         </select>
-        
+
         {/* Left Icon decoration */}
         <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
           <Briefcase className="h-4 w-4" />
         </div>
-        
+
         {/* Right Arrow decoration */}
         <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
           <ChevronDown className="h-4 w-4" />
         </div>
       </div>
-      
+
       <p className="text-[10px] text-muted-foreground leading-relaxed">
         Roadmaps, target skills benchmarks, study planners, and micro-projects will adjust automatically based on this selection.
       </p>

@@ -1,8 +1,6 @@
 /**
  * @file ResumeUploader.tsx
- * @description Drag-and-drop file uploader component with state variables.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Drag-and-drop file uploader component with state variables */
 
 import { useState, useRef } from 'react';
 import { axiosInstance } from '../../../api/axiosInstance';
@@ -53,7 +51,7 @@ export function ResumeUploader({ onUploadSuccess }: ResumeUploaderProps) {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       validateAndProcessFile(e.dataTransfer.files[0]);
     }
@@ -78,7 +76,7 @@ export function ResumeUploader({ onUploadSuccess }: ResumeUploaderProps) {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      
+
       const response = await axiosInstance.post('/api/resume/analyze', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -87,7 +85,7 @@ export function ResumeUploader({ onUploadSuccess }: ResumeUploaderProps) {
 
       // Save analysis results to Zustand store
       useResumeStore.getState().setResumeData(response.data);
-      
+
       onUploadSuccess(file.name, JSON.stringify(response.data.structuredResume));
     } catch (err: any) {
       setError(err.response?.data?.message || 'Error parsing resume. Please check if backend is running.');

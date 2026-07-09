@@ -1,8 +1,6 @@
 /**
  * @file uiStore.ts
- * @description Zustand global store for client UI configurations, theme states, and system notifications.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Zustand global store for client UI configurations, theme states, and system notifications */
 
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';

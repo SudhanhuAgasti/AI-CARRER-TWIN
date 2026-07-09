@@ -1,8 +1,7 @@
 /**
  * @file Input.tsx
- * @description Styled form input component supporting labels, prefixes, icons, and error message indicators.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Styled form input component supporting labels, prefixes, icons, and error message indicators
+ *  */
 
 import { type InputHTMLAttributes, forwardRef, type ReactNode } from 'react';
 

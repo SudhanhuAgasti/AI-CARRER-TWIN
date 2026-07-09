@@ -1,8 +1,6 @@
 /**
  * @file InterviewChat.tsx
- * @description Active Conversational Interview Chat console with voice telemetry capture hooks.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Active Conversational Interview Chat console with voice telemetry capture hooks. */
 
 import { useState, useEffect, useRef } from 'react';
 import { Mic, MicOff, Send, Clock, VideoOff } from 'lucide-react';
@@ -45,7 +43,7 @@ export function InterviewChat({ settings, onFinish }: InterviewChatProps) {
         const storeResumeId = useResumeStore.getState().resumeId;
         const isValidObjectId = storeResumeId && /^[0-9a-fA-F]{24}$/.test(storeResumeId);
         const resumeId = isValidObjectId ? storeResumeId : undefined;
-        
+
         const normalizeRole = (roleStr: string): string => {
           const str = roleStr.toLowerCase();
           if (str.includes('frontend') || str.includes('front-end')) return 'frontend-engineer';
@@ -60,7 +58,7 @@ export function InterviewChat({ settings, onFinish }: InterviewChatProps) {
           experienceLevel: settings.difficulty,
           maxQuestions: 4
         });
-        
+
         setSessionId(response.data.sessionId);
         setMessages([
           {
@@ -190,7 +188,7 @@ export function InterviewChat({ settings, onFinish }: InterviewChatProps) {
 
   return (
     <div className="flex flex-col h-[600px] border border-border bg-card rounded-xl overflow-hidden text-left shadow-sm">
-      
+
       {/* Active Session Header bar */}
       <div className="flex h-14 items-center justify-between border-b border-border/40 bg-card px-6">
         <div className="flex items-center gap-2">
@@ -199,7 +197,7 @@ export function InterviewChat({ settings, onFinish }: InterviewChatProps) {
             Session: {settings.role} ({settings.difficulty})
           </span>
         </div>
-        
+
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
             <Clock className="h-4 w-4 text-primary" />
@@ -223,8 +221,8 @@ export function InterviewChat({ settings, onFinish }: InterviewChatProps) {
             >
               <div
                 className={`max-w-lg rounded-xl border p-4 text-xs leading-relaxed space-y-1.5
-                  ${isInterviewer 
-                    ? 'bg-card border-border/80 text-foreground rounded-tl-none' 
+                  ${isInterviewer
+                    ? 'bg-card border-border/80 text-foreground rounded-tl-none'
                     : 'bg-primary text-primary-foreground border-primary/20 rounded-tr-none'
                   }
                 `}
@@ -270,8 +268,8 @@ export function InterviewChat({ settings, onFinish }: InterviewChatProps) {
           type="button"
           onClick={toggleRecording}
           className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border transition-all
-            ${isRecording 
-              ? 'border-destructive bg-destructive/10 text-destructive' 
+            ${isRecording
+              ? 'border-destructive bg-destructive/10 text-destructive'
               : 'border-border bg-card hover:bg-accent text-foreground'
             }
           `}

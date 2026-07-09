@@ -1,8 +1,6 @@
 /**
  * @file InterviewWorkspace.tsx
- * @description Parent Mock Interview workspace coordinating setup lobby, live chat session, and feedback scorecards.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Parent Mock Interview workspace coordinating setup lobby, live chat session, and feedback scorecards */
 
 import { useState } from 'react';
 import InterviewLobby from '../components/InterviewLobby';
@@ -40,7 +38,7 @@ export function InterviewWorkspace() {
 
   return (
     <div className="space-y-6 text-left">
-      
+
       {/* Workspace Header */}
       <div className="border-b border-border/40 pb-5">
         <h1 className="text-2xl font-extrabold tracking-tight">AI Mock Interview Simulator</h1>
@@ -53,11 +51,11 @@ export function InterviewWorkspace() {
         {phase === 'lobby' && (
           <InterviewLobby onStart={handleStartSession} />
         )}
-        
+
         {phase === 'session' && (
           <InterviewChat settings={settings} onFinish={handleFinishSession} />
         )}
-        
+
         {phase === 'feedback' && (
           <InterviewFeedback onRestart={handleRestart} />
         )}

@@ -1,7 +1,6 @@
 /**
  * @file Toast.tsx
  * @description Toast notification element with timer-based cleanup hooks.
- * @author Senior Staff Frontend Engineer (9+ years experience)
  */
 
 import { useEffect } from 'react';
@@ -39,7 +38,7 @@ export function Toast({ id, type, title, message, duration = 4000 }: ToastMessag
       role="alert"
     >
       <div className="flex-shrink-0">{icons[type]}</div>
-      
+
       <div className="flex-1 space-y-1 text-left">
         <h4 className="text-xs font-bold text-foreground">{title}</h4>
         {message && <p className="text-[11px] leading-relaxed text-muted-foreground">{message}</p>}

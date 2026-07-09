@@ -1,8 +1,7 @@
 /**
  * @file Card.tsx
- * @description Standard Card layout components for content containment in dashboards.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Standard Card layout components for content containment in dashboards
+ *  */
 
 import { type HTMLAttributes, forwardRef } from 'react';
 

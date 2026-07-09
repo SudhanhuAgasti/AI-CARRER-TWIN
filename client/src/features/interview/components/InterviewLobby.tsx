@@ -1,8 +1,6 @@
 /**
  * @file InterviewLobby.tsx
- * @description Setup lobby for Mock Interview selection parameters.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Setup lobby for Mock Interview selection parameters */
 
 import { useState } from 'react';
 import { ShieldCheck, Video, ArrowRight } from 'lucide-react';
@@ -26,9 +24,9 @@ export function InterviewLobby({ onStart }: InterviewLobbyProps) {
           Interactive Mock Interview Setup
         </CardTitle>
       </CardHeader>
-      
+
       <CardContent className="space-y-5 pt-6">
-        
+
         {/* Role select */}
         <div className="space-y-1.5">
           <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">

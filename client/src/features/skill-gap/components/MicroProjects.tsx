@@ -1,8 +1,6 @@
 /**
  * @file MicroProjects.tsx
- * @description Recommended coding assignments mapping sandbox telemetry.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Recommended coding assignments mapping sandbox telemetry. */
 
 import { Card, CardHeader, CardTitle, CardContent } from '../../../components/ui/Card';
 import Button from '../../../components/ui/Button';
@@ -110,7 +108,7 @@ export function MicroProjects({ selectedRoleId }: MicroProjectsProps) {
               <p className="text-[11px] text-muted-foreground leading-relaxed">
                 {proj.description}
               </p>
-              
+
               <div className="flex items-center justify-between gap-4 pt-2 border-t border-border/40">
                 <span className="text-[10px] font-bold text-muted-foreground">
                   Est. time: {proj.expectedDuration}

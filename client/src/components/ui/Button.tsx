@@ -1,8 +1,7 @@
 /**
  * @file Button.tsx
- * @description Reusable atomic Button component with premium styled variants.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Reusable atomic Button component with premium styled variants
+ *  */
 
 import { type ButtonHTMLAttributes, forwardRef } from 'react';
 
@@ -16,7 +15,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className = '', variant = 'primary', size = 'md', isLoading, disabled, children, ...props }, ref) => {
     // Base classes
     const baseStyles = 'inline-flex items-center justify-center font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 select-none';
-    
+
     // Style variants mapped to Tailwind variables
     const variants = {
       primary: 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm active:scale-[0.98]',

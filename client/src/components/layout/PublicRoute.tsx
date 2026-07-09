@@ -1,8 +1,7 @@
 /**
  * @file PublicRoute.tsx
- * @description Route guard for public guest-only pages (Login, Register).
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Route guard for public guest-only pages (Login, Register)
+  */
 
 import React from 'react';
 import { Navigate } from 'react-router-dom';

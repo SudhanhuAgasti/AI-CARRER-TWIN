@@ -1,8 +1,7 @@
 /**
  * @file Sidebar.tsx
- * @description Collapsible navigation sidebar mapping feature routes.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Collapsible navigation sidebar mapping feature routes
+  */
 
 import { LayoutDashboard, FileText, MessageSquare, Globe, Settings, X, GraduationCap, Sparkles, Terminal } from 'lucide-react';
 import { useUIStore } from '../../store/uiStore';
@@ -73,8 +72,8 @@ export function Sidebar() {
                 key={item.name}
                 to={item.href}
                 className={`flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-xs font-semibold tracking-wide transition-all duration-200 select-none
-                  ${isActive 
-                    ? 'bg-primary text-primary-foreground shadow-sm shadow-primary/20' 
+                  ${isActive
+                    ? 'bg-primary text-primary-foreground shadow-sm shadow-primary/20'
                     : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
                   }
                 `}

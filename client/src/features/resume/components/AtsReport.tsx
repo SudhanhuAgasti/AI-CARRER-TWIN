@@ -1,11 +1,9 @@
 /**
  * @file AtsReport.tsx
- * @description ATS parsing dashboard displaying grade cards, keyword list metrics, and structure reviews.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description ATS parsing dashboard displaying grade cards, keyword list metrics, and structure reviews. */
 
 import { Card, CardContent } from '../../../components/ui/Card';
-import { CheckCircle2, AlertCircle, TrendingUp, Sparkles, BookOpen } from 'lucide-react';
+import { CheckCircle2, AlertCircle, TrendingUp, BookOpen, } from 'lucide-react';
 
 import { useResumeStore } from '../../../store/resumeStore';
 
@@ -15,7 +13,7 @@ interface AtsReportProps {
 
 export function AtsReport({ score: propScore = 80 }: AtsReportProps) {
   const storeAtsReport = useResumeStore((state) => state.atsReport);
-  
+
   const score = storeAtsReport ? storeAtsReport.score : propScore;
   const missingKeywords = storeAtsReport?.missingKeywords || ['TypeScript', 'Kubernetes', 'CI/CD Pipelines', 'GraphQL', 'Tailwind CSS'];
   const matchingKeywords = storeAtsReport?.matchingKeywords || ['React', 'NodeJS', 'MongoDB', 'Express', 'Docker', 'Rest APIs'];
@@ -30,17 +28,17 @@ export function AtsReport({ score: propScore = 80 }: AtsReportProps) {
 
   return (
     <div className="space-y-6">
-      
+
       {/* 2-Column Overview */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
-        
+
         {/* Left: Overall Score Indicator */}
         <Card className="md:col-span-4 flex flex-col justify-center items-center p-6 text-center">
           <CardContent className="space-y-4 pt-6">
             <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
               ATS Overlap Score
             </span>
-            
+
             <div className="relative flex items-center justify-center">
               {/* Radial Score Gauge using SVG */}
               <svg className="w-32 h-32 transform -rotate-90">
@@ -84,7 +82,7 @@ export function AtsReport({ score: propScore = 80 }: AtsReportProps) {
               <TrendingUp className="h-4.5 w-4.5 text-primary" />
               Structural Consistency Checks
             </h3>
-            
+
             <div className="space-y-3">
               {structureChecks.map((check, idx) => (
                 <div key={idx} className="flex items-start gap-3 text-xs leading-normal">
@@ -108,13 +106,11 @@ export function AtsReport({ score: propScore = 80 }: AtsReportProps) {
 
       {/* Grid: Keyword overlaps */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-        
+
         {/* Matching keywords */}
         <Card>
           <CardContent className="pt-6 space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-500 flex items-center gap-1.5">
-              <Sparkles className="h-4 w-4" />
-              Matching Target Keywords ({matchingKeywords.length})
+            <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-500 flex items-center gap-1.5">              Matching Target Keywords ({matchingKeywords.length})
             </h4>
             <div className="flex flex-wrap gap-2">
               {matchingKeywords.map((kw) => (

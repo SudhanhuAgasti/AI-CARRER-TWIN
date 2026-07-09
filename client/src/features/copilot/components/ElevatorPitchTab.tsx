@@ -5,7 +5,7 @@ import { useUIStore } from '../../../store/uiStore';
 import { useResumeStore } from '../../../store/resumeStore';
 import { useAuthStore } from '../../../store/authStore';
 import { axiosInstance } from '../../../api/axiosInstance';
-import { Sparkles, ClipboardCopy } from 'lucide-react';
+import { ClipboardCopy } from 'lucide-react';
 
 interface ElevatorPitchTabProps {
   handleCopy: (text: string) => void;
@@ -98,16 +98,12 @@ export function ElevatorPitchTab({ handleCopy }: ElevatorPitchTabProps) {
       <div className="lg:col-span-7">
         <Card className="h-full min-h-[300px]">
           <CardHeader className="flex flex-row items-center justify-between border-b border-border/40 pb-4">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
-              <Sparkles className="h-4 w-4 text-primary" />
-              Elevator Pitch Recommendations
+            <CardTitle className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">              Elevator Pitch Recommendations
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
             {loading ? (
-              <div className="flex flex-col items-center justify-center py-20 text-xs text-muted-foreground animate-pulse">
-                <Sparkles className="h-8 w-8 mb-2 animate-spin text-primary" />
-                Generating custom suggestions using Gemini LLM...
+              <div className="flex flex-col items-center justify-center py-20 text-xs text-muted-foreground animate-pulse">                Generating custom suggestions using Gemini LLM...
               </div>
             ) : result ? (
               <div className="space-y-4 text-xs">

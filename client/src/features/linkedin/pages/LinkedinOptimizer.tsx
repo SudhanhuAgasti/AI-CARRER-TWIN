@@ -1,8 +1,6 @@
 /**
  * @file LinkedinOptimizer.tsx
- * @description LinkedIn Profile optimizer containing validation lists and copy-paste suggestions.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description LinkedIn Profile optimizer containing validation lists and copy-paste suggestions */
 
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../../../components/ui/Card';
@@ -25,7 +23,7 @@ export function LinkedinOptimizer() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<Suggestion[]>([]);
   const [profileText, setProfileText] = useState('I am a developer with experience in JavaScript databases.');
-  
+
   const storeResumeId = useResumeStore((state) => state.resumeId);
   const structuredResume = useResumeStore((state) => state.structuredResume);
   const isValidObjectId = !!(storeResumeId || structuredResume);
@@ -43,7 +41,7 @@ export function LinkedinOptimizer() {
         setLoading(false);
         return;
       }
-      
+
       const response = await axiosInstance.post('/api/linkedin/analyze', {
         resumeId: storeResumeId || '000000000000000000000000',
         targetRole: 'Senior Software Engineer',
@@ -51,8 +49,8 @@ export function LinkedinOptimizer() {
       });
 
       const analysis = response.data;
-      
-      const headlineStr = typeof analysis.headlineCheck === 'object' && analysis.headlineCheck 
+
+      const headlineStr = typeof analysis.headlineCheck === 'object' && analysis.headlineCheck
         ? `Strength: ${analysis.headlineCheck.strength}\n\nSuggestions:\n${analysis.headlineCheck.suggestions?.map((s: string) => `• ${s}`).join('\n') || ''}`
         : String(analysis.headlineCheck || 'Senior Engineer');
 
@@ -103,7 +101,7 @@ export function LinkedinOptimizer() {
 
   return (
     <div className="space-y-6 text-left">
-      
+
       {/* Workspace Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border/40 pb-5">
         <div className="space-y-1">
@@ -112,7 +110,7 @@ export function LinkedinOptimizer() {
             Improve your search visibility and candidate indexing scores with tailored copy-paste templates.
           </p>
         </div>
-        
+
         <Button size="sm" onClick={handleFetchSuggestions} isLoading={loading} disabled={!profileText.trim() || !isValidObjectId}>
           <RefreshCw className="mr-1.5 h-4 w-full shrink-0" />
           Fetch Recommendations
@@ -138,7 +136,7 @@ export function LinkedinOptimizer() {
                 <p className="font-semibold">Please upload your resume first on the Resume page. LinkedIn optimization requires resume context.</p>
               </div>
             )}
-            
+
             <div className="space-y-1.5 pt-2">
               <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
                 Paste Your Current LinkedIn Summary / Headline
@@ -169,7 +167,7 @@ export function LinkedinOptimizer() {
               </CardHeader>
               <CardContent className="space-y-4 pb-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  
+
                   {/* Before */}
                   <div className="space-y-1.5 text-left">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
@@ -191,7 +189,7 @@ export function LinkedinOptimizer() {
                         {item.suggestion}
                       </div>
                     </div>
-                    
+
                     <Button
                       variant="outline"
                       size="sm"

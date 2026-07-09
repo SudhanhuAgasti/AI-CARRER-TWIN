@@ -5,7 +5,7 @@ import { useUIStore } from '../../../store/uiStore';
 import { useResumeStore } from '../../../store/resumeStore';
 import { useAuthStore } from '../../../store/authStore';
 import { axiosInstance } from '../../../api/axiosInstance';
-import { Sparkles, ClipboardCopy } from 'lucide-react';
+import { ClipboardCopy } from 'lucide-react';
 
 interface CompensationNegotiationTabProps {
   handleCopy: (text: string) => void;
@@ -122,14 +122,12 @@ export function CompensationNegotiationTab({ handleCopy }: CompensationNegotiati
         <Card className="h-full min-h-[300px]">
           <CardHeader className="flex flex-row items-center justify-between border-b border-border/40 pb-4">
             <CardTitle className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
-              <Sparkles className="h-4 w-4 text-primary" />
               Compensation Negotiation Recommendations
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-20 text-xs text-muted-foreground animate-pulse">
-                <Sparkles className="h-8 w-8 mb-2 animate-spin text-primary" />
                 Generating custom suggestions using Gemini LLM...
               </div>
             ) : result ? (
@@ -201,7 +199,7 @@ export function CompensationNegotiationTab({ handleCopy }: CompensationNegotiati
                     {result.negotiationScripts.map((script: any, idx: number) => (
                       <div key={idx} className="bg-muted/30 p-3 rounded-lg border border-border/40 space-y-1">
                         <div className="flex justify-between items-center">
-                          <span className="font-bold text-foreground">{script.scenario || `Script ${idx+1}`}</span>
+                          <span className="font-bold text-foreground">{script.scenario || `Script ${idx + 1}`}</span>
                           <button onClick={() => handleCopy(script.spokenResponse)} className="p-1 hover:text-primary"><ClipboardCopy className="h-3.5 w-3.5" /></button>
                         </div>
                         <p className="text-muted-foreground leading-relaxed italic">&quot;{script.spokenResponse}&quot;</p>

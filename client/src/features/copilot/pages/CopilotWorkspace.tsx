@@ -1,7 +1,6 @@
 /**
  * @file CopilotWorkspace.tsx
- * @description Tabbed workspace for Career Copilot suite. Refactored to separate components for readability.
- * @author Senior Staff Frontend Engineer (9+ years experience)
+ * @description Tabbed workspace for Career Copilot suite. Refactored to separate components for readability
  */
 
 import { useState } from 'react';

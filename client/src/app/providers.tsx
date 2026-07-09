@@ -1,7 +1,6 @@
 /**
  * @file providers.tsx
  * @description Application wide providers (TanStack Query client configuration and context loaders).
- * @author Senior Staff Frontend Engineer (9+ years experience)
  */
 
 import React, { useState } from 'react';

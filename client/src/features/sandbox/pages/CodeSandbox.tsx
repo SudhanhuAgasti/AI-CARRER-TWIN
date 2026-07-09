@@ -1,8 +1,6 @@
 /**
  * @file CodeSandbox.tsx
- * @description isolated code execution sandbox and telemetry analytics runner.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description isolated code execution sandbox and telemetry analytics runner */
 
 import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../../../components/ui/Card';
@@ -16,7 +14,7 @@ export function CodeSandbox() {
   const { addToast } = useUIStore();
   const { structuredResume } = useResumeStore();
   const [activeSubTab, setActiveSubTab] = useState<'sandbox' | 'telemetry'>('sandbox');
-  
+
   // Sandbox state
   const [projectTitle, setProjectTitle] = useState('Async Concurrency Throttle Pool');
   const [repoUrl, setRepoUrl] = useState('https://github.com/developer/concurrency-throttle');
@@ -40,7 +38,7 @@ async function promisePool(tasks, limit) {
   }
   return Promise.all(results);
 }`);
-  
+
   const [sandboxProof, setSandboxProof] = useState<any>(null);
   const [verifying, setVerifying] = useState(false);
   const [verificationResult, setVerificationResult] = useState<any>(null);
@@ -248,7 +246,7 @@ class ShardManager {
                     <Cpu className="h-4 w-4" />
                     Sandbox Telemetry Token Ready
                   </div>
-                  
+
                   <div className="p-2.5 bg-background rounded border border-border/40 font-mono text-[9px] break-all select-all text-foreground">
                     {sandboxProof.verificationToken}
                   </div>

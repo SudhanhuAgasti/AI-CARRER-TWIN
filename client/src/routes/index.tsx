@@ -1,8 +1,6 @@
 /**
  * @file index.tsx
- * @description Main application routing layout maps with protected and public route guards.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Main application routing layout maps with protected and public route guards */
 
 import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';

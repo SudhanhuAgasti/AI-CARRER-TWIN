@@ -1,8 +1,6 @@
 /**
  * @file authStore.ts
- * @description Zustand global store for client authentication state.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Zustand global store for client authentication state */
 
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';

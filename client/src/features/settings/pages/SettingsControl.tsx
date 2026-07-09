@@ -1,8 +1,6 @@
 /**
  * @file SettingsControl.tsx
- * @description Settings configuration management page for profile, API keys, and theme controls.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Settings configuration management page for profile, API keys, and theme controls. */
 
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../../../components/ui/Card';
@@ -46,7 +44,7 @@ export function SettingsControl() {
 
   return (
     <div className="space-y-6 text-left">
-      
+
       {/* Workspace Header */}
       <div className="border-b border-border/40 pb-5">
         <h1 className="text-2xl font-extrabold tracking-tight">Settings Workspace</h1>
@@ -56,10 +54,10 @@ export function SettingsControl() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        
+
         {/* Left Column: Forms */}
         <div className="lg:col-span-7 space-y-6">
-          
+
           {/* User profile details */}
           <Card>
             <CardHeader>
@@ -74,9 +72,9 @@ export function SettingsControl() {
                   label="Display Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Sudhanshu Agasti"
+                  placeholder="john deo"
                 />
-                
+
                 <Input
                   label="Target Job Title"
                   value={role}
@@ -149,14 +147,14 @@ export function SettingsControl() {
                 ] as Array<{ id: Theme; icon: any }>).map((item) => {
                   const Icon = item.icon;
                   const isActive = theme === item.id;
-                  
+
                   return (
                     <button
                       key={item.id}
                       onClick={() => setTheme(item.id)}
                       className={`flex flex-col items-center justify-center border rounded-lg p-4 gap-2 transition-all select-none
-                        ${isActive 
-                          ? 'border-primary bg-primary/5 text-foreground ring-1 ring-primary' 
+                        ${isActive
+                          ? 'border-primary bg-primary/5 text-foreground ring-1 ring-primary'
                           : 'border-border bg-card text-muted-foreground hover:bg-accent/40'
                         }
                       `}

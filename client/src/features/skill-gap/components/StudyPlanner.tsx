@@ -1,8 +1,6 @@
 /**
  * @file StudyPlanner.tsx
- * @description Study curriculum planner calendar scheduler.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Study curriculum planner calendar scheduler */
 
 import { useState } from 'react';
 import { Card, CardContent } from '../../../components/ui/Card';

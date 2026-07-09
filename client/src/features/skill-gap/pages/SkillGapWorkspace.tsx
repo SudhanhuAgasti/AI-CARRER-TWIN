@@ -1,8 +1,6 @@
 /**
  * @file SkillGapWorkspace.tsx
- * @description Parent Skill Gap planning workspace linking trackers, timelines, and micro-projects.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Parent Skill Gap planning workspace linking trackers, timelines, and micro-projects */
 
 import { useState } from 'react';
 import RoleSelector from '../components/RoleSelector';
@@ -16,7 +14,7 @@ export function SkillGapWorkspace() {
 
   return (
     <div className="space-y-6 text-left">
-      
+
       {/* Workspace Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border/40 pb-5">
         <div className="space-y-1">
@@ -25,7 +23,7 @@ export function SkillGapWorkspace() {
             Construct customized learning timelines, daily schedules, and practice sandboxed containers targeting specific vacancies.
           </p>
         </div>
-        
+
         {/* Role Selector Trigger */}
         <div className="shrink-0">
           <RoleSelector selectedRoleId={selectedRoleId} onRoleSelect={setSelectedRoleId} />
@@ -34,7 +32,7 @@ export function SkillGapWorkspace() {
 
       {/* 2-Column Core Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        
+
         {/* Left Column: Milestones node timeline (take up 7 columns) */}
         <div className="lg:col-span-7 space-y-6">
           <Card>

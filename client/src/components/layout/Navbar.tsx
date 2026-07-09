@@ -1,7 +1,6 @@
 /**
  * @file Navbar.tsx
- * @description Premium responsive application top navigation bar.
- * @author Senior Staff Frontend Engineer (9+ years experience)
+ * @description Premium responsive application top navigation bar
  */
 
 import { useState } from 'react';
@@ -33,7 +32,7 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 backdrop-blur-md">
       <div className="flex h-16 items-center justify-between px-6">
-        
+
         {/* Left Side: Mobile Menu Button & Brand logo */}
         <div className="flex items-center gap-4">
           <button
@@ -55,7 +54,7 @@ export function Navbar() {
 
         {/* Right Side: Theme Controls & User Actions */}
         <div className="flex items-center gap-3">
-          
+
           {/* Theme Switcher Dropdown */}
           <div className="relative">
             <button
@@ -78,9 +77,8 @@ export function Navbar() {
                       setTheme(t);
                       setShowThemeMenu(false);
                     }}
-                    className={`flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-medium capitalize text-left transition-colors hover:bg-accent hover:text-accent-foreground ${
-                      theme === t ? 'text-primary bg-primary/5' : 'text-muted-foreground'
-                    }`}
+                    className={`flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-medium capitalize text-left transition-colors hover:bg-accent hover:text-accent-foreground ${theme === t ? 'text-primary bg-primary/5' : 'text-muted-foreground'
+                      }`}
                   >
                     {getThemeIcon(t)}
                     {t}
@@ -112,7 +110,7 @@ export function Navbar() {
                     <p className="text-sm font-semibold text-foreground truncate">{user.name}</p>
                     <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                   </div>
-                  
+
                   <div className="p-1 space-y-0.5">
                     <button className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors">
                       <User className="h-4 w-4" />
@@ -123,7 +121,7 @@ export function Navbar() {
                       Account Settings
                     </button>
                   </div>
-                  
+
                   <div className="border-t border-border/40 p-1">
                     <button
                       onClick={handleLogout}
