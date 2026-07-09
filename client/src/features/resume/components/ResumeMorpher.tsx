@@ -39,12 +39,12 @@ export function ResumeMorpher() {
     setMorphing(true);
 
     try {
-      const activeResumeData = useResumeStore.getState().structuredResume || {
-        skills: ['React', 'NodeJS', 'Express', 'Docker'],
+      const activeResumeData = {
+        skills: useResumeStore.getState().structuredResume?.skills || ['React', 'NodeJS', 'Express', 'Docker'],
         experience: [
           {
-            title: 'Software Engineer',
-            company: 'Development Corp',
+            title: useResumeStore.getState().structuredResume?.experience?.[0]?.title || 'Software Engineer',
+            company: useResumeStore.getState().structuredResume?.experience?.[0]?.company || 'Development Corp',
             bullets: [selectedBullet.original],
           }
         ]
