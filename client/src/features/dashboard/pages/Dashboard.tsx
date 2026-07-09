@@ -242,7 +242,7 @@ export function Dashboard() {
               <span className="text-[11px] text-muted-foreground">Vs Market Benchmarks</span>
             </div>
           </CardHeader>
-          <CardContent className="flex items-center justify-center">
+          <CardContent className="p-4 md:p-6 flex items-center justify-center">
             <SkillRadarChart />
           </CardContent>
         </Card>
@@ -258,7 +258,7 @@ export function Dashboard() {
               </span>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4 md:p-6">
             <ProgressLineChart />
           </CardContent>
         </Card>

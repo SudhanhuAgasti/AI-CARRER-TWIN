@@ -4,7 +4,7 @@
  * @author Senior Staff Frontend Engineer (9+ years experience)
  */
 
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 
 interface SkillData {
   subject: string;
@@ -24,33 +24,45 @@ const data: SkillData[] = [
 
 export function SkillRadarChart() {
   return (
-    <div className="h-[300px] w-full flex items-center justify-center">
+    <div className="h-[320px] w-full flex items-center justify-center">
       <ResponsiveContainer width="100%" height="100%">
-        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
+        <RadarChart cx="50%" cy="50%" outerRadius="70%" data={data} margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
           <PolarGrid stroke="rgba(255,255,255,0.08)" />
           <PolarAngleAxis
             dataKey="subject"
-            tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11, fontWeight: 500 }}
+            tick={{ fill: 'var(--muted-foreground)', fontSize: 10, fontWeight: 600 }}
           />
           <PolarRadiusAxis
             angle={30}
             domain={[0, 100]}
-            tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 9 }}
+            tick={{ fill: 'var(--muted-foreground)', fontSize: 8 }}
             axisLine={false}
           />
           <Radar
             name="Your Skills"
             dataKey="A"
-            stroke="hsl(var(--primary))"
-            fill="hsl(var(--primary))"
+            stroke="var(--primary)"
+            fill="var(--primary)"
             fillOpacity={0.25}
           />
           <Radar
-            name="Benchmark"
+            name="Market Benchmark"
             dataKey="B"
-            stroke="hsl(var(--muted-foreground))"
-            fill="hsl(var(--muted-foreground))"
-            fillOpacity={0.05}
+            stroke="#818cf8"
+            fill="#818cf8"
+            fillOpacity={0.08}
+          />
+          <Tooltip
+            contentStyle={{
+              background: 'var(--card)',
+              borderColor: 'var(--border)',
+              borderRadius: '8px',
+              fontSize: '11px',
+              color: 'var(--foreground)',
+            }}
+          />
+          <Legend 
+            wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }}
           />
         </RadarChart>
       </ResponsiveContainer>
