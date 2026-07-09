@@ -71,7 +71,7 @@ export function Dashboard() {
     try {
       const response = await axiosInstance.get(`/api/dashboard/${resumeId}/verify-badge`);
       if (response.data.success) {
-        setBadgeToken(response.data.badge.verificationToken);
+        setBadgeToken(response.data.badge.verificationId || response.data.badge.verificationToken);
         addToast({
           type: 'success',
           title: 'Badge Generated',
