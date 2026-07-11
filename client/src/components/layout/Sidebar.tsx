@@ -43,7 +43,7 @@ export function Sidebar() {
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-card/60 backdrop-blur-xl transition-transform duration-300 
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-card/90 backdrop-blur-xl transition-transform duration-300 
           md:sticky md:top-16 md:h-[calc(100vh-4rem)] md:transform-none
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}
@@ -51,7 +51,7 @@ export function Sidebar() {
         {/* Header container */}
         <div className="flex h-16 items-center justify-between px-6 border-b border-border/40">
           <div className="flex items-center gap-2">
-            <span className="font-bold tracking-tight text-foreground gradient-text">Navigation Menu</span>
+            <span className="font-bold tracking-tight logo-gradient">Navigation Menu</span>
           </div>
           <button
             onClick={() => setSidebar(false)}
