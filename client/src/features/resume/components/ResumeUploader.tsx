@@ -17,6 +17,7 @@ export function ResumeUploader({ onUploadSuccess }: ResumeUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [jobDescription, setJobDescription] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleDrag = (e: React.DragEvent) => {
@@ -76,6 +77,9 @@ export function ResumeUploader({ onUploadSuccess }: ResumeUploaderProps) {
     try {
       const formData = new FormData();
       formData.append('file', file);
+      if (jobDescription.trim()) {
+        formData.append('jobDescription', jobDescription.trim());
+      }
 
       const response = await axiosInstance.post('/api/resume/analyze', formData, {
         headers: {
@@ -148,6 +152,21 @@ export function ResumeUploader({ onUploadSuccess }: ResumeUploaderProps) {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Target Job Description Paste box */}
+      <div className="space-y-1.5 text-left">
+        <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+          Target Job Description (Optional - recommended for ATS overlap scoring)
+        </label>
+        <textarea
+          value={jobDescription}
+          onChange={(e) => setJobDescription(e.target.value)}
+          placeholder="Paste the target job description here to check key skills matching..."
+          rows={5}
+          disabled={loading}
+          className="w-full rounded-xl border border-border bg-card/40 px-4 py-3 text-xs text-foreground outline-none focus:border-primary transition-all duration-300 focus:ring-1 focus:ring-primary/40"
+        />
       </div>
 
       {error && (
