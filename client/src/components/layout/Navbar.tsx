@@ -60,7 +60,7 @@ export function Navbar() {
             <Menu className="h-5 w-5" />
           </button>
           <div className="flex items-center gap-2">
-            <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-primary via-purple-400 to-indigo-400 bg-clip-text text-transparent select-none">
+            <span className="logo-gradient font-bold text-lg tracking-tight select-none">
               AI Career Twin
             </span>
             <span className="hidden sm:inline-block rounded-full bg-primary/10 border border-primary/20 px-2.5 py-0.5 text-[10px] font-bold text-primary tracking-wider uppercase">

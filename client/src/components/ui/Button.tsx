@@ -19,11 +19,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     // Style variants mapped to Tailwind variables
     const variants = {
-      primary: 'bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/20 border border-transparent',
-      secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-transparent',
-      outline: 'border border-border bg-background/50 backdrop-blur-sm text-foreground hover:bg-accent hover:text-accent-foreground',
-      ghost: 'text-foreground hover:bg-accent hover:text-accent-foreground border border-transparent',
-      destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 border border-transparent',
+      primary: 'bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/20 border border-transparent disabled:bg-primary/20 disabled:text-primary/60',
+      secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-transparent disabled:bg-secondary/40 disabled:text-muted-foreground',
+      outline: 'border border-border bg-background/50 backdrop-blur-sm text-foreground hover:bg-accent hover:text-accent-foreground disabled:bg-background/20 disabled:text-muted-foreground/60',
+      ghost: 'text-foreground hover:bg-accent hover:text-accent-foreground border border-transparent disabled:text-muted-foreground/40',
+      destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 border border-transparent disabled:bg-destructive/20 disabled:text-destructive/60',
     };
 
     // Size mappings
