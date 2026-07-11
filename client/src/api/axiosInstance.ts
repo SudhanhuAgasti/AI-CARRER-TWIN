@@ -43,6 +43,10 @@ axiosInstance.interceptors.request.use(
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    const geminiKey = localStorage.getItem('gemini_api_key');
+    if (geminiKey && config.headers) {
+      config.headers['x-gemini-key'] = geminiKey;
+    }
     return config;
   },
   (error: AxiosError) => {

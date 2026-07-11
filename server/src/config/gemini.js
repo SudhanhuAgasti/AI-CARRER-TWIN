@@ -1,9 +1,45 @@
 const { GoogleGenAI } = require('@google/genai');
+const { AsyncLocalStorage } = require('async_hooks');
 
-if (!process.env.GEMINI_API_KEY) {
-  console.warn('GEMINI_API_KEY not set - extraction/match calls will fail at runtime');
+const geminiApiKeyStore = new AsyncLocalStorage();
+
+// Standard fallback instance using the default environment variable
+let defaultAi = null;
+try {
+  if (process.env.GEMINI_API_KEY) {
+    defaultAi = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+  }
+} catch (err) {
+  console.warn('[Gemini Init] Failed to initialize default GoogleGenAI instance:', err.message);
 }
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+/**
+ * Proxy handler that resolves the correct GoogleGenAI instance at invocation time
+ * by checking if a user-supplied API key is present in the AsyncLocalStorage store.
+ */
+const aiProxy = new Proxy({}, {
+  get(target, prop) {
+    // Resolve the active GoogleGenAI instance for the current execution context
+    const customKey = geminiApiKeyStore.getStore();
+    let activeInstance = defaultAi;
 
-module.exports = ai;
+    if (customKey) {
+      try {
+        activeInstance = new GoogleGenAI({ apiKey: customKey });
+      } catch (err) {
+        console.error('[Gemini Proxy] Failed to construct dynamic client with custom key:', err.message);
+      }
+    }
+
+    if (!activeInstance) {
+      throw new Error(
+        'Gemini API key is not configured. Please supply a valid GEMINI_API_KEY in the environment or paste one in the settings panel.'
+      );
+    }
+
+    return Reflect.get(activeInstance, prop);
+  }
+});
+
+module.exports = aiProxy;
+module.exports.geminiApiKeyStore = geminiApiKeyStore;

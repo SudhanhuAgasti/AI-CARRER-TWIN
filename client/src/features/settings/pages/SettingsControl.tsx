@@ -18,6 +18,7 @@ export function SettingsControl() {
   const [name, setName] = useState(user?.name || '');
   const [role, setRole] = useState(user?.role || '');
   const [apiKey, setApiKey] = useState(() => localStorage.getItem('openai_api_key') || '');
+  const [geminiKey, setGeminiKey] = useState(() => localStorage.getItem('gemini_api_key') || '');
   const [saving, setSaving] = useState(false);
 
   const handleSaveProfile = async (e: React.FormEvent) => {
@@ -44,10 +45,11 @@ export function SettingsControl() {
 
   const handleSaveApiKey = () => {
     localStorage.setItem('openai_api_key', apiKey);
+    localStorage.setItem('gemini_api_key', geminiKey);
     addToast({
       type: 'success',
       title: 'API Keys Saved',
-      message: 'OpenAI API key saved successfully in local settings.',
+      message: 'API keys saved successfully in local settings.',
     });
   };
 
@@ -103,12 +105,19 @@ export function SettingsControl() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Key className="h-5 w-5 text-primary" />
-                API Keys (OpenAI / LLM Integration)
+                API Keys (AI Model Integration)
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <Input
-                label="OpenAI Api Key"
+                label="Gemini API Key (Required for resume parsing & ATS workspace)"
+                type="password"
+                value={geminiKey}
+                onChange={(e) => setGeminiKey(e.target.value)}
+                placeholder="AIzaSy..."
+              />
+              <Input
+                label="OpenAI API Key (Optional)"
                 type="password"
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}

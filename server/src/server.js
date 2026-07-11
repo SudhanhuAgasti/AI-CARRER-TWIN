@@ -17,8 +17,20 @@ const { errorHandler } = require('./middleware/error.middleware');
 
 const app = express();
 
+const { geminiApiKeyStore } = require('./config/gemini');
+
 app.use(cors());
 app.use(express.json({ limit: '2mb' }));
+
+// Middleware to inject user's custom Gemini API key from client headers into async context
+app.use((req, res, next) => {
+  const customKey = req.headers['x-gemini-key'];
+  if (customKey && typeof customKey === 'string' && customKey.trim().length > 0) {
+    geminiApiKeyStore.run(customKey.trim(), next);
+  } else {
+    next();
+  }
+});
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 app.use('/api/resume', resumeRoutes);
