@@ -8,6 +8,7 @@ import { Menu, Moon, Sun, Monitor, LogOut, User, Settings } from 'lucide-react';
 import { useUIStore, type Theme } from '../../store/uiStore';
 import { useAuthStore } from '../../store/authStore';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 export function Navbar() {
   const { theme, setTheme, toggleSidebar } = useUIStore();
@@ -144,14 +145,22 @@ export function Navbar() {
                     </div>
 
                     <div className="p-1 space-y-0.5">
-                      <button className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-semibold text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors">
+                      <Link
+                        to="/settings"
+                        onClick={() => setShowProfileMenu(false)}
+                        className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-semibold text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+                      >
                         <User className="h-4 w-4" />
                         Profile
-                      </button>
-                      <button className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-semibold text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors">
+                      </Link>
+                      <Link
+                        to="/settings"
+                        onClick={() => setShowProfileMenu(false)}
+                        className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-semibold text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+                      >
                         <Settings className="h-4 w-4" />
                         Account Settings
-                      </button>
+                      </Link>
                     </div>
 
                     <div className="border-t border-border/40 p-1">

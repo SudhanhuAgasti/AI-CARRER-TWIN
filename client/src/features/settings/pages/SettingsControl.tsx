@@ -17,7 +17,7 @@ export function SettingsControl() {
 
   const [name, setName] = useState(user?.name || '');
   const [role, setRole] = useState(user?.role || '');
-  const [apiKey, setApiKey] = useState('sk-••••••••••••••••••••••••');
+  const [apiKey, setApiKey] = useState(() => localStorage.getItem('openai_api_key') || '');
   const [saving, setSaving] = useState(false);
 
   const handleSaveProfile = async (e: React.FormEvent) => {
@@ -40,6 +40,15 @@ export function SettingsControl() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleSaveApiKey = () => {
+    localStorage.setItem('openai_api_key', apiKey);
+    addToast({
+      type: 'success',
+      title: 'API Keys Saved',
+      message: 'OpenAI API key saved successfully in local settings.',
+    });
   };
 
   return (
@@ -107,13 +116,7 @@ export function SettingsControl() {
               />
               <Button
                 variant="secondary"
-                onClick={() =>
-                  addToast({
-                    type: 'success',
-                    title: 'API Keys Saved',
-                    message: 'Keys have been cryptographically saved locally.',
-                  })
-                }
+                onClick={handleSaveApiKey}
               >
                 Save Keys
               </Button>
