@@ -91,7 +91,7 @@ export function ResumeAnalyzer() {
           {/* Render Tab Contents */}
           <div className="animate-in fade-in duration-200">
             {activeTab === 'ats' ? (
-              <AtsReport score={82} />
+              <AtsReport />
             ) : (
               <ResumeMorpher />
             )}

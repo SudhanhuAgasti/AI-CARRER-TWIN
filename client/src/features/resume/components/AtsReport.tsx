@@ -11,20 +11,59 @@ interface AtsReportProps {
   score?: number;
 }
 
-export function AtsReport({ score: propScore = 80 }: AtsReportProps) {
-  const storeAtsReport = useResumeStore((state) => state.atsReport);
+export function AtsReport({ score: propScore = 75 }: AtsReportProps) {
+  const storeAtsReport = useResumeStore((state) => state.atsReport) as any;
+  const structuredResume = useResumeStore((state) => state.structuredResume);
 
   const score = storeAtsReport ? storeAtsReport.score : propScore;
-  const missingKeywords = storeAtsReport?.missingKeywords || ['TypeScript', 'Kubernetes', 'CI/CD Pipelines', 'GraphQL', 'Tailwind CSS'];
-  const matchingKeywords = storeAtsReport?.matchingKeywords || ['React', 'NodeJS', 'MongoDB', 'Express', 'Docker', 'Rest APIs'];
+  const parsedSkills = structuredResume?.skills || [];
 
-  const structureChecks = storeAtsReport?.structureChecks || [
-    { label: 'Contact Details Present', passed: true },
-    { label: 'Core Skillset Summary Block', passed: true },
-    { label: 'Work Experience Chronology', passed: true },
-    { label: 'Education Certifications', passed: true },
-    { label: 'Measurable Performance Metrics', passed: false, detail: 'Add numeric statistics to experience bullets (e.g. +24% performance improvements).' },
+  // Define a comprehensive tech skill pool to identify missing keywords dynamically
+  const defaultSkillsPool = [
+    'TypeScript',
+    'Kubernetes',
+    'CI/CD Pipelines',
+    'GraphQL',
+    'Tailwind CSS',
+    'Docker',
+    'AWS',
+    'System Design',
+    'Microservices',
+    'Unit Testing',
+    'Redis',
+    'Next.js',
+    'Python',
+    'PostgreSQL'
   ];
+
+  // Matching keywords: actual skills parsed from resume
+  const matchingKeywords = storeAtsReport?.keywordOverlap?.matchedKeywords?.length
+    ? storeAtsReport.keywordOverlap.matchedKeywords
+    : parsedSkills.length
+    ? parsedSkills
+    : ['React', 'NodeJS', 'MongoDB', 'Express', 'Rest APIs'];
+
+  // Missing keywords: skills from pool that are not in parsed resume skills
+  const missingKeywords = parsedSkills.length
+    ? defaultSkillsPool
+        .filter((skill) => !parsedSkills.some((s: string) => s.toLowerCase().includes(skill.toLowerCase())))
+        .slice(0, 5)
+    : ['TypeScript', 'Kubernetes', 'CI/CD Pipelines', 'GraphQL', 'Tailwind CSS'];
+
+  // Map backend checks to structural consistency checks
+  const structureChecks = storeAtsReport?.checks
+    ? storeAtsReport.checks.map((check: any) => ({
+        label: check.name,
+        passed: check.passed,
+        detail: check.detail || (check.passed ? `${check.points} points awarded` : 'No points awarded')
+      }))
+    : [
+        { label: 'Contact Details Present', passed: true },
+        { label: 'Core Skillset Summary Block', passed: true },
+        { label: 'Work Experience Chronology', passed: true },
+        { label: 'Education Certifications', passed: true },
+        { label: 'Measurable Performance Metrics', passed: false, detail: 'Add numeric statistics to experience bullets (e.g. +24% performance improvements).' },
+      ];
 
   return (
     <div className="space-y-6">
@@ -84,7 +123,7 @@ export function AtsReport({ score: propScore = 80 }: AtsReportProps) {
             </h3>
 
             <div className="space-y-3">
-              {structureChecks.map((check, idx) => (
+              {structureChecks.map((check: any, idx: number) => (
                 <div key={idx} className="flex items-start gap-3 text-xs leading-normal">
                   {check.passed ? (
                     <CheckCircle2 className="h-4.5 w-4.5 text-emerald-500 shrink-0 mt-0.5" />
@@ -113,7 +152,7 @@ export function AtsReport({ score: propScore = 80 }: AtsReportProps) {
             <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-500 flex items-center gap-1.5">              Matching Target Keywords ({matchingKeywords.length})
             </h4>
             <div className="flex flex-wrap gap-2">
-              {matchingKeywords.map((kw) => (
+              {matchingKeywords.map((kw: string) => (
                 <span
                   key={kw}
                   className="rounded bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 text-xs font-medium text-emerald-500"
@@ -133,7 +172,7 @@ export function AtsReport({ score: propScore = 80 }: AtsReportProps) {
               Missing Target Keywords ({missingKeywords.length})
             </h4>
             <div className="flex flex-wrap gap-2">
-              {missingKeywords.map((kw) => (
+              {missingKeywords.map((kw: string) => (
                 <span
                   key={kw}
                   className="rounded bg-amber-500/10 border border-amber-500/20 px-2 py-1 text-xs font-medium text-amber-500"
