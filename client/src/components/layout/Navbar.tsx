@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { Menu, Moon, Sun, Monitor, LogOut, User, Settings } from 'lucide-react';
 import { useUIStore, type Theme } from '../../store/uiStore';
 import { useAuthStore } from '../../store/authStore';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export function Navbar() {
   const { theme, setTheme, toggleSidebar } = useUIStore();
@@ -29,8 +30,24 @@ export function Navbar() {
     }
   };
 
+  const dropdownVariants = {
+    hidden: { opacity: 0, scale: 0.95, y: -8 },
+    visible: { 
+      opacity: 1, 
+      scale: 1, 
+      y: 0,
+      transition: { type: 'spring' as const, stiffness: 400, damping: 25 }
+    },
+    exit: { 
+      opacity: 0, 
+      scale: 0.95, 
+      y: -8,
+      transition: { duration: 0.15 }
+    }
+  } as const;
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/60 backdrop-blur-xl">
       <div className="flex h-16 items-center justify-between px-6">
 
         {/* Left Side: Mobile Menu Button & Brand logo */}
@@ -43,10 +60,10 @@ export function Navbar() {
             <Menu className="h-5 w-5" />
           </button>
           <div className="flex items-center gap-2">
-            <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-transparent select-none">
+            <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-primary via-purple-400 to-indigo-400 bg-clip-text text-transparent select-none">
               AI Career Twin
             </span>
-            <span className="hidden sm:inline-block rounded-full bg-primary/10 border border-primary/20 px-2 py-0.5 text-[10px] font-medium text-primary">
+            <span className="hidden sm:inline-block rounded-full bg-primary/10 border border-primary/20 px-2.5 py-0.5 text-[10px] font-bold text-primary tracking-wider uppercase">
               Beta
             </span>
           </div>
@@ -62,30 +79,38 @@ export function Navbar() {
                 setShowThemeMenu(!showThemeMenu);
                 setShowProfileMenu(false);
               }}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card hover:bg-accent text-foreground transition-all duration-200"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card/40 hover:bg-accent text-foreground transition-all duration-200"
               aria-label="Switch Theme"
             >
               {getThemeIcon(theme)}
             </button>
 
-            {showThemeMenu && (
-              <div className="absolute right-0 mt-2 w-36 rounded-lg border border-border bg-card p-1 shadow-lg ring-1 ring-black/5 animate-in fade-in slide-in-from-top-2 duration-100">
-                {(['light', 'dark', 'system'] as Theme[]).map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => {
-                      setTheme(t);
-                      setShowThemeMenu(false);
-                    }}
-                    className={`flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-medium capitalize text-left transition-colors hover:bg-accent hover:text-accent-foreground ${theme === t ? 'text-primary bg-primary/5' : 'text-muted-foreground'
-                      }`}
-                  >
-                    {getThemeIcon(t)}
-                    {t}
-                  </button>
-                ))}
-              </div>
-            )}
+            <AnimatePresence>
+              {showThemeMenu && (
+                <motion.div
+                  variants={dropdownVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  className="absolute right-0 mt-2 w-36 rounded-lg border border-border bg-card p-1 shadow-xl z-50"
+                >
+                  {(['light', 'dark', 'system'] as Theme[]).map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => {
+                        setTheme(t);
+                        setShowThemeMenu(false);
+                      }}
+                      className={`flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-semibold capitalize text-left transition-colors hover:bg-accent hover:text-accent-foreground ${theme === t ? 'text-primary bg-primary/5' : 'text-muted-foreground'
+                        }`}
+                    >
+                      {getThemeIcon(t)}
+                      {t}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* User Profile Menu */}
@@ -104,35 +129,43 @@ export function Navbar() {
                 </div>
               </button>
 
-              {showProfileMenu && (
-                <div className="absolute right-0 mt-2 w-56 rounded-lg border border-border bg-card p-1 shadow-lg ring-1 ring-black/5 animate-in fade-in slide-in-from-top-2 duration-100 text-left">
-                  <div className="px-3.5 py-2.5 border-b border-border/40">
-                    <p className="text-sm font-semibold text-foreground truncate">{user.name}</p>
-                    <p className="text-xs text-muted-foreground truncate">{user.email}</p>
-                  </div>
+              <AnimatePresence>
+                {showProfileMenu && (
+                  <motion.div
+                    variants={dropdownVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    className="absolute right-0 mt-2 w-56 rounded-lg border border-border bg-card p-1 shadow-xl z-50 text-left"
+                  >
+                    <div className="px-3.5 py-2.5 border-b border-border/40">
+                      <p className="text-sm font-bold text-foreground truncate">{user.name}</p>
+                      <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                    </div>
 
-                  <div className="p-1 space-y-0.5">
-                    <button className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors">
-                      <User className="h-4 w-4" />
-                      Profile
-                    </button>
-                    <button className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors">
-                      <Settings className="h-4 w-4" />
-                      Account Settings
-                    </button>
-                  </div>
+                    <div className="p-1 space-y-0.5">
+                      <button className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-semibold text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors">
+                        <User className="h-4 w-4" />
+                        Profile
+                      </button>
+                      <button className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-semibold text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors">
+                        <Settings className="h-4 w-4" />
+                        Account Settings
+                      </button>
+                    </div>
 
-                  <div className="border-t border-border/40 p-1">
-                    <button
-                      onClick={handleLogout}
-                      className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors"
-                    >
-                      <LogOut className="h-4 w-4" />
-                      Sign Out
-                    </button>
-                  </div>
-                </div>
-              )}
+                    <div className="border-t border-border/40 p-1">
+                      <button
+                        onClick={handleLogout}
+                        className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-semibold text-destructive hover:bg-destructive/10 transition-colors"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        Sign Out
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           )}
         </div>

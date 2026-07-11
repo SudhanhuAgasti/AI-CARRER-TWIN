@@ -9,7 +9,7 @@ export const Card = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className = '', ...props }, ref) => (
     <div
       ref={ref}
-      className={`rounded-xl border border-border bg-card text-card-foreground shadow-sm overflow-hidden ${className}`}
+      className={`glass-panel-interactive rounded-2xl overflow-hidden ${className}`}
       {...props}
     />
   )

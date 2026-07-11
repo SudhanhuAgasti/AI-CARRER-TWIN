@@ -4,6 +4,7 @@
  *  */
 
 import { type ButtonHTMLAttributes, forwardRef } from 'react';
+import { motion } from 'framer-motion';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive';
@@ -14,32 +15,35 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className = '', variant = 'primary', size = 'md', isLoading, disabled, children, ...props }, ref) => {
     // Base classes
-    const baseStyles = 'inline-flex items-center justify-center font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 select-none';
+    const baseStyles = 'inline-flex items-center justify-center font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 select-none';
 
     // Style variants mapped to Tailwind variables
     const variants = {
-      primary: 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm active:scale-[0.98]',
-      secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 active:scale-[0.98]',
-      outline: 'border border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground active:scale-[0.98]',
-      ghost: 'text-foreground hover:bg-accent hover:text-accent-foreground',
-      destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 active:scale-[0.98]',
+      primary: 'bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/20 border border-transparent',
+      secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-transparent',
+      outline: 'border border-border bg-background/50 backdrop-blur-sm text-foreground hover:bg-accent hover:text-accent-foreground',
+      ghost: 'text-foreground hover:bg-accent hover:text-accent-foreground border border-transparent',
+      destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 border border-transparent',
     };
 
     // Size mappings
     const sizes = {
-      sm: 'h-9 rounded-md px-3 text-xs',
-      md: 'h-10 rounded-lg px-4 py-2 text-sm',
-      lg: 'h-11 rounded-xl px-8 text-base',
+      sm: 'h-9 rounded-md px-3.5 text-xs',
+      md: 'h-10 rounded-lg px-5 py-2.5 text-sm tracking-wide',
+      lg: 'h-11 rounded-xl px-8 text-base tracking-wide',
     };
 
     const combinedClasses = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
 
     return (
-      <button
-        ref={ref}
+      <motion.button
+        ref={ref as any}
         disabled={disabled || isLoading}
         className={combinedClasses}
-        {...props}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ type: 'spring', stiffness: 500, damping: 25 }}
+        {...(props as any)}
       >
         {isLoading ? (
           <>
@@ -68,7 +72,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           children
         )}
-      </button>
+      </motion.button>
     );
   }
 );
