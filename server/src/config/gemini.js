@@ -18,7 +18,7 @@ try {
  * by checking if a user-supplied API key is present in the AsyncLocalStorage store.
  * 
  * Also intercepts the 'models' namespace to transparently map deprecated 'gemini-2.5-flash'
- * calls to the supported 'gemini-1.5-flash' model to prevent 404 API deprecation errors.
+ * calls to the current 'gemini-3.5-flash' model to prevent 404 API deprecation errors.
  */
 const aiProxy = new Proxy({}, {
   get(target, prop) {
@@ -47,9 +47,9 @@ const aiProxy = new Proxy({}, {
           const val = Reflect.get(modelsTarget, modelsProp);
           if (typeof val === 'function') {
             return function(options, ...args) {
-              // Intercept options object to map deprecated model names
+              // Intercept options object to map deprecated model names to current gemini-3.5-flash
               if (options && typeof options === 'object' && options.model === 'gemini-2.5-flash') {
-                options.model = 'gemini-1.5-flash';
+                options.model = 'gemini-3.5-flash';
               }
               return val.call(modelsTarget, options, ...args);
             };
