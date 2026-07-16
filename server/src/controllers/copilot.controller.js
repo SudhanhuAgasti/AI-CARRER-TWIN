@@ -1,8 +1,6 @@
 /**
  * @file copilot.controller.js
- * @description Controller handling AI Career Advancement and Negotiation Copilot endpoints.
- * @author Senior Fullstack Engineer (8+ years experience)
- */
+ * @description Controller handling AI Career Advancement and Negotiation Copilot endpoints. */
 
 const { generateElevatorPitch } = require('../services/elevatorPitch.service');
 const { generateColdOutreach } = require('../services/outreachGenerator.service');
