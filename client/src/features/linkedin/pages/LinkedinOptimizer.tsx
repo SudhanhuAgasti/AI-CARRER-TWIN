@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../../../components/ui/Card';
 import Button from '../../../components/ui/Button';
 import { useUIStore } from '../../../store/uiStore';
-import { Globe, Zap, Sliders, ClipboardCopy, CheckCircle2, RefreshCw, AlertCircle, Briefcase, FileText } from 'lucide-react';
+import { Globe, Sliders, ClipboardCopy, CheckCircle2, RefreshCw, AlertCircle, Briefcase, FileText } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { axiosInstance } from '../../../api/axiosInstance';
