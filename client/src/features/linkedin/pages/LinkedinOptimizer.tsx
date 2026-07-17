@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../../../components/ui/Card';
 import Button from '../../../components/ui/Button';
 import { useUIStore } from '../../../store/uiStore';
-import { Globe, Sparkles, ClipboardCopy, CheckCircle2, RefreshCw, AlertCircle, Briefcase, FileText } from 'lucide-react';
+import { Globe, Zap, Sliders, ClipboardCopy, CheckCircle2, RefreshCw, AlertCircle, Briefcase, FileText } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { axiosInstance } from '../../../api/axiosInstance';
@@ -253,7 +253,7 @@ export function LinkedinOptimizer() {
                 <Card className="bg-gradient-to-br from-background via-background to-accent/5 border border-border/50 rounded-2xl shadow-xl overflow-hidden hover:border-primary/20 transition-all duration-300">
                   <CardHeader className="pb-3 pt-5 border-b border-border/30 bg-accent/[0.02] px-6">
                     <CardTitle className="text-sm font-bold flex items-center gap-2 text-foreground">
-                      <Sparkles className="h-4.5 w-4.5 text-primary" />
+                      <Sliders className="h-4.5 w-4.5 text-primary" />
                       Optimized Section: {item.field}
                     </CardTitle>
                   </CardHeader>

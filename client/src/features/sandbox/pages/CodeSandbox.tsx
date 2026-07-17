@@ -8,7 +8,7 @@ import Button from '../../../components/ui/Button';
 import { useUIStore } from '../../../store/uiStore';
 import { useResumeStore } from '../../../store/resumeStore';
 import { axiosInstance } from '../../../api/axiosInstance';
-import { Terminal, ShieldAlert, Cpu, Sparkles, CheckCircle, RefreshCw, BarChart2 } from 'lucide-react';
+import { Terminal, ShieldAlert, Cpu, CheckCircle, RefreshCw, BarChart2 } from 'lucide-react';
 
 
 export function CodeSandbox() {
@@ -342,7 +342,7 @@ class ShardManager {
             <Card className="h-full min-h-[400px]">
               <CardHeader className="flex flex-row items-center justify-between border-b border-border/40 pb-4">
                 <CardTitle className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
-                  <Sparkles className="h-4 w-4 text-primary" />
+                  <Cpu className="h-4 w-4 text-primary" />
                   Drift Remediation recommendations
                 </CardTitle>
               </CardHeader>
