@@ -1,12 +1,20 @@
 // Deterministic, rule-based ATS scoring. LLM is used only upstream for extraction -
 // scoring stays plain code so it's consistent, cheap, and unit-testable.
 
+const COMMON_SKILLS = [
+  'javascript', 'typescript', 'python', 'java', 'c++', 'c#', 'ruby', 'golang', 'rust', 'php', 'swift', 'kotlin', 'html', 'css', 'sql', 'nosql',
+  'react', 'angular', 'vue', 'next.js', 'nextjs', 'express', 'django', 'flask', 'spring boot', 'laravel', 'asp.net', 'nestjs', 'tailwind', 'bootstrap', 'redux',
+  'postgresql', 'postgres', 'mysql', 'mongodb', 'redis', 'elasticsearch', 'sqlite', 'dynamodb', 'firebase',
+  'aws', 'azure', 'gcp', 'docker', 'kubernetes', 'k8s', 'ci/cd', 'terraform', 'jenkins', 'git', 'github',
+  'rest api', 'restful', 'graphql', 'microservices', 'system design', 'agile', 'scrum', 'machine learning', 'deep learning', 'ai', 'nlp', 'data science', 'unit testing'
+];
+
 function computeAtsScore(rawText, structuredResume, jobDescription) {
   const checks = [];
   let score = 0;
-  const maxScore = 100;
+  let maxPossiblePoints = 0;
 
-  // 1. Contact info present (10 pts)
+  // 1. Contact info present (10 pts max)
   const hasEmail = !!structuredResume.email;
   const hasPhone = !!structuredResume.phone;
   const contactScore = (hasEmail ? 5 : 0) + (hasPhone ? 5 : 0);
@@ -17,12 +25,18 @@ function computeAtsScore(rawText, structuredResume, jobDescription) {
     detail: `${hasEmail ? 'Email' : 'No email'} & ${hasPhone ? 'phone' : 'no phone'} found`,
   });
   score += contactScore;
+  maxPossiblePoints += 10;
 
-  // 2. Core sections present (20 pts)
+  // 2. Core sections present (20 pts max)
   const hasExperience = (structuredResume.experience || []).length > 0;
   const skillsCount = (structuredResume.skills || []).length;
   const skillsScore = Math.min(10, Math.round((skillsCount / 5) * 10));
-  checks.push({ name: 'Experience section present', passed: hasExperience, points: hasExperience ? 10 : 0 });
+  checks.push({
+    name: 'Experience section present',
+    passed: hasExperience,
+    points: hasExperience ? 10 : 0,
+    detail: hasExperience ? 'Experience section found' : 'No experience section found'
+  });
   checks.push({
     name: 'Skills section (5+) present',
     passed: skillsCount >= 5,
@@ -31,13 +45,20 @@ function computeAtsScore(rawText, structuredResume, jobDescription) {
   });
   if (hasExperience) score += 10;
   score += skillsScore;
+  maxPossiblePoints += 20;
 
-  // 3. Education present (5 pts)
+  // 3. Education present (5 pts max)
   const hasEducation = (structuredResume.education || []).length > 0;
-  checks.push({ name: 'Education section present', passed: hasEducation, points: hasEducation ? 5 : 0 });
+  checks.push({
+    name: 'Education section present',
+    passed: hasEducation,
+    points: hasEducation ? 5 : 0,
+    detail: hasEducation ? 'Education section found' : 'No education section found'
+  });
   if (hasEducation) score += 5;
+  maxPossiblePoints += 5;
 
-  // 4. Quantified achievements - bullets containing numbers/% (15 pts)
+  // 4. Quantified achievements - bullets containing numbers/% (15 pts max)
   const allBullets = (structuredResume.experience || []).flatMap((e) => e.bulletPoints || []);
   const quantifiedBullets = allBullets.filter((b) => /\d/.test(b));
   const quantifiedRatio = allBullets.length ? quantifiedBullets.length / allBullets.length : 0;
@@ -51,8 +72,9 @@ function computeAtsScore(rawText, structuredResume, jobDescription) {
     detail: `${quantifiedBullets.length}/${allBullets.length} bullets contain numbers (${Math.round(quantifiedRatio * 100)}% of total)`,
   });
   score += quantifiedScore;
+  maxPossiblePoints += 15;
 
-  // 5. Resume length sanity check via word count (10 pts)
+  // 5. Resume length sanity check via word count (10 pts max)
   const wordCount = rawText.trim().split(/\s+/).length;
   const lengthOk = wordCount >= 250 && wordCount <= 1100;
   let lengthScore = 10;
@@ -70,8 +92,9 @@ function computeAtsScore(rawText, structuredResume, jobDescription) {
     detail: `${wordCount} words`,
   });
   score += lengthScore;
+  maxPossiblePoints += 10;
 
-  // 6. Formatting noise proxy - real ATS systems choke on tables/columns/icons.
+  // 6. Formatting noise proxy - real ATS systems choke on tables/columns/icons (10 pts max)
   const specialCharRatio = rawText.length ? (rawText.match(/[^\w\s.,;:()\-/]/g) || []).length / rawText.length : 0;
   const formattingOk = specialCharRatio < 0.03;
   const formattingScore = Math.max(0, Math.round((1 - specialCharRatio / 0.1) * 10));
@@ -82,8 +105,9 @@ function computeAtsScore(rawText, structuredResume, jobDescription) {
     detail: `${Math.round(specialCharRatio * 1000) / 10}% special characters`,
   });
   score += formattingScore;
+  maxPossiblePoints += 10;
 
-  // 7. Keyword overlap with job description (20 pts) - only if JD provided
+  // 7. Keyword overlap with job description (20 pts max) - only if JD provided
   let keywordOverlap = null;
   if (jobDescription && jobDescription.trim().length > 20) {
     keywordOverlap = computeKeywordOverlap(structuredResume.skills || [], jobDescription);
@@ -95,42 +119,83 @@ function computeAtsScore(rawText, structuredResume, jobDescription) {
       detail: `${keywordOverlap.overlapPercent}% overlap`,
     });
     score += overlapScore;
+    maxPossiblePoints += 20;
   }
 
-  // Ensure score stays bounded
-  score = Math.max(0, Math.min(maxScore, score));
+  // Calculate final normalized score out of 100
+  const normalizedScore = maxPossiblePoints > 0 ? Math.round((score / maxPossiblePoints) * 100) : 0;
 
   return {
-    score,
-    maxScore,
-    grade: score >= 80 ? 'A' : score >= 60 ? 'B' : score >= 40 ? 'C' : 'D',
+    score: normalizedScore,
+    maxScore: 100,
+    grade: normalizedScore >= 80 ? 'A' : normalizedScore >= 60 ? 'B' : normalizedScore >= 40 ? 'C' : 'D',
     checks,
     keywordOverlap,
   };
 }
 
-// NOTE: this is word-level overlap, not a real skills taxonomy match.
-// Swap for ESCO / O*NET / a curated skills ontology before relying on this in production -
-// word overlap will both miss synonyms ("JS" vs "JavaScript") and over-count noise words.
 function computeKeywordOverlap(resumeSkills, jobDescription) {
   const normalize = (s) => s.toLowerCase().trim();
-  const resumeSet = new Set(resumeSkills.map(normalize));
+  
+  // Normalize resume skills
+  const normalizedResumeSkills = resumeSkills.map(normalize).filter(Boolean);
+  const resumeSkillsSet = new Set(normalizedResumeSkills);
 
-  const jdWords = jobDescription
-    .toLowerCase()
-    .replace(/[^a-z0-9+#.\s]/g, ' ')
-    .split(/\s+/)
-    .filter((w) => w.length > 2);
+  // Helper to escape regex
+  const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-  const jdKeywordSet = new Set(jdWords);
-  const matched = [...jdKeywordSet].filter((w) => resumeSet.has(w));
+  // Helper to check if a skill exists in text
+  const isSkillInText = (skill, text) => {
+    const escaped = escapeRegExp(skill);
+    const regex = new RegExp(`(?:^|[^a-zA-Z0-9])` + escaped + `(?:$|[^a-zA-Z0-9])`, 'i');
+    return regex.test(text);
+  };
 
-  const overlapPercent = jdKeywordSet.size
-    ? Math.round((matched.length / jdKeywordSet.size) * 100)
-    : 0;
+  // Find which skills are in the job description
+  const jdSkills = new Set();
+
+  // 1. Add any skill from resumeSkills that is found in the JD
+  for (const skill of normalizedResumeSkills) {
+    if (isSkillInText(skill, jobDescription)) {
+      jdSkills.add(skill);
+    }
+  }
+
+  // 2. Add common skills that are found in the JD
+  for (const skill of COMMON_SKILLS) {
+    if (isSkillInText(skill, jobDescription)) {
+      jdSkills.add(skill);
+    }
+  }
+
+  // Now, matched keywords are those in jdSkills that are also in the resume skills
+  const matched = [];
+  const missing = [];
+
+  for (const skill of jdSkills) {
+    if (resumeSkillsSet.has(skill)) {
+      matched.push(skill);
+    } else {
+      missing.push(skill);
+    }
+  }
+
+  const totalJdSkills = jdSkills.size;
+  const overlapPercent = totalJdSkills
+    ? Math.round((matched.length / totalJdSkills) * 100)
+    : 100; // If JD has no identifiable skills, overlap is 100%
 
   return {
-    matchedKeywords: matched,
+    matchedKeywords: matched.map(s => {
+      const original = resumeSkills.find(rs => rs.toLowerCase() === s) || 
+                       COMMON_SKILLS.find(cs => cs.toLowerCase() === s) || 
+                       s;
+      return original;
+    }),
+    missingKeywords: missing.map(s => {
+      const original = COMMON_SKILLS.find(cs => cs.toLowerCase() === s) || s;
+      return original;
+    }),
     overlapPercent: Math.min(overlapPercent, 100),
   };
 }

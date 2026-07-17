@@ -43,8 +43,10 @@ export function AtsReport({ score: propScore = 75 }: AtsReportProps) {
     ? parsedSkills
     : ['React', 'NodeJS', 'MongoDB', 'Express', 'Rest APIs'];
 
-  // Missing keywords: skills from pool that are not in parsed resume skills
-  const missingKeywords = parsedSkills.length
+  // Missing keywords: actual missing keywords from JD or dynamically inferred missing skills
+  const missingKeywords = storeAtsReport?.keywordOverlap?.missingKeywords?.length
+    ? storeAtsReport.keywordOverlap.missingKeywords
+    : parsedSkills.length
     ? defaultSkillsPool
         .filter((skill) => !parsedSkills.some((s: string) => s.toLowerCase().includes(skill.toLowerCase())))
         .slice(0, 5)
