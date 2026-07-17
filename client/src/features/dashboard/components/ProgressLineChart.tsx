@@ -1,8 +1,6 @@
 /**
  * @file ProgressLineChart.tsx
- * @description Candidate readiness score improvements area chart using Recharts.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
+ * @description Candidate readiness score improvements area chart using Recharts. */
 
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts';
 

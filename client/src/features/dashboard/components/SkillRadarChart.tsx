@@ -1,7 +1,6 @@
 /**
  * @file SkillRadarChart.tsx
- * @description Skill Radar visualization chart using Recharts.
- * @author Senior Staff Frontend Engineer (9+ years experience)
+ * @description Skill Radar visualization chart using Recharts
  */
 
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip, Legend } from 'recharts';
@@ -61,7 +60,7 @@ export function SkillRadarChart() {
               color: 'var(--foreground)',
             }}
           />
-          <Legend 
+          <Legend
             wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }}
           />
         </RadarChart>

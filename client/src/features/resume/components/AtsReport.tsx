@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { Card, CardContent } from '../../../components/ui/Card';
-import { CheckCircle2, AlertTriangle, TrendingUp, BookOpen, Sparkles, Award } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, TrendingUp, BookOpen, Award } from 'lucide-react';
 import { useResumeStore } from '../../../store/resumeStore';
 import { motion } from 'framer-motion';
 
@@ -61,32 +61,32 @@ export function AtsReport({ score: propScore = 75 }: AtsReportProps) {
   const matchingKeywords = storeAtsReport?.keywordOverlap?.matchedKeywords?.length
     ? storeAtsReport.keywordOverlap.matchedKeywords
     : parsedSkills.length
-    ? parsedSkills
-    : ['React', 'NodeJS', 'MongoDB', 'Express', 'Rest APIs'];
+      ? parsedSkills
+      : ['React', 'NodeJS', 'MongoDB', 'Express', 'Rest APIs'];
 
   // Missing keywords
   const missingKeywords = storeAtsReport?.keywordOverlap?.missingKeywords?.length
     ? storeAtsReport.keywordOverlap.missingKeywords
     : parsedSkills.length
-    ? defaultSkillsPool
+      ? defaultSkillsPool
         .filter((skill) => !parsedSkills.some((s: string) => s.toLowerCase().includes(skill.toLowerCase())))
         .slice(0, 5)
-    : ['TypeScript', 'Kubernetes', 'CI/CD Pipelines', 'GraphQL', 'Tailwind CSS'];
+      : ['TypeScript', 'Kubernetes', 'CI/CD Pipelines', 'GraphQL', 'Tailwind CSS'];
 
   // Map backend checks to structural consistency checks
   const structureChecks = storeAtsReport?.checks
     ? storeAtsReport.checks.map((check: any) => ({
-        label: check.name,
-        passed: check.passed,
-        detail: check.detail || (check.passed ? `${check.points} points awarded` : 'No points awarded')
-      }))
+      label: check.name,
+      passed: check.passed,
+      detail: check.detail || (check.passed ? `${check.points} points awarded` : 'No points awarded')
+    }))
     : [
-        { label: 'Contact Details Present', passed: true, detail: 'Email & phone found' },
-        { label: 'Core Skillset Summary Block', passed: true, detail: 'Skills block extracted successfully' },
-        { label: 'Work Experience Chronology', passed: true, detail: 'Experience entries detected' },
-        { label: 'Education Certifications', passed: true, detail: 'Education section found' },
-        { label: 'Measurable Performance Metrics', passed: false, detail: 'Add numeric statistics to experience bullets (e.g. +24% performance improvements).' },
-      ];
+      { label: 'Contact Details Present', passed: true, detail: 'Email & phone found' },
+      { label: 'Core Skillset Summary Block', passed: true, detail: 'Skills block extracted successfully' },
+      { label: 'Work Experience Chronology', passed: true, detail: 'Experience entries detected' },
+      { label: 'Education Certifications', passed: true, detail: 'Education section found' },
+      { label: 'Measurable Performance Metrics', passed: false, detail: 'Add numeric statistics to experience bullets (e.g. +24% performance improvements).' },
+    ];
 
   // Grade classification styling
   const getGradeDetails = (s: number) => {
@@ -113,7 +113,7 @@ export function AtsReport({ score: propScore = 75 }: AtsReportProps) {
   };
 
   return (
-    <motion.div 
+    <motion.div
       variants={containerVariants}
       initial="hidden"
       animate="show"
@@ -135,7 +135,6 @@ export function AtsReport({ score: propScore = 75 }: AtsReportProps) {
                   ATS Scoring Engine
                 </span>
                 <h2 className="text-xl font-bold tracking-tight text-foreground flex items-center justify-center gap-1.5">
-                  <Sparkles className="h-5 w-5 text-primary animate-pulse" />
                   Match Analytics
                 </h2>
               </div>
@@ -209,14 +208,13 @@ export function AtsReport({ score: propScore = 75 }: AtsReportProps) {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {structureChecks.map((check: any, idx: number) => (
-                  <motion.div 
-                    key={idx} 
+                  <motion.div
+                    key={idx}
                     whileHover={{ scale: 1.01, y: -1 }}
-                    className={`flex items-start gap-3 p-3.5 rounded-xl border transition-all duration-300 ${
-                      check.passed 
-                        ? 'bg-emerald-500/[0.02] border-emerald-500/10 hover:border-emerald-500/20' 
+                    className={`flex items-start gap-3 p-3.5 rounded-xl border transition-all duration-300 ${check.passed
+                        ? 'bg-emerald-500/[0.02] border-emerald-500/10 hover:border-emerald-500/20'
                         : 'bg-amber-500/[0.02] border-amber-500/10 hover:border-amber-500/20'
-                    }`}
+                      }`}
                   >
                     {check.passed ? (
                       <div className="p-1 rounded-lg bg-emerald-500/10 text-emerald-500 shrink-0">
@@ -250,7 +248,7 @@ export function AtsReport({ score: propScore = 75 }: AtsReportProps) {
             <CardContent className="p-6 space-y-4">
               <div className="flex items-center gap-2 border-b border-border/40 pb-3">
                 <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-500">
-                  <Sparkles className="h-4.5 w-4.5" />
+
                 </div>
                 <div>
                   <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-500">
