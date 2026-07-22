@@ -1,8 +1,7 @@
 /**
  * @file negotiation.service.js
  * @description AI Salary & Compensation Negotiation Copilot service.
- * @author Senior Fullstack Engineer (9+ years experience)
- */
+  */
 
 const ai = require('../config/gemini');
 const { retryWithBackoff } = require('../utils/retry');

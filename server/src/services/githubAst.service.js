@@ -1,8 +1,6 @@
 /**
  * @file githubAst.service.js
- * @description Deep AST (Abstract Syntax Tree) Static Code Analysis and Architecture Pattern Profiling engine.
- * @author Senior Fullstack Engineer (8+ years experience)
- * 
+ * @description Deep AST (Abstract Syntax Tree) Static Code Analysis and Architecture Pattern Profiling engine * 
  * DESIGN PHILOSOPHY:
  * - Analyzes repository source files for clean code heuristics, security risks, and architecture patterns.
  * - Written defensively with fallbacks to ensure zero runtime server crashes during unparseable code snippets.

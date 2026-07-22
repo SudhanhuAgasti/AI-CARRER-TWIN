@@ -1,7 +1,6 @@
 /**
  * @file errors.js
- * @description Standard custom exception classes for HTTP error dispatching.
- * @author Senior Fullstack Engineer (9+ years experience)
+ * @description Standard custom exception classes for HTTP error dispatching
  */
 
 class AppError extends Error {

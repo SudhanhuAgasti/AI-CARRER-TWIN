@@ -1,8 +1,6 @@
 /**
  * @file phase8.validation.js
- * @description Zod validation schemas for Phase 8 endpoints.
- * @author Senior Fullstack Engineer (10+ years experience)
- */
+ * @description Zod validation schemas for Phase 8 endpoints */
 
 const { z } = require('zod');
 

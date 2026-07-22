@@ -1,7 +1,6 @@
 /**
  * @file index.js
- * @description Central configuration manager using Zod for parsing and validation.
- * @author Senior Fullstack Engineer (9+ years experience)
+ * @description Central configuration manager using Zod for parsing and validation
  */
 
 const { z } = require('zod');

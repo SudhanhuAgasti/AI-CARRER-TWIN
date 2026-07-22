@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Fallback to local MongoDB instance if environment variable is missing
 const mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/ai-career-twin';
 
 // Track connection health state
@@ -10,8 +9,6 @@ const connectionState = {
 
 /**
  * Initializes and establishes the MongoDB database connection using Mongoose.
- * 
- * DESIGN RATIONALE (8+ YoE Architecture):
  * - Keeps connection logic centralized with clean retry policies.
  * - Handles connection events (connected, error, disconnected) transparently to prevent silent dropouts.
  * - Configures connection pools and timeouts suitable for high-performance SaaS scaling.
@@ -23,10 +20,10 @@ async function connectDB() {
 
   try {
     const options = {
-      autoIndex: true, // Build indexes automatically in development
-      maxPoolSize: 10, // Maintain up to 10 socket connections
-      serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of hanging
-      socketTimeoutMS: 45000, // Close sockets after 45s of inactivity
+      autoIndex: true, 
+      maxPoolSize: 10, 
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000, 
     };
 
     console.log(`[Database] Attempting connection to MongoDB...`);

@@ -1,7 +1,6 @@
 /**
  * @file systemDesignEvaluator.service.js
- * @description Evaluates interactive System Design whiteboard architecture topology (nodes & edges) against a target scenario.
- * @author Senior Fullstack Engineer (8+ years experience)
+ * @description Evaluates interactive System Design whiteboard architecture topology (nodes & edges) against a target scenario
  */
 
 const ai = require('../config/gemini');

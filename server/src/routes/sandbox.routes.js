@@ -1,8 +1,6 @@
 /**
  * @file sandbox.routes.js
- * @description Express routing definition for cryptographically verified code sandbox executions.
- * @author Senior Fullstack Engineer (10+ years experience)
- */
+ * @description Express routing definition for cryptographically verified code sandbox executions */
 
 const express = require('express');
 const rateLimit = require('express-rate-limit');

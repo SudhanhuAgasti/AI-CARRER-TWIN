@@ -1,8 +1,6 @@
 /**
  * @file copilot.validation.js
- * @description Zod validation schemas for the Copilot suite routes.
- * @author Senior Fullstack Engineer (9+ years experience)
- */
+ * @description Zod validation schemas for the Copilot suite routes */
 
 const { z } = require('zod');
 

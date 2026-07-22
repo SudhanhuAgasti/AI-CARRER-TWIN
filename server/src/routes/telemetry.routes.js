@@ -1,8 +1,6 @@
 /**
  * @file telemetry.routes.js
- * @description Express routes mapping for real-time Job Market Telemetry.
- * @author Senior Fullstack Engineer (10+ years experience)
- */
+ * @description Express routes mapping for real-time Job Market Telemetry */
 
 const express = require('express');
 const rateLimit = require('express-rate-limit');

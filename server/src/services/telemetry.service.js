@@ -1,7 +1,6 @@
 /**
  * @file telemetry.service.js
- * @description Real-time Job Market Telemetry and Semantic Drift analysis engine.
- * @author Senior Fullstack Engineer (10+ years experience)
+ * @description Real-time Job Market Telemetry and Semantic Drift analysis engine
  */
 
 const ai = require('../config/gemini');

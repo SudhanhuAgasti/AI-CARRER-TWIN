@@ -1,8 +1,7 @@
 /**
  * @file outreachGenerator.service.js
- * @description Automated Hiring Manager Cold Outreach and Networking Message Generator.
- * @author Senior Fullstack Engineer (8+ years experience)
- */
+ * @description Automated Hiring Manager Cold Outreach and Networking Message Generator
+  */
 
 const ai = require('../config/gemini');
 const { retryWithBackoff } = require('../utils/retry');

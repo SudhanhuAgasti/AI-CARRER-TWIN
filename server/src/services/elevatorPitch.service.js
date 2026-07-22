@@ -1,7 +1,6 @@
 /**
  * @file elevatorPitch.service.js
- * @description Spoken Elevator Pitch and Opening Introduction generator service.
- * @author Senior Fullstack Engineer (8+ years experience)
+ * @description Spoken Elevator Pitch and Opening Introduction generator service
  */
 
 const ai = require('../config/gemini');

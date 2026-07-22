@@ -1,7 +1,6 @@
 /**
  * @file sandbox.service.js
- * @description Cryptographically verified isolated sandbox execution and proof-of-work validation engine.
- * @author Senior Fullstack Engineer (10+ years experience)
+ * @description Cryptographically verified isolated sandbox execution and proof-of-work validation engine
  */
 
 const crypto = require('crypto');

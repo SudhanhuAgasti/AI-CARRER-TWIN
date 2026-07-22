@@ -1,8 +1,6 @@
 /**
  * @file sandbox.controller.js
- * @description Controller handling sandbox isolated execution testing and cryptographic verification.
- * @author Senior Fullstack Engineer (10+ years experience)
- */
+ * @description Controller handling sandbox isolated execution testing and cryptographic verification */
 
 const { generateVerifiedProofOfWork, verifyProofOfWorkToken } = require('../services/sandbox.service');
 

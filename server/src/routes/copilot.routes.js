@@ -1,8 +1,6 @@
 /**
  * @file copilot.routes.js
- * @description Express routes for AI Career Advancement and Negotiation Copilot services.
- * @author Senior Fullstack Engineer (8+ years experience)
- */
+ * @description Express routes for AI Career Advancement and Negotiation Copilot services */
 
 const express = require('express');
 const rateLimit = require('express-rate-limit');

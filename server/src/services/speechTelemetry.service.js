@@ -1,7 +1,6 @@
 /**
  * @file speechTelemetry.service.js
- * @description Vocal telemetry and speech analytics service evaluating WPM, filler-words, and confidence indicators.
- * @author Senior Fullstack Engineer (8+ years experience)
+ * @description Vocal telemetry and speech analytics service evaluating WPM, filler-words, and confidence indicators
  */
 
 /**

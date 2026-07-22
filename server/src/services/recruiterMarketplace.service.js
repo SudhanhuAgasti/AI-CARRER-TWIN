@@ -1,7 +1,6 @@
 /**
  * @file recruiterMarketplace.service.js
- * @description B2B Recruiter Marketplace and Public Verified Candidate Profile indexing service.
- * @author Senior Fullstack Engineer (8+ years experience)
+ * @description B2B Recruiter Marketplace and Public Verified Candidate Profile indexing service
  */
 
 const ReadinessDashboard = require('../models/readinessDashboard.model');

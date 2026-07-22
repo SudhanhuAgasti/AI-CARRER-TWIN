@@ -1,8 +1,6 @@
 /**
  * @file telemetry.controller.js
- * @description Controller for parsing and handling Job Market Telemetry endpoints.
- * @author Senior Fullstack Engineer (10+ years experience)
- */
+ * @description Controller for parsing and handling Job Market Telemetry endpoints. */
 
 const { calculateMarketDrift } = require('../services/telemetry.service');
 
