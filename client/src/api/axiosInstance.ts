@@ -12,6 +12,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000
 export const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
   timeout: 30000, // 30 seconds request timeout
+  withCredentials: true, // Enables transmitting secure HttpOnly cookies (like refreshToken)
   headers: {
     'Content-Type': 'application/json',
   },
@@ -79,33 +80,32 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
       isRefreshing = true;
 
-      const { refreshToken, clearAuth, setAuth, user } = useAuthStore.getState();
+      const { clearAuth, setAuth } = useAuthStore.getState();
 
       try {
-        if (!refreshToken) {
-          throw new Error('No refresh token available');
-        }
-
         // Request new token from auth service refresh endpoint
+        // withCredentials: true ensures HttpOnly cookie is sent
         const response = await axios.post<{
-          success: boolean;
-          token: string;
-          refreshToken: string;
-        }>(`${API_BASE_URL}/api/auth/refresh`, { refreshToken });
+          accessToken: string;
+          user: {
+            id: string;
+            name: string;
+            email: string;
+            role?: string;
+          };
+        }>(`${API_BASE_URL}/api/auth/refresh`, {}, { withCredentials: true });
 
-        if (response.data.success && response.data.token) {
-          const newToken = response.data.token;
-          const newRefreshToken = response.data.refreshToken || refreshToken;
+        if (response.data && response.data.accessToken) {
+          const newAccessToken = response.data.accessToken;
+          const user = response.data.user;
 
           // Update Zustand store
-          if (user) {
-            setAuth(newToken, newRefreshToken, user);
-          }
+          setAuth(newAccessToken, user);
 
-          processQueue(null, newToken);
+          processQueue(null, newAccessToken);
 
           if (originalRequest.headers) {
-            originalRequest.headers.Authorization = `Bearer ${newToken}`;
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           }
 
           return axiosInstance(originalRequest);
@@ -114,7 +114,7 @@ axiosInstance.interceptors.response.use(
         }
       } catch (refreshError) {
         processQueue(refreshError as Error, null);
-        // Wipe local auth state and redirect to login if refresh fails
+        // Wipe local auth state if refresh fails
         clearAuth();
         return Promise.reject(refreshError);
       } finally {
