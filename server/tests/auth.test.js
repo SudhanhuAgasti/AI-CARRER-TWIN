@@ -12,7 +12,13 @@ describe('Authentication API Endpoints', () => {
   };
 
   let accessToken = '';
-  let cookieHeader = '';
+  let cookieHeader = null;
+
+  // Helper to extract name=value pairs from set-cookie headers
+  const getCookieHeader = (headers) => {
+    if (!headers) return [];
+    return headers.map((cookie) => cookie.split(';')[0]);
+  };
 
   beforeAll(async () => {
     // Wait for DB connection if not already connected
@@ -104,7 +110,7 @@ describe('Authentication API Endpoints', () => {
     it('should return rotated access token when calling with valid refresh cookie', async () => {
       const res = await request(app)
         .post('/api/auth/refresh')
-        .set('Cookie', cookieHeader)
+        .set('Cookie', getCookieHeader(cookieHeader))
         .expect(200);
 
       expect(res.body).toHaveProperty('accessToken');
@@ -119,7 +125,7 @@ describe('Authentication API Endpoints', () => {
     it('should clear refresh token cookie', async () => {
       const res = await request(app)
         .post('/api/auth/logout')
-        .set('Cookie', cookieHeader)
+        .set('Cookie', getCookieHeader(cookieHeader))
         .expect(200);
 
       expect(res.headers['set-cookie'][0]).toContain('refreshToken=;');

@@ -1,10 +1,3 @@
-const request = require('supertest');
-const mongoose = require('mongoose');
-const app = require('../src/server');
-const User = require('../src/models/user.model');
-const jwt = require('jsonwebtoken');
-const config = require('../src/config');
-
 // Mock third-party service calls (Gemini AI, PDF parse, OCR) to keep tests isolated and fast
 jest.mock('../src/services/parser.service', () => ({
   extractText: jest.fn().mockResolvedValue('Senior Software Engineer with 8 years of Javascript experience.'),
@@ -37,6 +30,13 @@ jest.mock('../src/services/match.service', () => ({
     similarityScore: 90,
   }),
 }));
+
+const request = require('supertest');
+const mongoose = require('mongoose');
+const app = require('../src/server');
+const User = require('../src/models/user.model');
+const jwt = require('jsonwebtoken');
+const config = require('../src/config');
 
 describe('Resume Controller Endpoints', () => {
   let mockToken = '';

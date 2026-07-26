@@ -66,12 +66,13 @@ describe('Code Sandbox API Endpoints', () => {
         .expect(200);
 
       expect(res.body).toHaveProperty('success', true);
-      expect(res.body).toHaveProperty('payload');
-      expect(res.body.payload).toHaveProperty('githubRepoUrl', 'https://github.com/test/project');
+      expect(res.body).toHaveProperty('verifiedReport');
+      expect(res.body.verifiedReport).toHaveProperty('githubRepoUrl', 'https://github.com/test/project');
     });
 
     it('should reject invalid or tampered verification tokens with 401', async () => {
-      const tamperedToken = generatedToken + 'tamper';
+      // Mutate a character in the middle of the base64 token to invalidate signature/JSON structure
+      const tamperedToken = generatedToken.substring(0, 10) + (generatedToken[10] === 'A' ? 'B' : 'A') + generatedToken.substring(11);
       await request(app)
         .get(`/api/sandbox/verify/${tamperedToken}`)
         .set('Authorization', `Bearer ${mockToken}`)

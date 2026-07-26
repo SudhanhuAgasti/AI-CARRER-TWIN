@@ -1,18 +1,7 @@
-const request = require('supertest');
-const mongoose = require('mongoose');
-const app = require('../src/server');
-const User = require('../src/models/user.model');
-const InterviewSession = require('../src/models/interviewSession.model');
-const jwt = require('jsonwebtoken');
-const config = require('../src/config');
-
 // Mock external AI services to isolate controller integration testing
 jest.mock('../src/services/interviewAgent.service', () => ({
   containsPromptInjection: jest.fn().mockReturnValue(false),
-  runQuestionGeneratorNode: jest.fn().mockResolvedValue({
-    question: 'How do you design a scalable microservices architecture?',
-    context: {},
-  }),
+  runQuestionGeneratorNode: jest.fn().mockResolvedValue('How do you design a scalable microservices architecture?'),
   runEvaluatorNode: jest.fn().mockResolvedValue({
     feedback: 'Good answer, but could cover caching more.',
     score: 8,
@@ -34,6 +23,14 @@ jest.mock('../src/services/speechTelemetry.service', () => ({
     confidence: 0.9,
   }),
 }));
+
+const request = require('supertest');
+const mongoose = require('mongoose');
+const app = require('../src/server');
+const User = require('../src/models/user.model');
+const InterviewSession = require('../src/models/interviewSession.model');
+const jwt = require('jsonwebtoken');
+const config = require('../src/config');
 
 describe('Mock Interview API Endpoints', () => {
   let mockToken = '';
@@ -76,16 +73,16 @@ describe('Mock Interview API Endpoints', () => {
         .set('Authorization', `Bearer ${mockToken}`)
         .send({
           targetRole: 'Software Engineer',
-          experienceLevel: 'Mid',
+          experienceLevel: 'mid',
           maxQuestions: 3,
         })
-        .expect(201);
+        .expect(200);
 
-      expect(res.body).toHaveProperty('session');
-      expect(res.body.session).toHaveProperty('currentQuestion');
-      expect(res.body.session.currentQuestion).toContain('scalable microservices');
+      expect(res.body).toHaveProperty('sessionId');
+      expect(res.body).toHaveProperty('question');
+      expect(res.body.question).toContain('scalable microservices');
       
-      sessionId = res.body.session._id;
+      sessionId = res.body.sessionId;
     });
 
     it('should block starting session if input validation fails', async () => {
