@@ -38,12 +38,11 @@ export function OtpVerification() {
       // Successfully verified. Log user in with mock data
       setAuth(
         'mock-login-token-jwt',
-        'mock-login-refresh-token',
         {
           id: 'dev-user-01',
           name: 'Sudhanshu Agasti',
           email: email,
-          role: 'Senior Software Engineer',
+          role: 'candidate',
         }
       );
 
