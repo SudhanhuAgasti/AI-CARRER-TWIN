@@ -10,13 +10,20 @@ import { useAuthStore } from '../../store/authStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
+import { axiosInstance } from '../../api/axiosInstance';
+
 export function Navbar() {
   const { theme, setTheme, toggleSidebar } = useUIStore();
   const { user, clearAuth } = useAuthStore();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showThemeMenu, setShowThemeMenu] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await axiosInstance.post('/api/auth/logout');
+    } catch (e) {
+      console.warn('Logout request failed on backend:', e);
+    }
     clearAuth();
   };
 

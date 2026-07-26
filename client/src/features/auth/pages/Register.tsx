@@ -9,11 +9,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { User, Mail, Lock, UserPlus } from 'lucide-react';
 import { registerSchema, type RegisterFields } from '../auth.validation';
 import { useUIStore } from '../../../store/uiStore';
+import { useAuthStore } from '../../../store/authStore';
+import { axiosInstance } from '../../../api/axiosInstance';
 import Input from '../../../components/ui/Input';
 import Button from '../../../components/ui/Button';
 
 export function Register() {
   const { addToast } = useUIStore();
+  const { setAuth } = useAuthStore();
 
   const {
     register,
@@ -31,21 +34,28 @@ export function Register() {
 
   const onSubmit = async (data: RegisterFields) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await axiosInstance.post('/api/auth/register', {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      });
+
+      const { accessToken, user } = response.data;
+      setAuth(accessToken, user);
       
       addToast({
         type: 'success',
         title: 'Registration Successful',
-        message: 'Your account has been set up! Please verify your email.',
+        message: 'Your account has been set up successfully!',
       });
       
-      // Redirect to OTP verification screen (mocked route change)
-      window.location.href = `/verify-otp?email=${encodeURIComponent(data.email)}`;
-    } catch (err) {
+      // Redirect to dashboard
+      window.location.href = '/dashboard';
+    } catch (err: any) {
       addToast({
         type: 'error',
         title: 'Registration Failed',
-        message: 'This email is already registered. Please login or reset password.',
+        message: err.response?.data?.message || 'Something went wrong. Please try again.',
       });
     }
   };

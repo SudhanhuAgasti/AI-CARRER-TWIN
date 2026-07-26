@@ -10,6 +10,7 @@ import { Mail, Lock, LogIn } from 'lucide-react';
 import { loginSchema, type LoginFields } from '../auth.validation';
 import { useAuthStore } from '../../../store/authStore';
 import { useUIStore } from '../../../store/uiStore';
+import { axiosInstance } from '../../../api/axiosInstance';
 import Input from '../../../components/ui/Input';
 import Button from '../../../components/ui/Button';
 
@@ -31,31 +32,27 @@ export function Login() {
 
   const onSubmit = async (data: LoginFields) => {
     try {
-      // Simulate API sign-in latency
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      const response = await axiosInstance.post('/api/auth/login', {
+        email: data.email,
+        password: data.password,
+      });
 
-      // Mock user login setup
-      setAuth(
-        'mock-login-token-jwt',
-        'mock-login-refresh-token',
-        {
-          id: 'dev-user-01',
-          name: 'Sudhanshu Agasti',
-          email: data.email,
-          role: 'Senior Software Engineer',
-        }
-      );
+      const { accessToken, user } = response.data;
+      setAuth(accessToken, user);
 
       addToast({
         type: 'success',
         title: 'Logged in successfully',
-        message: `Welcome back, Sudhanshu!`,
+        message: `Welcome back, ${user.name}!`,
       });
-    } catch (err) {
+
+      // Redirect to dashboard
+      window.location.href = '/dashboard';
+    } catch (err: any) {
       addToast({
         type: 'error',
         title: 'Authentication Failed',
-        message: 'Invalid email or password combination. Please try again.',
+        message: err.response?.data?.message || 'Invalid email or password combination. Please try again.',
       });
     }
   };
