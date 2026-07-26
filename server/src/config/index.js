@@ -14,6 +14,8 @@ const configSchema = z.object({
   geminiApiKey: z.string().optional(),
   githubToken: z.string().optional(),
   hmacSecret: z.string().default('career-twin-cryptographic-verification-salt-secure-default'),
+  jwtAccessSecret: z.string().default('ai-career-twin-jwt-access-secret-key-10-yoe-experience'),
+  jwtRefreshSecret: z.string().default('ai-career-twin-jwt-refresh-secret-key-10-yoe-experience'),
   nodeEnv: z.enum(['development', 'production', 'test']).default('development'),
 });
 
@@ -23,6 +25,8 @@ const parsed = configSchema.safeParse({
   geminiApiKey: process.env.GEMINI_API_KEY,
   githubToken: process.env.GITHUB_TOKEN,
   hmacSecret: process.env.HMAC_SECRET,
+  jwtAccessSecret: process.env.JWT_ACCESS_SECRET,
+  jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
   nodeEnv: process.env.NODE_ENV,
 });
 
