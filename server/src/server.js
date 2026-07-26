@@ -13,14 +13,27 @@ const dashboardRoutes = require('./routes/dashboard.routes');
 const copilotRoutes = require('./routes/copilot.routes');
 const telemetryRoutes = require('./routes/telemetry.routes');
 const sandboxRoutes = require('./routes/sandbox.routes');
+const cookieParser = require('cookie-parser');
+const authenticate = require('./middleware/auth/authentication.middleware');
+const authRoutes = require('./routes/auth.routes');
 const { errorHandler } = require('./middleware/error.middleware');
 
 const app = express();
 
 const { geminiApiKeyStore } = require('./config/gemini');
 
-app.use(cors());
+// CORS configuration supporting HttpOnly credentials
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow any origin during dev, or specify local hostnames
+      callback(null, true);
+    },
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: '2mb' }));
+app.use(cookieParser());
 
 // Middleware to inject user's custom Gemini API key from client headers into async context
 app.use((req, res, next) => {
@@ -33,15 +46,20 @@ app.use((req, res, next) => {
 });
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
-app.use('/api/resume', resumeRoutes);
-app.use('/api/planner', plannerRoutes);
-app.use('/api/github', githubRoutes);
-app.use('/api/interview', interviewRoutes);
-app.use('/api/linkedin', linkedinRoutes);
-app.use('/api/dashboard', dashboardRoutes);
-app.use('/api/copilot', copilotRoutes);
-app.use('/api/telemetry', telemetryRoutes);
-app.use('/api/sandbox', sandboxRoutes);
+
+// Auth routes (unprotected / rate-limited)
+app.use('/api/auth', authRoutes);
+
+// Protected routes (require valid JWT access token)
+app.use('/api/resume', authenticate, resumeRoutes);
+app.use('/api/planner', authenticate, plannerRoutes);
+app.use('/api/github', authenticate, githubRoutes);
+app.use('/api/interview', authenticate, interviewRoutes);
+app.use('/api/linkedin', authenticate, linkedinRoutes);
+app.use('/api/dashboard', authenticate, dashboardRoutes);
+app.use('/api/copilot', authenticate, copilotRoutes);
+app.use('/api/telemetry', authenticate, telemetryRoutes);
+app.use('/api/sandbox', authenticate, sandboxRoutes);
 
 // Keep error handler last - catches errors from any route via next(err)
 app.use(errorHandler);
