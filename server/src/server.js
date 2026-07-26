@@ -78,16 +78,18 @@ connectDB().then(async () => {
   }
 });
 
-const server = app.listen(config.port, () => {
-  console.log(`AI Career Twin API running on http://localhost:${config.port}`);
-});
+let server;
+if (require.main === module) {
+  server = app.listen(config.port, () => {
+    console.log(`AI Career Twin API running on http://localhost:${config.port}`);
+  });
+}
 
 // Graceful Shutdown Handler
 const gracefulShutdown = (signal) => {
   console.log(`\n[Process] Received ${signal}. Starting graceful shutdown...`);
   
-  server.close(async () => {
-    console.log('[Server] HTTP server closed.');
+  const runShutdown = async () => {
     try {
       if (mongoose.connection.readyState !== 0) {
         await mongoose.connection.close();
@@ -98,8 +100,19 @@ const gracefulShutdown = (signal) => {
       console.error('[Shutdown Error] Failed to close DB connection cleanly:', err.message);
       process.exit(1);
     }
-  });
+  };
+
+  if (server) {
+    server.close(() => {
+      console.log('[Server] HTTP server closed.');
+      runShutdown();
+    });
+  } else {
+    runShutdown();
+  }
 };
 
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+
+module.exports = app;
