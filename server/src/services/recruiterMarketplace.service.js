@@ -31,7 +31,9 @@ async function generatePublicCandidateBadge(resumeId) {
   const resume = await Resume.findById(resumeId).exec();
 
   if (!dashboard || !resume) {
-    throw new Error('Candidate readiness profile or resume data not found.');
+    const err = new Error('Candidate readiness profile or resume data not found.');
+    err.status = 404;
+    throw err;
   }
 
   return {
