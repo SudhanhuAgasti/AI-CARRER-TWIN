@@ -10,6 +10,7 @@ const {
   runEvaluatorNode,
   runFinalScorerNode,
 } = require('../services/interviewAgent.service');
+const { storeUserFile } = require('../utils/fileStorage');
 
 /**
  * Controller handling POST /api/interview/start.
@@ -131,12 +132,24 @@ async function submitAnswer(req, res, next) {
     let candidateAnswer = '';
     let transcribedText = null;
     let vocalTelemetry = null;
+    let savedAudioPath = null;
 
     if (req.file) {
       // Audio transcription fallback and speech telemetry
       candidateAnswer = await transcribeAudio(req.file.buffer, req.file.mimetype);
       transcribedText = candidateAnswer;
       vocalTelemetry = analyzeSpeechTelemetry(transcribedText, Number(req.body.durationSeconds) || 10);
+
+      // Save audio recording locally under uploads/<userId>/audios/
+      const userId = req.user?.id || req.user?._id;
+      if (userId) {
+        try {
+          const originalName = req.file.originalname || `answer-${Date.now()}.webm`;
+          savedAudioPath = await storeUserFile(userId, req.file.buffer, originalName, 'audios');
+        } catch (storageErr) {
+          console.error('[Interview Controller] Local audio file storage failed:', storageErr.message);
+        }
+      }
     } else {
       candidateAnswer = req.body.answer || '';
     }
@@ -176,6 +189,7 @@ async function submitAnswer(req, res, next) {
     session.chatHistory.push({
       role: 'candidate',
       content: cleanAnswer,
+      audioUrl: savedAudioPath || null,
     });
 
     // 3. Run Node 2 & 3: Evaluator Node

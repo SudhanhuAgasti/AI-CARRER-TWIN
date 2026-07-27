@@ -4,6 +4,7 @@ const { computeAtsScore } = require('../services/ats.service');
 const { computeMatchScore } = require('../services/match.service');
 const { morphResume } = require('../services/resumeMorpher.service');
 const { saveResume, saveAtsReport } = require('../services/db.service');
+const { storeUserFile } = require('../utils/fileStorage');
 
 /**
  * Controller handling POST /api/resume/analyze.
@@ -32,6 +33,17 @@ async function analyzeResume(req, res, next) {
       throw err;
     }
 
+    // Save original file to local disk (partitioned under uploads/<userId>/resumes/)
+    let savedLocalPath = null;
+    const userId = req.user?.id || req.user?._id;
+    if (userId) {
+      try {
+        savedLocalPath = await storeUserFile(userId, req.file.buffer, req.file.originalname, 'resumes');
+      } catch (storageErr) {
+        console.error('[Resume Controller] Local file storage failed:', storageErr.message);
+      }
+    }
+
     // 2. Structured extraction via Gemini (skills, experience, education, contact info)
     const structuredResume = await extractStructuredResume(rawText);
 
@@ -48,7 +60,7 @@ async function analyzeResume(req, res, next) {
     let resumeId = null;
     let reportId = null;
     try {
-      resumeId = await saveResume(structuredResume, rawText);
+      resumeId = await saveResume(structuredResume, rawText, savedLocalPath);
       if (resumeId) {
         reportId = await saveAtsReport(resumeId, atsResult, jobDescription, matchResult);
       }

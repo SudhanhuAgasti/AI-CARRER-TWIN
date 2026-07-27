@@ -12,7 +12,7 @@ const { connectionState } = require('../config/db');
  * @param {string} rawText - Unstructured raw text from PDF/Word/Image.
  * @returns {Promise<string|null>} Created resume ObjectId string (or null if DB not active)
  */
-async function saveResume(structured, rawText) {
+async function saveResume(structured, rawText, filePath = null) {
   try {
     if (!connectionState.isConnected) {
       console.warn('[DB Service] Mongoose connection not active. Skipping resume save.');
@@ -29,6 +29,7 @@ async function saveResume(structured, rawText) {
       education: structured.education,
       certifications: structured.certifications,
       rawText: rawText,
+      filePath: filePath,
     });
 
     const saved = await resumeDoc.save();

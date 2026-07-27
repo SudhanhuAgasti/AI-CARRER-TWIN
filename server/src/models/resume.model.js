@@ -34,6 +34,7 @@ const ResumeSchema = new mongoose.Schema(
     education: { type: [EducationSchema], default: [] },
     certifications: { type: [String], default: [] },
     rawText: { type: String, required: true },
+    filePath: { type: String, default: null },
   },
   {
     timestamps: true, // Automatically manages createdAt and updatedAt properties
