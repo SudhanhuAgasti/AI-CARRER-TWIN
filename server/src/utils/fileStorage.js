@@ -51,8 +51,8 @@ async function storeUserFile(userId, fileBuffer, originalName, subfolder) {
   // Base directory pointing to 'server/uploads'
   const baseUploadsDir = path.resolve(__dirname, '../../uploads');
   
-  // User & subfolder partitioned target directory
-  const targetDir = path.join(baseUploadsDir, userId.toString(), subfolder);
+  // User & subfolder partitioned target directory under dedicated 'users' namespace
+  const targetDir = path.join(baseUploadsDir, 'users', userId.toString(), subfolder);
 
   // Ensure the directory structure exists recursively
   if (!fs.existsSync(targetDir)) {
@@ -66,8 +66,8 @@ async function storeUserFile(userId, fileBuffer, originalName, subfolder) {
   // Save the buffer to local disk
   await fs.promises.writeFile(fullPath, fileBuffer);
 
-  // Return server-relative path for clean DB records (e.g., 'uploads/123/resumes/my-resume-abc123.pdf')
-  return path.join('uploads', userId.toString(), subfolder, safeFilename).replace(/\\/g, '/');
+  // Return server-relative path for clean DB records (e.g., 'uploads/users/123/resumes/my-resume-abc123.pdf')
+  return path.join('uploads', 'users', userId.toString(), subfolder, safeFilename).replace(/\\/g, '/');
 }
 
 module.exports = {
