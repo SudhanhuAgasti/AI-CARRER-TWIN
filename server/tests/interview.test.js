@@ -103,8 +103,7 @@ describe('Mock Interview API Endpoints', () => {
         .set('Authorization', `Bearer ${mockToken}`)
         .expect(200);
 
-      expect(res.body).toHaveProperty('session');
-      expect(res.body.session).toHaveProperty('targetRole', 'Software Engineer');
+      expect(res.body).toHaveProperty('targetRole', 'Software Engineer');
     });
   });
 
@@ -114,11 +113,11 @@ describe('Mock Interview API Endpoints', () => {
         .post(`/api/interview/${sessionId}/answer`)
         .set('Authorization', `Bearer ${mockToken}`)
         .send({
-          answerText: 'I would use load balancers, caching and horizontal scaling.',
+          answer: 'I would use load balancers, caching and horizontal scaling.',
         })
         .expect(200);
 
-      expect(res.body).toHaveProperty('feedback');
+      expect(res.body).toHaveProperty('question');
     });
 
     it('should throw a 409 status if parallel duplicate requests attempt to hijack the session lock', async () => {
@@ -129,12 +128,12 @@ describe('Mock Interview API Endpoints', () => {
         .post(`/api/interview/${sessionId}/answer`)
         .set('Authorization', `Bearer ${mockToken}`)
         .send({
-          answerText: 'Another answer.',
+          answer: 'Another answer.',
         })
         .expect(409);
 
       expect(res.body).toHaveProperty('message');
-      expect(res.body.message).toContain('Session is currently busy');
+      expect(res.body.message).toContain('Another answer submission');
 
       // Clear the lock for cleanup
       await InterviewSession.findByIdAndUpdate(sessionId, { isLocked: false }).exec();

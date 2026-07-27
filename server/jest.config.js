@@ -8,7 +8,7 @@ module.exports = {
   verbose: true,
   forceExit: true,
   clearMocks: true,
-  resetMocks: true,
+  resetMocks: false,
   restoreMocks: true,
   testTimeout: 20000, // 20 seconds maximum timeout per test
 };
