@@ -418,17 +418,17 @@ export function Dashboard() {
                 <p className="text-[10px] text-muted-foreground mt-0.5">Track your learning journey</p>
               </div>
 
-              <div className="flex items-center gap-4 py-2">
+              <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row items-center justify-between gap-4 py-2 w-full">
                 {/* Check list */}
-                <div className="flex-1 space-y-2.5">
+                <div className="w-full sm:flex-1 md:w-full lg:flex-1 space-y-2.5">
                   {[
                     { week: 'Week 1 - Foundations', status: 'Completed', color: 'text-emerald-500' },
                     { week: 'Week 2 - Core Concepts', status: 'Completed', color: 'text-emerald-500' },
                     { week: 'Week 3 - Advanced Topics', status: 'In Progress', color: 'text-pink-500' },
                     { week: 'Week 4 - Expert Level', status: 'Locked', color: 'text-muted-foreground' }
                   ].map((step, idx) => (
-                    <div key={idx} className="flex items-center justify-between text-xs">
-                      <span className="text-muted-foreground truncate max-w-[120px]">{step.week}</span>
+                    <div key={idx} className="flex items-center justify-between text-xs w-full gap-2">
+                      <span className="text-muted-foreground truncate max-w-[120px] sm:max-w-[150px] md:max-w-[100px] lg:max-w-[120px]">{step.week}</span>
                       <span className={`font-bold text-[10px] shrink-0 ${step.color}`}>{step.status}</span>
                     </div>
                   ))}
