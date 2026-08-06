@@ -1,15 +1,26 @@
 /**
  * @file Navbar.tsx
- * @description Premium responsive application top navigation bar
+ * @description Premium responsive application top navigation bar matching the mock UI layout.
  */
 
 import { useState } from 'react';
-import { Menu, Moon, Sun, Monitor, LogOut, User, Settings } from 'lucide-react';
+import { 
+  Menu, 
+  Moon, 
+  Sun, 
+  Monitor, 
+  LogOut, 
+  User, 
+  Settings, 
+  Sparkles, 
+  Bell, 
+  Search, 
+  ChevronDown 
+} from 'lucide-react';
 import { useUIStore, type Theme } from '../../store/uiStore';
 import { useAuthStore } from '../../store/authStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-
 import { axiosInstance } from '../../api/axiosInstance';
 
 export function Navbar() {
@@ -32,7 +43,7 @@ export function Navbar() {
       case 'light':
         return <Sun className="h-[1.2rem] w-[1.2rem] text-orange-500" />;
       case 'dark':
-        return <Moon className="h-[1.2rem] w-[1.2rem] text-indigo-400" />;
+        return <Moon className="h-[1.2rem] w-[1.2rem] text-pink-400" />;
       default:
         return <Monitor className="h-[1.2rem] w-[1.2rem] text-muted-foreground" />;
     }
@@ -55,10 +66,10 @@ export function Navbar() {
   } as const;
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/60 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl shrink-0">
       <div className="flex h-16 items-center justify-between px-6">
-
-        {/* Left Side: Mobile Menu Button & Brand logo */}
+        
+        {/* Left Side: Mobile Menu Button */}
         <div className="flex items-center gap-4">
           <button
             onClick={toggleSidebar}
@@ -67,27 +78,49 @@ export function Navbar() {
           >
             <Menu className="h-5 w-5" />
           </button>
-          <div className="flex items-center gap-2">
-            <span className="logo-gradient font-bold text-lg tracking-tight select-none">
-              AI Career Twin
-            </span>
-            <span className="hidden sm:inline-block rounded-full bg-primary/10 border border-primary/20 px-2.5 py-0.5 text-[10px] font-bold text-primary tracking-wider uppercase">
-              Beta
-            </span>
+        </div>
+
+        {/* Center/Search Bar (only on md and up) */}
+        <div className="hidden md:flex items-center flex-1 max-w-lg mx-6 relative">
+          <Search className="absolute left-3.5 h-4 w-4 text-muted-foreground" />
+          <input 
+            type="text" 
+            placeholder="Search careers, skills, resumes..." 
+            className="w-full h-10 pl-10 pr-12 rounded-xl bg-white/[0.04] hover:bg-white/[0.07] border border-white/[0.06] text-xs font-medium placeholder:text-muted-foreground focus:outline-none focus:border-pink-500/40 focus:ring-1 focus:ring-pink-500/20 text-white transition-all"
+          />
+          <div className="absolute right-3 px-1.5 py-0.5 rounded-md bg-white/[0.08] border border-white/10 text-[9px] font-bold text-muted-foreground flex items-center gap-0.5 select-none">
+            <span>⌘</span>
+            <span>K</span>
           </div>
         </div>
 
-        {/* Right Side: Theme Controls & User Actions */}
-        <div className="flex items-center gap-3">
+        {/* Right Side Theme, Notifications, AI Button, User Profile */}
+        <div className="flex items-center gap-4 shrink-0">
+          
+          {/* Ask AI Pink Gradient Button */}
+          <button className="flex items-center gap-1.5 h-9 px-4 rounded-xl bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-xs font-bold text-white shadow-md shadow-pink-500/10 transition-all select-none cursor-pointer">
+            <Sparkles className="h-3.5 w-3.5 fill-current" />
+            <span>Ask AI</span>
+          </button>
 
-          {/* Theme Switcher Dropdown */}
+          {/* Notification Icon with Pink Badge */}
+          <div className="relative">
+            <button className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] text-muted-foreground hover:text-white transition-colors relative cursor-pointer">
+              <Bell className="h-4 w-4" />
+              <span className="absolute top-1.5 right-1.5 h-4 w-4 rounded-full bg-pink-500 border-2 border-background text-[9px] font-extrabold text-white flex items-center justify-center">
+                3
+              </span>
+            </button>
+          </div>
+
+          {/* Theme Dropdown Toggle */}
           <div className="relative">
             <button
               onClick={() => {
                 setShowThemeMenu(!showThemeMenu);
                 setShowProfileMenu(false);
               }}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card/40 hover:bg-accent text-foreground transition-all duration-200"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] text-muted-foreground hover:text-white transition-all cursor-pointer"
               aria-label="Switch Theme"
             >
               {getThemeIcon(theme)}
@@ -109,7 +142,7 @@ export function Navbar() {
                         setTheme(t);
                         setShowThemeMenu(false);
                       }}
-                      className={`flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-semibold capitalize text-left transition-colors hover:bg-accent hover:text-accent-foreground ${theme === t ? 'text-primary bg-primary/5' : 'text-muted-foreground'
+                      className={`flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-semibold capitalize text-left transition-colors hover:bg-accent hover:text-accent-foreground ${theme === t ? 'text-pink-500 bg-pink-500/5' : 'text-muted-foreground'
                         }`}
                     >
                       {getThemeIcon(t)}
@@ -121,7 +154,7 @@ export function Navbar() {
             </AnimatePresence>
           </div>
 
-          {/* User Profile Menu */}
+          {/* Profile User Dropdown */}
           {user && (
             <div className="relative">
               <button
@@ -129,12 +162,16 @@ export function Navbar() {
                   setShowProfileMenu(!showProfileMenu);
                   setShowThemeMenu(false);
                 }}
-                className="flex items-center gap-2 rounded-full p-0.5 border border-border/80 bg-card hover:bg-accent transition-colors"
+                className="flex items-center gap-2 rounded-xl p-1 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] transition-colors cursor-pointer select-none"
                 aria-label="User profile menu"
               >
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary uppercase select-none">
+                <div className="h-7 w-7 rounded-lg overflow-hidden bg-pink-500/10 flex items-center justify-center text-xs font-bold text-pink-500 uppercase select-none">
                   {user.name.charAt(0)}
                 </div>
+                <span className="hidden sm:inline-block text-xs font-bold text-white">
+                  {user.name}
+                </span>
+                <ChevronDown className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
               </button>
 
               <AnimatePresence>
