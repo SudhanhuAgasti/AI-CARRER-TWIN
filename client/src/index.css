@@ -190,3 +190,19 @@ body {
     stroke-dashoffset: -1000;
   }
 }
+
+/* Floating Bobbing Robot Animation */
+@keyframes floatRobot {
+  0%, 100% {
+    transform: translateY(0);
+    filter: drop-shadow(0 4px 8px rgba(236,72,153,0.15));
+  }
+  50% {
+    transform: translateY(-8px);
+    filter: drop-shadow(0 12px 20px rgba(236,72,153,0.35));
+  }
+}
+
+.floating-robot {
+  animation: floatRobot 3.5s infinite ease-in-out;
+}

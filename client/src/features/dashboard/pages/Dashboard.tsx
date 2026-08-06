@@ -547,17 +547,16 @@ export function Dashboard() {
             {/* Conversation Window area */}
             <div className="flex-1 p-4 overflow-y-auto space-y-4 custom-scrollbar text-left flex flex-col justify-start">
               
-              {/* Large Robot Avatar & Coach Name layout inside body */}
-              <div className="flex items-center gap-3.5 pb-3 mb-2 border-b border-white/[0.03]">
-                <div className="h-14 w-14 rounded-full overflow-hidden border-2 border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.2)] bg-black/40">
-                  <img src="/chatbot_robot_avatar.png" alt="Robot Coach" className="w-full h-full object-cover" />
+              {/* Medium Robot Standing & Floating Showcase inside body */}
+              <div className="flex flex-col items-center justify-center py-4 border-b border-white/[0.03] text-center w-full shrink-0">
+                <div className="h-24 w-24 rounded-2xl overflow-hidden border border-pink-500/30 bg-black/30 floating-robot shadow-lg flex items-center justify-center p-2 relative">
+                  <div className="absolute inset-0 bg-gradient-to-t from-pink-500/20 to-transparent opacity-60" />
+                  <img src="/chatbot_robot_avatar.png" alt="Robot Coach" className="w-full h-full object-contain relative z-10" />
                 </div>
-                <div className="flex flex-col">
-                  <h3 className="text-sm font-extrabold text-white">AI Career Coach</h3>
-                  <div className="flex items-center gap-1.5 mt-0.5">
-                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[10px] text-muted-foreground font-semibold">Online</span>
-                  </div>
+                <h3 className="text-sm font-extrabold text-white mt-3">AI Career Coach</h3>
+                <div className="flex items-center gap-1.5 mt-1 justify-center">
+                  <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-[10px] text-muted-foreground font-semibold">Online</span>
                 </div>
               </div>
 
