@@ -358,12 +358,24 @@ export function Dashboard() {
                   <span className="font-extrabold text-[10px] tracking-tighter">{"</>"}</span>
                 </div>
               </foreignObject>
-            </svg>
 
-            {/* Glowing Brain image inside the dome */}
-            <div className="absolute top-[34px] left-[50%] -translate-x-[50%] w-16 h-16 flex items-center justify-center brain-glow pointer-events-none">
-              <img src="/neon_brain_asset.png" alt="Neural Brain" className="w-12 h-12 object-contain rounded-full shadow-[0_0_20px_rgba(236,72,153,0.3)]" />
-            </div>
+              {/* Glowing Vector Monogram Logo inside the Glass Dome */}
+              <g transform="translate(160, 85)" className="brain-glow pointer-events-none">
+                {/* Ambient glow backing */}
+                <circle r="18" fill="none" stroke="hsl(336, 100%, 60%)" strokeWidth="6" opacity="0.15" filter="url(#neonPinkGlow)" />
+                {/* Thin outer ring */}
+                <circle r="18" fill="none" stroke="hsl(336, 100%, 65%)" strokeWidth="1" strokeDasharray="3 3" opacity="0.6">
+                  <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="15s" repeatCount="indefinite" />
+                </circle>
+                
+                {/* Stylized Twin overlapping infinity loop wings */}
+                <path d="M -12 -3 C -6 -12, 6 12, 12 3 C 6 12, -6 -12, -12 -3" fill="none" stroke="hsl(336, 100%, 60%)" strokeWidth="2" filter="url(#neonPinkGlow)" />
+                <path d="M -12 3 C -6 12, 6 -12, 12 -3 C 6 -12, -6 12, -12 3" fill="none" stroke="hsl(336, 100%, 60%)" strokeWidth="2" filter="url(#neonPinkGlow)" />
+
+                {/* Bright core synapse point */}
+                <circle r="3" fill="#fff" filter="url(#whiteCoreGlow)" />
+              </g>
+            </svg>
 
           </div>
         </div>
