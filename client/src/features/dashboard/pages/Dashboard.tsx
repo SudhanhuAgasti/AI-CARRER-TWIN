@@ -209,45 +209,114 @@ export function Dashboard() {
           </div>
 
           {/* Neural Dome Visualization container */}
-          <div className="relative w-full md:w-56 h-44 flex items-center justify-center shrink-0">
-            {/* SVG Glowing dome illustration */}
-            <svg className="absolute w-52 h-44 overflow-visible" viewBox="0 0 200 170">
+          <div className="relative w-full md:w-96 h-48 flex items-center justify-center shrink-0 select-none">
+            
+            {/* SVG Connecting Neural Paths with Glow Filters & Animated Dots */}
+            <svg className="absolute inset-0 w-full h-full overflow-visible pointer-events-none" viewBox="0 0 320 180">
               <defs>
-                <radialGradient id="brainGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="hsl(336, 100%, 60%)" stopOpacity="0.8" />
+                <filter id="neonPinkGlow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="3" result="blur1" />
+                  <feGaussianBlur stdDeviation="8" result="blur2" />
+                  <feMerge>
+                    <feMergeNode in="blur2" />
+                    <feMergeNode in="blur1" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+                <radialGradient id="pedestalGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="hsl(336, 100%, 60%)" stopOpacity="0.6" />
                   <stop offset="100%" stopColor="hsl(336, 100%, 60%)" stopOpacity="0" />
                 </radialGradient>
-                <linearGradient id="domeGrad" x1="0" y1="0" x2="0" y2="1">
+                <linearGradient id="jarReflect" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="rgba(255,255,255,0.15)" />
                   <stop offset="100%" stopColor="rgba(255,255,255,0.01)" />
                 </linearGradient>
               </defs>
 
               {/* Neural Paths */}
-              <path d="M 100 80 Q 60 70, 30 50" stroke="hsl(336, 100%, 60%)" strokeWidth="1" strokeOpacity="0.4" fill="none" className="neural-line" />
-              <path d="M 100 80 Q 70 95, 30 110" stroke="hsl(336, 100%, 60%)" strokeWidth="1" strokeOpacity="0.4" fill="none" className="neural-line" />
-              <path d="M 100 80 Q 140 70, 170 50" stroke="hsl(336, 100%, 60%)" strokeWidth="1" strokeOpacity="0.4" fill="none" className="neural-line" />
-              <path d="M 100 80 Q 130 95, 170 110" stroke="hsl(336, 100%, 60%)" strokeWidth="1" strokeOpacity="0.4" fill="none" className="neural-line" />
+              <path id="pathFile" d="M 160 80 Q 110 50, 48 36" stroke="hsl(336, 100%, 60%)" strokeWidth="1.5" fill="none" opacity="0.6" filter="url(#neonPinkGlow)" />
+              <path id="pathGithub" d="M 160 80 Q 90 90, 32 94" stroke="hsl(336, 100%, 60%)" strokeWidth="1.5" fill="none" opacity="0.6" filter="url(#neonPinkGlow)" filter-opacity="0.8" />
+              <path id="pathLinkedin" d="M 160 80 Q 110 120, 78 138" stroke="hsl(336, 100%, 60%)" strokeWidth="1.5" fill="none" opacity="0.6" filter="url(#neonPinkGlow)" />
+              <path id="pathUser" d="M 160 80 Q 210 50, 272 36" stroke="hsl(336, 100%, 60%)" strokeWidth="1.5" fill="none" opacity="0.6" filter="url(#neonPinkGlow)" />
+              <path id="pathCode" d="M 160 80 Q 230 90, 288 94" stroke="hsl(336, 100%, 60%)" strokeWidth="1.5" fill="none" opacity="0.6" filter="url(#neonPinkGlow)" />
 
-              {/* Glowing base plate */}
-              <ellipse cx="100" cy="130" rx="42" ry="12" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
-              <ellipse cx="100" cy="132" rx="45" ry="14" fill="none" stroke="hsl(336, 100%, 60%)" strokeWidth="2.5" strokeOpacity="0.8" />
-              <ellipse cx="100" cy="132" rx="45" ry="14" fill="url(#brainGlow)" opacity="0.3" />
+              {/* Moving Sparkle Dots along paths */}
+              <circle r="2" fill="#fff">
+                <animateMotion dur="3.5s" repeatCount="indefinite" path="M 160 80 Q 110 50, 48 36" />
+              </circle>
+              <circle r="2" fill="#fff">
+                <animateMotion dur="4.2s" repeatCount="indefinite" path="M 160 80 Q 90 90, 32 94" />
+              </circle>
+              <circle r="2" fill="#fff">
+                <animateMotion dur="3.8s" repeatCount="indefinite" path="M 160 80 Q 110 120, 78 138" />
+              </circle>
+              <circle r="2" fill="#fff">
+                <animateMotion dur="3.6s" repeatCount="indefinite" path="M 160 80 Q 210 50, 272 36" />
+              </circle>
+              <circle r="2" fill="#fff">
+                <animateMotion dur="4s" repeatCount="indefinite" path="M 160 80 Q 230 90, 288 94" />
+              </circle>
 
-              {/* Glass dome */}
-              <path d="M 55 130 A 45 60 0 0 1 145 130 Z" fill="url(#domeGrad)" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
+              {/* Pedestal Base Floor */}
+              <ellipse cx="160" cy="130" rx="36" ry="10" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+              <ellipse cx="160" cy="132" rx="38" ry="12" fill="none" stroke="hsl(336, 100%, 60%)" strokeWidth="2.5" strokeOpacity="0.8" filter="url(#neonPinkGlow)" />
+              <ellipse cx="160" cy="132" rx="38" ry="12" fill="url(#pedestalGlow)" opacity="0.3" />
+
+              {/* Glass Dome Overlay */}
+              <path d="M 122 130 A 38 48 0 0 1 198 130 Z" fill="url(#jarReflect)" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
             </svg>
 
             {/* Glowing Brain image inside the dome */}
-            <div className="absolute top-[28px] left-[50%] -translate-x-[50%] w-20 h-20 flex items-center justify-center brain-glow cursor-pointer">
-              <img src="/neon_brain_asset.png" alt="Neural Brain" className="w-16 h-16 object-contain rounded-full shadow-[0_0_20px_rgba(236,72,153,0.3)]" />
+            <div className="absolute top-[34px] left-[50%] -translate-x-[50%] w-16 h-16 flex items-center justify-center brain-glow pointer-events-none">
+              <img src="/neon_brain_asset.png" alt="Neural Brain" className="w-12 h-12 object-contain rounded-full shadow-[0_0_20px_rgba(236,72,153,0.3)]" />
             </div>
 
-            {/* Floating neural node badges */}
-            <div className="absolute top-6 left-1 flex items-center justify-center h-7 w-7 rounded-lg bg-card border border-white/10 shadow-lg text-pink-500"><FileText className="h-4 w-4" /></div>
-            <div className="absolute bottom-10 left-1 flex items-center justify-center h-7 w-7 rounded-lg bg-card border border-white/10 shadow-lg text-pink-500"><GithubIcon className="h-4 w-4" /></div>
-            <div className="absolute top-6 right-1 flex items-center justify-center h-7 w-7 rounded-lg bg-card border border-white/10 shadow-lg text-pink-500"><UserIcon className="h-4 w-4" /></div>
-            <div className="absolute bottom-10 right-1 flex items-center justify-center h-7 w-7 rounded-lg bg-card border border-white/10 shadow-lg text-pink-500"><Terminal className="h-4 w-4" /></div>
+            {/* Floating Glass Icon Cards */}
+            
+            {/* Top-Left: Document/Resume */}
+            <div 
+              onClick={() => handleQuickAction('Resume Analysis')}
+              className="absolute top-2 left-6 h-9 w-9 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex items-center justify-center text-pink-500 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer animate-float-3d select-none"
+            >
+              <FileText className="h-4.5 w-4.5" />
+            </div>
+
+            {/* Middle-Left: Github */}
+            <div 
+              onClick={() => handleQuickAction('GitHub Analyzer')}
+              className="absolute top-18 left-1 h-9 w-9 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex items-center justify-center text-pink-500 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer animate-float-3d select-none"
+              style={{ animationDelay: '-1.5s' }}
+            >
+              <GithubIcon className="h-4.5 w-4.5" />
+            </div>
+
+            {/* Bottom-Left: Linkedin */}
+            <div 
+              onClick={() => handleQuickAction('LinkedIn Analyzer')}
+              className="absolute bottom-2 left-10 h-9 w-9 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex items-center justify-center text-pink-500 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer animate-float-3d select-none"
+              style={{ animationDelay: '-0.7s' }}
+            >
+              <LinkedinIcon className="h-4.5 w-4.5" />
+            </div>
+
+            {/* Top-Right: User Profile */}
+            <div 
+              onClick={() => handleQuickAction('Profile Settings')}
+              className="absolute top-2 right-6 h-9 w-9 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex items-center justify-center text-pink-500 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer animate-float-3d select-none"
+              style={{ animationDelay: '-2s' }}
+            >
+              <UserIcon className="h-4.5 w-4.5" />
+            </div>
+
+            {/* Middle-Right: Code symbol */}
+            <div 
+              onClick={() => handleQuickAction('Coding Sandbox')}
+              className="absolute top-18 right-1 h-9 w-9 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex items-center justify-center text-pink-500 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer animate-float-3d select-none"
+              style={{ animationDelay: '-1s' }}
+            >
+              <span className="font-extrabold text-[10px] tracking-tighter">{"</>"}</span>
+            </div>
+
           </div>
         </div>
 
