@@ -208,10 +208,11 @@ export function Dashboard() {
             </div>
           </div>
 
-          {/* Neural Dome Visualization container */}
-          <div className="relative w-full md:w-96 h-48 flex items-center justify-center shrink-0 select-none">
-                      {/* SVG Connecting Neural Paths with Glow Filters & Animated Dots */}
-            <svg className="absolute inset-0 w-full h-full overflow-visible pointer-events-none" viewBox="0 0 320 180">
+          {/* Neural Dome Visualization container (fully responsive aspect ratio) */}
+          <div className="relative w-full max-w-[360px] md:max-w-[420px] aspect-[16/9] flex items-center justify-center shrink-0 select-none">
+            
+            {/* SVG Connecting Neural Paths with Glow Filters, Animated Dots, and Badges */}
+            <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 320 180">
               <defs>
                 <filter id="neonPinkGlow" x="-50%" y="-50%" width="200%" height="200%">
                   <feGaussianBlur stdDeviation="2.5" result="blur1" />
@@ -247,14 +248,14 @@ export function Dashboard() {
               <circle cx="235" cy="50" r="0.8" fill="hsl(336, 100%, 75%)" opacity="0.4"><animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.5s" repeatCount="indefinite" /></circle>
 
               {/* Outer Thick Glowing Neural Pathways (Organic Wavy S-Curves) */}
-              <path d="M 160 80 C 120 95, 90 25, 48 36" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
+              <path d="M 160 80 C 120 95, 90 25, 45 36" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
               <path d="M 160 80 C 130 115, 80 65, 32 94" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
               <path d="M 160 80 C 115 65, 100 135, 78 138" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
               <path d="M 160 80 C 200 95, 230 25, 272 36" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
               <path d="M 160 80 C 190 115, 240 65, 288 94" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
 
               {/* Core Thin White Light Filaments */}
-              <path d="M 160 80 C 120 95, 90 25, 48 36" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
+              <path d="M 160 80 C 120 95, 90 25, 45 36" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
               <path d="M 160 80 C 130 115, 80 65, 32 94" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
               <path d="M 160 80 C 115 65, 100 135, 78 138" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
               <path d="M 160 80 C 200 95, 230 25, 272 36" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
@@ -262,7 +263,7 @@ export function Dashboard() {
 
               {/* Moving Core Fast Sparkles (White) */}
               <circle r="1.5" fill="#fff" filter="url(#whiteCoreGlow)">
-                <animateMotion dur="2.4s" repeatCount="indefinite" path="M 160 80 C 120 95, 90 25, 48 36" />
+                <animateMotion dur="2.4s" repeatCount="indefinite" path="M 160 80 C 120 95, 90 25, 45 36" />
               </circle>
               <circle r="1.5" fill="#fff" filter="url(#whiteCoreGlow)">
                 <animateMotion dur="2.8s" repeatCount="indefinite" path="M 160 80 C 130 115, 80 65, 32 94" />
@@ -279,7 +280,7 @@ export function Dashboard() {
 
               {/* Moving Glow Envelopes (Pink, Slower) */}
               <circle r="3.5" fill="hsl(336, 100%, 75%)" opacity="0.7" filter="url(#neonPinkGlow)">
-                <animateMotion dur="4.2s" repeatCount="indefinite" path="M 160 80 C 120 95, 90 25, 48 36" />
+                <animateMotion dur="4.2s" repeatCount="indefinite" path="M 160 80 C 120 95, 90 25, 45 36" />
               </circle>
               <circle r="3.5" fill="hsl(336, 100%, 75%)" opacity="0.7" filter="url(#neonPinkGlow)">
                 <animateMotion dur="4.8s" repeatCount="indefinite" path="M 160 80 C 130 115, 80 65, 32 94" />
@@ -301,57 +302,67 @@ export function Dashboard() {
 
               {/* Glass Dome Overlay */}
               <path d="M 122 130 A 38 48 0 0 1 198 130 Z" fill="url(#jarReflect)" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
+
+              {/* Responsive Floating Glass Icon Cards in coordinates */}
+              
+              {/* Top-Left: Document/Resume */}
+              <foreignObject x="27" y="18" width="36" height="36" className="overflow-visible">
+                <div 
+                  onClick={() => handleQuickAction('Resume Analysis')}
+                  className="h-9 w-9 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex items-center justify-center text-pink-500 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer animate-float-3d select-none active:scale-95"
+                >
+                  <FileText className="h-4.5 w-4.5" />
+                </div>
+              </foreignObject>
+
+              {/* Middle-Left: Github */}
+              <foreignObject x="14" y="76" width="36" height="36" className="overflow-visible">
+                <div 
+                  onClick={() => handleQuickAction('GitHub Analyzer')}
+                  className="h-9 w-9 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex items-center justify-center text-pink-500 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer animate-float-3d select-none active:scale-95"
+                  style={{ animationDelay: '-1.5s' }}
+                >
+                  <GithubIcon className="h-4.5 w-4.5" />
+                </div>
+              </foreignObject>
+
+              {/* Bottom-Left: Linkedin */}
+              <foreignObject x="60" y="120" width="36" height="36" className="overflow-visible">
+                <div 
+                  onClick={() => handleQuickAction('LinkedIn Analyzer')}
+                  className="h-9 w-9 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex items-center justify-center text-pink-500 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer animate-float-3d select-none active:scale-95"
+                  style={{ animationDelay: '-0.7s' }}
+                >
+                  <LinkedinIcon className="h-4.5 w-4.5" />
+                </div>
+              </foreignObject>
+
+              {/* Top-Right: User Profile */}
+              <foreignObject x="254" y="18" width="36" height="36" className="overflow-visible">
+                <div 
+                  onClick={() => handleQuickAction('Profile Settings')}
+                  className="h-9 w-9 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex items-center justify-center text-pink-500 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer animate-float-3d select-none active:scale-95"
+                  style={{ animationDelay: '-2s' }}
+                >
+                  <UserIcon className="h-4.5 w-4.5" />
+                </div>
+              </foreignObject>
+
+              {/* Middle-Right: Code symbol */}
+              <foreignObject x="270" y="76" width="36" height="36" className="overflow-visible">
+                <div 
+                  onClick={() => handleQuickAction('Coding Sandbox')}
+                  className="h-9 w-9 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex items-center justify-center text-pink-500 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer animate-float-3d select-none active:scale-95"
+                  style={{ animationDelay: '-1s' }}
+                >
+                  <span className="font-extrabold text-[10px] tracking-tighter">{"</>"}</span>
+                </div>
+              </foreignObject>
             </svg>
 
             {/* Glowing Brain image inside the dome */}
             <div className="absolute top-[34px] left-[50%] -translate-x-[50%] w-16 h-16 flex items-center justify-center brain-glow pointer-events-none">
               <img src="/neon_brain_asset.png" alt="Neural Brain" className="w-12 h-12 object-contain rounded-full shadow-[0_0_20px_rgba(236,72,153,0.3)]" />
-            </div>
-
-            {/* Floating Glass Icon Cards */}
-            
-            {/* Top-Left: Document/Resume */}
-            <div 
-              onClick={() => handleQuickAction('Resume Analysis')}
-              className="absolute top-2 left-6 h-9 w-9 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex items-center justify-center text-pink-500 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer animate-float-3d select-none"
-            >
-              <FileText className="h-4.5 w-4.5" />
-            </div>
-
-            {/* Middle-Left: Github */}
-            <div 
-              onClick={() => handleQuickAction('GitHub Analyzer')}
-              className="absolute top-18 left-1 h-9 w-9 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex items-center justify-center text-pink-500 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer animate-float-3d select-none"
-              style={{ animationDelay: '-1.5s' }}
-            >
-              <GithubIcon className="h-4.5 w-4.5" />
-            </div>
-
-            {/* Bottom-Left: Linkedin */}
-            <div 
-              onClick={() => handleQuickAction('LinkedIn Analyzer')}
-              className="absolute bottom-2 left-10 h-9 w-9 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex items-center justify-center text-pink-500 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer animate-float-3d select-none"
-              style={{ animationDelay: '-0.7s' }}
-            >
-              <LinkedinIcon className="h-4.5 w-4.5" />
-            </div>
-
-            {/* Top-Right: User Profile */}
-            <div 
-              onClick={() => handleQuickAction('Profile Settings')}
-              className="absolute top-2 right-6 h-9 w-9 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex items-center justify-center text-pink-500 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer animate-float-3d select-none"
-              style={{ animationDelay: '-2s' }}
-            >
-              <UserIcon className="h-4.5 w-4.5" />
-            </div>
-
-            {/* Middle-Right: Code symbol */}
-            <div 
-              onClick={() => handleQuickAction('Coding Sandbox')}
-              className="absolute top-18 right-1 h-9 w-9 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex items-center justify-center text-pink-500 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer animate-float-3d select-none"
-              style={{ animationDelay: '-1s' }}
-            >
-              <span className="font-extrabold text-[10px] tracking-tighter">{"</>"}</span>
             </div>
 
           </div>
