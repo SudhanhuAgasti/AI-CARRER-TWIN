@@ -246,52 +246,52 @@ export function Dashboard() {
               <circle cx="215" cy="40" r="1" fill="#fff" opacity="0.5"><animate attributeName="opacity" values="0.1;1;0.1" dur="2.8s" repeatCount="indefinite" /></circle>
               <circle cx="235" cy="50" r="0.8" fill="hsl(336, 100%, 75%)" opacity="0.4"><animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.5s" repeatCount="indefinite" /></circle>
 
-              {/* Outer Thick Glowing Neural Pathways */}
-              <path d="M 160 80 Q 110 50, 48 36" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
-              <path d="M 160 80 Q 90 90, 32 94" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
-              <path d="M 160 80 Q 110 120, 78 138" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
-              <path d="M 160 80 Q 210 50, 272 36" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
-              <path d="M 160 80 Q 230 90, 288 94" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
+              {/* Outer Thick Glowing Neural Pathways (Organic Wavy S-Curves) */}
+              <path d="M 160 80 C 120 95, 90 25, 48 36" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
+              <path d="M 160 80 C 130 115, 80 65, 32 94" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
+              <path d="M 160 80 C 115 65, 100 135, 78 138" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
+              <path d="M 160 80 C 200 95, 230 25, 272 36" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
+              <path d="M 160 80 C 190 115, 240 65, 288 94" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
 
               {/* Core Thin White Light Filaments */}
-              <path d="M 160 80 Q 110 50, 48 36" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
-              <path d="M 160 80 Q 90 90, 32 94" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
-              <path d="M 160 80 Q 110 120, 78 138" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
-              <path d="M 160 80 Q 210 50, 272 36" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
-              <path d="M 160 80 Q 230 90, 288 94" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
+              <path d="M 160 80 C 120 95, 90 25, 48 36" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
+              <path d="M 160 80 C 130 115, 80 65, 32 94" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
+              <path d="M 160 80 C 115 65, 100 135, 78 138" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
+              <path d="M 160 80 C 200 95, 230 25, 272 36" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
+              <path d="M 160 80 C 190 115, 240 65, 288 94" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
 
               {/* Moving Core Fast Sparkles (White) */}
               <circle r="1.5" fill="#fff" filter="url(#whiteCoreGlow)">
-                <animateMotion dur="2.4s" repeatCount="indefinite" path="M 160 80 Q 110 50, 48 36" />
+                <animateMotion dur="2.4s" repeatCount="indefinite" path="M 160 80 C 120 95, 90 25, 48 36" />
               </circle>
               <circle r="1.5" fill="#fff" filter="url(#whiteCoreGlow)">
-                <animateMotion dur="2.8s" repeatCount="indefinite" path="M 160 80 Q 90 90, 32 94" />
+                <animateMotion dur="2.8s" repeatCount="indefinite" path="M 160 80 C 130 115, 80 65, 32 94" />
               </circle>
               <circle r="1.5" fill="#fff" filter="url(#whiteCoreGlow)">
-                <animateMotion dur="2.6s" repeatCount="indefinite" path="M 160 80 Q 110 120, 78 138" />
+                <animateMotion dur="2.6s" repeatCount="indefinite" path="M 160 80 C 115 65, 100 135, 78 138" />
               </circle>
               <circle r="1.5" fill="#fff" filter="url(#whiteCoreGlow)">
-                <animateMotion dur="2.2s" repeatCount="indefinite" path="M 160 80 Q 210 50, 272 36" />
+                <animateMotion dur="2.2s" repeatCount="indefinite" path="M 160 80 C 200 95, 230 25, 272 36" />
               </circle>
               <circle r="1.5" fill="#fff" filter="url(#whiteCoreGlow)">
-                <animateMotion dur="2.5s" repeatCount="indefinite" path="M 160 80 Q 230 90, 288 94" />
+                <animateMotion dur="2.5s" repeatCount="indefinite" path="M 160 80 C 190 115, 240 65, 288 94" />
               </circle>
 
               {/* Moving Glow Envelopes (Pink, Slower) */}
               <circle r="3.5" fill="hsl(336, 100%, 75%)" opacity="0.7" filter="url(#neonPinkGlow)">
-                <animateMotion dur="4.2s" repeatCount="indefinite" path="M 160 80 Q 110 50, 48 36" />
+                <animateMotion dur="4.2s" repeatCount="indefinite" path="M 160 80 C 120 95, 90 25, 48 36" />
               </circle>
               <circle r="3.5" fill="hsl(336, 100%, 75%)" opacity="0.7" filter="url(#neonPinkGlow)">
-                <animateMotion dur="4.8s" repeatCount="indefinite" path="M 160 80 Q 90 90, 32 94" />
+                <animateMotion dur="4.8s" repeatCount="indefinite" path="M 160 80 C 130 115, 80 65, 32 94" />
               </circle>
               <circle r="3.5" fill="hsl(336, 100%, 75%)" opacity="0.7" filter="url(#neonPinkGlow)">
-                <animateMotion dur="4.5s" repeatCount="indefinite" path="M 160 80 Q 110 120, 78 138" />
+                <animateMotion dur="4.5s" repeatCount="indefinite" path="M 160 80 C 115 65, 100 135, 78 138" />
               </circle>
               <circle r="3.5" fill="hsl(336, 100%, 75%)" opacity="0.7" filter="url(#neonPinkGlow)">
-                <animateMotion dur="3.8s" repeatCount="indefinite" path="M 160 80 Q 210 50, 272 36" />
+                <animateMotion dur="3.8s" repeatCount="indefinite" path="M 160 80 C 200 95, 230 25, 272 36" />
               </circle>
               <circle r="3.5" fill="hsl(336, 100%, 75%)" opacity="0.7" filter="url(#neonPinkGlow)">
-                <animateMotion dur="4.4s" repeatCount="indefinite" path="M 160 80 Q 230 90, 288 94" />
+                <animateMotion dur="4.4s" repeatCount="indefinite" path="M 160 80 C 190 115, 240 65, 288 94" />
               </circle>
 
               {/* Pedestal Base Floor */}
