@@ -547,11 +547,23 @@ export function Dashboard() {
             {/* Conversation Window area */}
             <div className="flex-1 p-4 overflow-y-auto space-y-4 custom-scrollbar text-left flex flex-col justify-start">
               
+              {/* Large Robot Avatar & Coach Name layout inside body */}
+              <div className="flex items-center gap-3.5 pb-3 mb-2 border-b border-white/[0.03]">
+                <div className="h-14 w-14 rounded-full overflow-hidden border-2 border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.2)] bg-black/40">
+                  <img src="/chatbot_robot_avatar.png" alt="Robot Coach" className="w-full h-full object-cover" />
+                </div>
+                <div className="flex flex-col">
+                  <h3 className="text-sm font-extrabold text-white">AI Career Coach</h3>
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-[10px] text-muted-foreground font-semibold">Online</span>
+                  </div>
+                </div>
+              </div>
+
               {/* Bot Welcome Bubble */}
               <div className="space-y-1.5 max-w-[90%]">
-                <div className="p-3 rounded-2xl bg-white/[0.04] border border-white/[0.06] text-xs text-white leading-relaxed">
-                  Hi {user?.name || 'Sudhanshu'}! How can I help you today?
-                </div>
+                <div className="text-[11px] text-muted-foreground mb-1">Hi {user?.name || 'Sudhanshu'}! How can I help you today?</div>
               </div>
 
               {/* Suggestions Grid */}
