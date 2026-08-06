@@ -86,7 +86,6 @@ export function ProgressLineChart() {
             fill="hsl(336, 100%, 60%)" 
             stroke="white" 
             strokeWidth={1.5}
-            isFront={true}
           />
         </AreaChart>
       </ResponsiveContainer>

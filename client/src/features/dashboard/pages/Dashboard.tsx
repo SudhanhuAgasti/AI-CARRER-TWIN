@@ -1,12 +1,5 @@
-/**
- * @file Dashboard.tsx
- * @description Main Readiness Dashboard panel displaying score modules, custom SVG sparklines, and Recharts visualizations.
- * @author Senior Staff Frontend Engineer (9+ years experience)
- */
-
 import { useState, useEffect } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from '../../../components/ui/Card';
-import Button from '../../../components/ui/Button';
+import { Card } from '../../../components/ui/Card';
 import { useAuthStore } from '../../../store/authStore';
 import { useUIStore } from '../../../store/uiStore';
 import { useResumeStore } from '../../../store/resumeStore';
@@ -17,24 +10,33 @@ import {
   Award, 
   Briefcase, 
   FileText, 
-  CheckCircle2, 
-  ArrowUpRight, 
   Play,
   Sparkles,
   TrendingUp,
-  Github,
-  Linkedin,
   Terminal,
   Mic,
   GraduationCap,
-  Bell,
-  Search,
-  ChevronRight,
-  Lock,
   Calendar,
   Send,
-  ArrowRight
+  ArrowRight,
+  User as UserIcon
 } from 'lucide-react';
+
+// Inline SVGs to avoid old lucide version exports issues
+const GithubIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.2 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
+  </svg>
+);
+
+const LinkedinIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect width="4" height="12" x="2" y="9" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
 
 export function Dashboard() {
   const { user } = useAuthStore();
@@ -210,8 +212,8 @@ export function Dashboard() {
 
             {/* Floating neural node badges */}
             <div className="absolute top-6 left-1 flex items-center justify-center h-7 w-7 rounded-lg bg-card border border-white/10 shadow-lg text-pink-500"><FileText className="h-4 w-4" /></div>
-            <div className="absolute bottom-10 left-1 flex items-center justify-center h-7 w-7 rounded-lg bg-card border border-white/10 shadow-lg text-pink-500"><Github className="h-4 w-4" /></div>
-            <div className="absolute top-6 right-1 flex items-center justify-center h-7 w-7 rounded-lg bg-card border border-white/10 shadow-lg text-pink-500"><User className="h-4 w-4" /></div>
+            <div className="absolute bottom-10 left-1 flex items-center justify-center h-7 w-7 rounded-lg bg-card border border-white/10 shadow-lg text-pink-500"><GithubIcon className="h-4 w-4" /></div>
+            <div className="absolute top-6 right-1 flex items-center justify-center h-7 w-7 rounded-lg bg-card border border-white/10 shadow-lg text-pink-500"><UserIcon className="h-4 w-4" /></div>
             <div className="absolute bottom-10 right-1 flex items-center justify-center h-7 w-7 rounded-lg bg-card border border-white/10 shadow-lg text-pink-500"><Terminal className="h-4 w-4" /></div>
           </div>
         </div>
@@ -252,14 +254,14 @@ export function Dashboard() {
         
         {/* KPI Cards data matching details */}
         {[
-          { name: 'Resume Score', score: '92%', change: '+8%', icon: FileText, points: 'M 0 15 Q 10 5, 20 12 T 40 8 T 60 18 T 80 5 T 100 12' },
-          { name: 'ATS Score', score: '88%', change: '+6%', icon: Briefcase, points: 'M 0 10 Q 15 20, 30 10 T 60 15 T 90 5 T 100 10' },
-          { name: 'GitHub Score', score: '85%', change: '+7%', icon: Github, points: 'M 0 20 Q 10 10, 20 18 T 50 8 T 80 15 T 100 5' },
-          { name: 'LinkedIn Score', score: '83%', change: '+5%', icon: Linkedin, points: 'M 0 15 Q 15 5, 30 12 T 60 8 T 90 18 T 100 12' },
-          { name: 'Coding Skill', score: '90%', change: '+9%', icon: Terminal, points: 'M 0 12 Q 10 22, 25 10 T 50 15 T 75 5 T 100 8' },
-          { name: 'Interview Readiness', score: '86%', change: '+6%', icon: Mic, points: 'M 0 18 Q 15 10, 30 15 T 60 8 T 90 12 T 100 5' },
-          { name: 'Career Readiness', score: '87%', change: '+8%', icon: TrendingUp, points: 'M 0 15 Q 10 5, 20 12 T 40 8 T 60 18 T 80 5 T 100 12' },
-          { name: 'Learning Progress', score: '68%', change: '+12%', icon: GraduationCap, points: 'M 0 22 Q 20 10, 40 18 T 70 8 T 90 12 T 100 5' }
+          { name: 'Resume Score', score: `${data?.breakdown?.resumeScore ?? 92}%`, change: '+8%', icon: FileText, points: 'M 0 15 Q 10 5, 20 12 T 40 8 T 60 18 T 80 5 T 100 12' },
+          { name: 'ATS Score', score: `${atsScore}%`, change: '+6%', icon: Briefcase, points: 'M 0 10 Q 15 20, 30 10 T 60 15 T 90 5 T 100 10' },
+          { name: 'GitHub Score', score: `${codeSuccess}%`, change: '+7%', icon: GithubIcon, points: 'M 0 20 Q 10 10, 20 18 T 50 8 T 80 15 T 100 5' },
+          { name: 'LinkedIn Score', score: `${data?.breakdown?.linkedinScore ?? 83}%`, change: '+5%', icon: LinkedinIcon, points: 'M 0 15 Q 15 5, 30 12 T 60 8 T 90 18 T 100 12' },
+          { name: 'Coding Skill', score: `${data?.breakdown?.codingSkill ?? 90}%`, change: '+9%', icon: Terminal, points: 'M 0 12 Q 10 22, 25 10 T 50 15 T 75 5 T 100 8' },
+          { name: 'Interview Readiness', score: `${interviewRank}%`, change: '+6%', icon: Mic, points: 'M 0 18 Q 15 10, 30 15 T 60 8 T 90 12 T 100 5' },
+          { name: 'Career Readiness', score: `${readinessScore}%`, change: '+8%', icon: TrendingUp, points: 'M 0 15 Q 10 5, 20 12 T 40 8 T 60 18 T 80 5 T 100 12' },
+          { name: 'Learning Progress', score: `${data?.breakdown?.learningProgress ?? 68}%`, change: '+12%', icon: GraduationCap, points: 'M 0 22 Q 20 10, 40 18 T 70 8 T 90 12 T 100 5' }
         ].map((kpi, idx) => {
           const IconComponent = kpi.icon;
           return (
@@ -493,7 +495,7 @@ export function Dashboard() {
               <div className="flex-1 space-y-3">
                 {[
                   { desc: 'Resume "Resume_v7.pdf" analyzed', time: '2h ago', icon: FileText },
-                  { desc: 'GitHub profile analyzed', time: '5h ago', icon: Github },
+                  { desc: 'GitHub profile analyzed', time: '5h ago', icon: GithubIcon },
                   { desc: 'Completed Mock Interview', time: '1d ago', icon: Mic },
                   { desc: 'Week 3 roadmap progress: 60%', time: '1d ago', icon: GraduationCap }
                 ].map((act, idx) => {
