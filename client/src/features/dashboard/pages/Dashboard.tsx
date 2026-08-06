@@ -359,8 +359,8 @@ export function Dashboard() {
                 </div>
               </foreignObject>
 
-              {/* Glowing Vector Monogram Logo inside the Glass Dome */}
-              <g transform="translate(160, 85)" className="brain-glow pointer-events-none">
+              {/* Glowing Vector Brain Logo inside the Glass Dome */}
+              <g transform="translate(160, 80)" className="brain-glow pointer-events-none">
                 {/* Ambient glow backing */}
                 <circle r="18" fill="none" stroke="hsl(336, 100%, 60%)" strokeWidth="6" opacity="0.15" filter="url(#neonPinkGlow)" />
                 {/* Thin outer ring */}
@@ -368,12 +368,18 @@ export function Dashboard() {
                   <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="15s" repeatCount="indefinite" />
                 </circle>
                 
-                {/* Stylized Twin overlapping infinity loop wings */}
-                <path d="M -12 -3 C -6 -12, 6 12, 12 3 C 6 12, -6 -12, -12 -3" fill="none" stroke="hsl(336, 100%, 60%)" strokeWidth="2" filter="url(#neonPinkGlow)" />
-                <path d="M -12 3 C -6 12, 6 -12, 12 -3 C 6 -12, -6 12, -12 3" fill="none" stroke="hsl(336, 100%, 60%)" strokeWidth="2" filter="url(#neonPinkGlow)" />
+                {/* Left Hemisphere */}
+                <path d="M -1 -12 C -6 -13, -12 -9, -12 -4 C -12 0, -8 2, -10 6 C -12 9, -8 13, -2 13 C -1 13, -1 10, -1 10" fill="none" stroke="hsl(336, 100%, 60%)" strokeWidth="2.2" filter="url(#neonPinkGlow)" />
+                {/* Right Hemisphere */}
+                <path d="M 1 -12 C 6 -13, 12 -9, 12 -4 C 12 0, 8 2, 10 6 C 12 9, 8 13, 2 13 C 1 13, 1 10, 1 10" fill="none" stroke="hsl(336, 100%, 60%)" strokeWidth="2.2" filter="url(#neonPinkGlow)" />
+                
+                {/* Left Brain Folds */}
+                <path d="M -4 -7 C -7 -7, -7 -5, -4 -5 M -6 -1 C -9 -1, -9 1, -6 1 M -4 5 C -7 5, -7 7, -4 7" fill="none" stroke="hsl(336, 100%, 65%)" strokeWidth="1.5" opacity="0.8" />
+                {/* Right Brain Folds */}
+                <path d="M 4 -7 C 7 -7, 7 -5, 4 -5 M 6 -1 C 9 -1, 9 1, 6 1 M 4 5 C 7 5, 7 7, 4 7" fill="none" stroke="hsl(336, 100%, 65%)" strokeWidth="1.5" opacity="0.8" />
 
-                {/* Bright core synapse point */}
-                <circle r="3" fill="#fff" filter="url(#whiteCoreGlow)" />
+                {/* Bright core brain-stem synapse point */}
+                <circle cx="0" cy="14" r="3" fill="#fff" filter="url(#whiteCoreGlow)" />
               </g>
             </svg>
 
