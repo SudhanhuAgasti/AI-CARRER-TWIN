@@ -203,11 +203,9 @@ export function Dashboard() {
               <path d="M 55 130 A 45 60 0 0 1 145 130 Z" fill="url(#domeGrad)" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
             </svg>
 
-            {/* Glowing Brain SVG inside the dome */}
-            <div className="absolute top-[35px] left-[50%] -translate-x-[50%] w-16 h-16 bg-gradient-to-tr from-pink-500 to-rose-600 rounded-full flex items-center justify-center shadow-lg shadow-pink-500/50 brain-glow cursor-pointer">
-              <svg className="w-10 h-10 text-white fill-current" viewBox="0 0 24 24">
-                <path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.07 19.58 10.49 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm-2-7h4v2h-4v-2z" />
-              </svg>
+            {/* Glowing Brain image inside the dome */}
+            <div className="absolute top-[28px] left-[50%] -translate-x-[50%] w-20 h-20 flex items-center justify-center brain-glow cursor-pointer">
+              <img src="/neon_brain_asset.png" alt="Neural Brain" className="w-16 h-16 object-contain rounded-full shadow-[0_0_20px_rgba(236,72,153,0.3)]" />
             </div>
 
             {/* Floating neural node badges */}
@@ -533,10 +531,8 @@ export function Dashboard() {
             {/* Header info */}
             <div className="p-4 border-b border-white/[0.04] flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3">
-                <div className="h-8.5 w-8.5 rounded-xl bg-pink-500/10 flex items-center justify-center text-pink-500 shrink-0">
-                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                    <path d="M12 2a5 5 0 0 0-5 5v2a5 5 0 0 0 5 5 5 5 0 0 0 5-5V7a5 5 0 0 0-5-5zm0 18a8.01 8.01 0 0 1-7-4.14 1 1 0 0 1 .86-1.5c1.47 0 2.82-.57 3.86-1.5a1 1 0 0 1 1.42 1.41c-1.39 1.25-3.23 2.02-5.26 2.08A6 6 0 0 0 18 12.3c0-.07 0-.13-.01-.2a1 1 0 1 1 2 .18 7.97 7.97 0 0 1-7.99 7.72z" />
-                  </svg>
+                <div className="h-8.5 w-8.5 rounded-xl overflow-hidden shrink-0 border border-white/10">
+                  <img src="/chatbot_robot_avatar.png" alt="Robot Coach" className="w-full h-full object-cover" />
                 </div>
                 <div className="flex flex-col text-left">
                   <span className="text-xs font-extrabold text-white leading-tight">AI Career Coach</span>
