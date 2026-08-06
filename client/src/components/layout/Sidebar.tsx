@@ -11,8 +11,6 @@ import {
   X, 
   GraduationCap, 
   Terminal, 
-  Github, 
-  Linkedin, 
   BarChart3, 
   User, 
   Sparkles, 
@@ -23,8 +21,23 @@ import { useUIStore } from '../../store/uiStore';
 import { useAuthStore } from '../../store/authStore';
 import { type ComponentType } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { axiosInstance } from '../../api/axiosInstance';
+
+// Inline SVG components for Github and Linkedin to prevent old lucide version exports issues
+const GithubIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.2 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
+  </svg>
+);
+
+const LinkedinIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect width="4" height="12" x="2" y="9" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
 
 interface NavItem {
   name: string;
@@ -36,8 +49,8 @@ const navItems: NavItem[] = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Resume Analyzer', href: '/resume', icon: FileText },
   { name: 'ATS Analysis', href: '/resume', icon: FileText }, // Map to same route or similar
-  { name: 'GitHub Analyzer', href: '/copilot', icon: Github },
-  { name: 'LinkedIn Analyzer', href: '/linkedin', icon: Linkedin },
+  { name: 'GitHub Analyzer', href: '/copilot', icon: GithubIcon },
+  { name: 'LinkedIn Analyzer', href: '/linkedin', icon: LinkedinIcon },
   { name: 'Learning Roadmap', href: '/skill-gap', icon: GraduationCap },
   { name: 'Mock Interview', href: '/interview', icon: MessageSquare },
   { name: 'Coding Sandbox', href: '/sandbox', icon: Terminal },
@@ -73,7 +86,7 @@ export function Sidebar() {
 
       <aside
         className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-card/95 backdrop-blur-xl transition-transform duration-300 
-          md:sticky md:top-0 md:h-screen md:transform-none
+          md:sticky md:top-16 md:h-[calc(100vh-4rem)] md:transform-none
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}
       >
