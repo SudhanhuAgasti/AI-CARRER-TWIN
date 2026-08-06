@@ -38,6 +38,39 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+// Hook to dynamically remove black/near-black backgrounds from PNG images at runtime
+function useTransparentImage(src: string, threshold = 20) {
+  const [processedSrc, setProcessedSrc] = useState<string>(src);
+
+  useEffect(() => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.src = src;
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      ctx.drawImage(img, 0, 0);
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imgData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+        if (r < threshold && g < threshold && b < threshold) {
+          data[i + 3] = 0;
+        }
+      }
+      ctx.putImageData(imgData, 0, 0);
+      setProcessedSrc(canvas.toDataURL());
+    };
+  }, [src, threshold]);
+
+  return processedSrc;
+}
+
 export function Dashboard() {
   const { user } = useAuthStore();
   const { addToast } = useUIStore();
@@ -47,6 +80,8 @@ export function Dashboard() {
   const [data, setData] = useState<any>(null);
   const [badgeToken, setBadgeToken] = useState<string | null>(null);
   const [chatMessage, setChatMessage] = useState('');
+  
+  const transparentRobotSrc = useTransparentImage('/chatbot_robot_avatar.png', 20);
 
   useEffect(() => {
     if (!resumeId) return;
@@ -563,11 +598,11 @@ export function Dashboard() {
                   {/* Dynamic Shadow on the floor (moves inversely to the robot) */}
                   <div className="absolute bottom-0 w-16 h-4 rounded-full bg-pink-950/60 blur-[3px] [transform:rotateX(60deg)] animate-shadow-scale" />
 
-                  {/* Floating 3D Robot Image with Screen Blend mode */}
+                  {/* Floating 3D Robot Image with dynamically removed background */}
                   <img 
-                    src="/chatbot_robot_avatar.png" 
+                    src={transparentRobotSrc} 
                     alt="3D Robot Coach" 
-                    className="w-28 h-28 object-contain absolute z-10 animate-float-3d mix-blend-screen" 
+                    className="w-28 h-28 object-contain absolute z-10 animate-float-3d" 
                   />
                 </div>
                 
