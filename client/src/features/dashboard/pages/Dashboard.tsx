@@ -547,13 +547,31 @@ export function Dashboard() {
             {/* Conversation Window area */}
             <div className="flex-1 p-4 overflow-y-auto space-y-4 custom-scrollbar text-left flex flex-col justify-start">
               
-              {/* Medium Robot Standing & Floating Showcase inside body */}
-              <div className="flex flex-col items-center justify-center py-4 border-b border-white/[0.03] text-center w-full shrink-0">
-                <div className="h-24 w-24 rounded-2xl overflow-hidden border border-pink-500/30 bg-black/30 floating-robot shadow-lg flex items-center justify-center p-2 relative">
-                  <div className="absolute inset-0 bg-gradient-to-t from-pink-500/20 to-transparent opacity-60" />
-                  <img src="/chatbot_robot_avatar.png" alt="Robot Coach" className="w-full h-full object-contain relative z-10" />
+              {/* 3D Hologram Pedestal & Robot Standing Showcase */}
+              <div className="flex flex-col items-center justify-center py-6 border-b border-white/[0.03] text-center w-full shrink-0 relative overflow-hidden">
+                {/* 3D Scene Container */}
+                <div className="relative h-28 w-28 flex items-center justify-center [perspective:800px] [transform-style:preserve-3d] select-none pointer-events-none">
+                  
+                  {/* Holographic light reflection */}
+                  <div className="absolute bottom-2 w-16 h-24 bg-gradient-to-t from-pink-500/15 to-transparent opacity-60 rounded-full blur-md" />
+
+                  {/* 3D Hologram Pedestal Floor */}
+                  <div className="absolute bottom-0 w-20 h-6 rounded-full bg-pink-500/10 border border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.3)] [transform:rotateX(60deg)_translateZ(-5px)] flex items-center justify-center">
+                    <div className="w-12 h-3 rounded-full bg-pink-500/20 blur-sm animate-pulse" />
+                  </div>
+
+                  {/* Dynamic Shadow on the floor (moves inversely to the robot) */}
+                  <div className="absolute bottom-0 w-12 h-3 rounded-full bg-pink-950/60 blur-[3px] [transform:rotateX(60deg)] animate-shadow-scale" />
+
+                  {/* Floating 3D Robot Image */}
+                  <img 
+                    src="/chatbot_robot_avatar.png" 
+                    alt="3D Robot Coach" 
+                    className="w-18 h-18 object-contain absolute z-10 animate-float-3d" 
+                  />
                 </div>
-                <h3 className="text-sm font-extrabold text-white mt-3">AI Career Coach</h3>
+                
+                <h3 className="text-sm font-extrabold text-white mt-4">AI Career Coach</h3>
                 <div className="flex items-center gap-1.5 mt-1 justify-center">
                   <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   <span className="text-[10px] text-muted-foreground font-semibold">Online</span>

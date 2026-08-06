@@ -191,18 +191,32 @@ body {
   }
 }
 
-/* Floating Bobbing Robot Animation */
-@keyframes floatRobot {
+/* 3D Robot Floating */
+@keyframes float3D {
   0%, 100% {
-    transform: translateY(0);
-    filter: drop-shadow(0 4px 8px rgba(236,72,153,0.15));
+    transform: translateY(0px) rotateY(0deg) rotateZ(0deg);
   }
   50% {
-    transform: translateY(-8px);
-    filter: drop-shadow(0 12px 20px rgba(236,72,153,0.35));
+    transform: translateY(-12px) rotateY(15deg) rotateZ(1deg);
   }
 }
 
-.floating-robot {
-  animation: floatRobot 3.5s infinite ease-in-out;
+/* Floor Shadow Scaling Inversely */
+@keyframes shadowScale {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(0.6);
+    opacity: 0.3;
+  }
+}
+
+.animate-float-3d {
+  animation: float3D 4s infinite ease-in-out;
+}
+
+.animate-shadow-scale {
+  animation: shadowScale 4s infinite ease-in-out;
 }
