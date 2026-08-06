@@ -210,60 +210,97 @@ export function Dashboard() {
 
           {/* Neural Dome Visualization container */}
           <div className="relative w-full md:w-96 h-48 flex items-center justify-center shrink-0 select-none">
-            
-            {/* SVG Connecting Neural Paths with Glow Filters & Animated Dots */}
+                      {/* SVG Connecting Neural Paths with Glow Filters & Animated Dots */}
             <svg className="absolute inset-0 w-full h-full overflow-visible pointer-events-none" viewBox="0 0 320 180">
               <defs>
                 <filter id="neonPinkGlow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="3" result="blur1" />
-                  <feGaussianBlur stdDeviation="8" result="blur2" />
+                  <feGaussianBlur stdDeviation="2.5" result="blur1" />
+                  <feGaussianBlur stdDeviation="6" result="blur2" />
                   <feMerge>
                     <feMergeNode in="blur2" />
                     <feMergeNode in="blur1" />
                     <feMergeNode in="SourceGraphic" />
                   </feMerge>
                 </filter>
+                <filter id="whiteCoreGlow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feGaussianBlur stdDeviation="1.5" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
                 <radialGradient id="pedestalGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="hsl(336, 100%, 60%)" stopOpacity="0.6" />
+                  <stop offset="0%" stopColor="hsl(336, 100%, 60%)" stopOpacity="0.7" />
                   <stop offset="100%" stopColor="hsl(336, 100%, 60%)" stopOpacity="0" />
                 </radialGradient>
                 <linearGradient id="jarReflect" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="rgba(255,255,255,0.15)" />
+                  <stop offset="0%" stopColor="rgba(255,255,255,0.2)" />
+                  <stop offset="30%" stopColor="rgba(255,255,255,0.05)" />
                   <stop offset="100%" stopColor="rgba(255,255,255,0.01)" />
                 </linearGradient>
               </defs>
 
-              {/* Neural Paths */}
-              <path id="pathFile" d="M 160 80 Q 110 50, 48 36" stroke="hsl(336, 100%, 60%)" strokeWidth="1.5" fill="none" opacity="0.6" filter="url(#neonPinkGlow)" />
-              <path id="pathGithub" d="M 160 80 Q 90 90, 32 94" stroke="hsl(336, 100%, 60%)" strokeWidth="1.5" fill="none" opacity="0.6" filter="url(#neonPinkGlow)" filter-opacity="0.8" />
-              <path id="pathLinkedin" d="M 160 80 Q 110 120, 78 138" stroke="hsl(336, 100%, 60%)" strokeWidth="1.5" fill="none" opacity="0.6" filter="url(#neonPinkGlow)" />
-              <path id="pathUser" d="M 160 80 Q 210 50, 272 36" stroke="hsl(336, 100%, 60%)" strokeWidth="1.5" fill="none" opacity="0.6" filter="url(#neonPinkGlow)" />
-              <path id="pathCode" d="M 160 80 Q 230 90, 288 94" stroke="hsl(336, 100%, 60%)" strokeWidth="1.5" fill="none" opacity="0.6" filter="url(#neonPinkGlow)" />
+              {/* Ambient Pulsing Background Stars */}
+              <circle cx="85" cy="45" r="0.8" fill="#fff" opacity="0.4"><animate attributeName="opacity" values="0.1;0.9;0.1" dur="2.5s" repeatCount="indefinite" /></circle>
+              <circle cx="105" cy="35" r="1.2" fill="hsl(336, 100%, 75%)" opacity="0.3"><animate attributeName="opacity" values="0.2;0.8;0.2" dur="3.2s" repeatCount="indefinite" /></circle>
+              <circle cx="215" cy="40" r="1" fill="#fff" opacity="0.5"><animate attributeName="opacity" values="0.1;1;0.1" dur="2.8s" repeatCount="indefinite" /></circle>
+              <circle cx="235" cy="50" r="0.8" fill="hsl(336, 100%, 75%)" opacity="0.4"><animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.5s" repeatCount="indefinite" /></circle>
 
-              {/* Moving Sparkle Dots along paths */}
-              <circle r="2" fill="#fff">
-                <animateMotion dur="3.5s" repeatCount="indefinite" path="M 160 80 Q 110 50, 48 36" />
+              {/* Outer Thick Glowing Neural Pathways */}
+              <path d="M 160 80 Q 110 50, 48 36" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
+              <path d="M 160 80 Q 90 90, 32 94" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
+              <path d="M 160 80 Q 110 120, 78 138" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
+              <path d="M 160 80 Q 210 50, 272 36" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
+              <path d="M 160 80 Q 230 90, 288 94" stroke="hsl(336, 100%, 60%)" strokeWidth="3" fill="none" opacity="0.25" filter="url(#neonPinkGlow)" />
+
+              {/* Core Thin White Light Filaments */}
+              <path d="M 160 80 Q 110 50, 48 36" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
+              <path d="M 160 80 Q 90 90, 32 94" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
+              <path d="M 160 80 Q 110 120, 78 138" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
+              <path d="M 160 80 Q 210 50, 272 36" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
+              <path d="M 160 80 Q 230 90, 288 94" stroke="#fff" strokeWidth="1" fill="none" opacity="0.75" />
+
+              {/* Moving Core Fast Sparkles (White) */}
+              <circle r="1.5" fill="#fff" filter="url(#whiteCoreGlow)">
+                <animateMotion dur="2.4s" repeatCount="indefinite" path="M 160 80 Q 110 50, 48 36" />
               </circle>
-              <circle r="2" fill="#fff">
-                <animateMotion dur="4.2s" repeatCount="indefinite" path="M 160 80 Q 90 90, 32 94" />
+              <circle r="1.5" fill="#fff" filter="url(#whiteCoreGlow)">
+                <animateMotion dur="2.8s" repeatCount="indefinite" path="M 160 80 Q 90 90, 32 94" />
               </circle>
-              <circle r="2" fill="#fff">
-                <animateMotion dur="3.8s" repeatCount="indefinite" path="M 160 80 Q 110 120, 78 138" />
+              <circle r="1.5" fill="#fff" filter="url(#whiteCoreGlow)">
+                <animateMotion dur="2.6s" repeatCount="indefinite" path="M 160 80 Q 110 120, 78 138" />
               </circle>
-              <circle r="2" fill="#fff">
-                <animateMotion dur="3.6s" repeatCount="indefinite" path="M 160 80 Q 210 50, 272 36" />
+              <circle r="1.5" fill="#fff" filter="url(#whiteCoreGlow)">
+                <animateMotion dur="2.2s" repeatCount="indefinite" path="M 160 80 Q 210 50, 272 36" />
               </circle>
-              <circle r="2" fill="#fff">
-                <animateMotion dur="4s" repeatCount="indefinite" path="M 160 80 Q 230 90, 288 94" />
+              <circle r="1.5" fill="#fff" filter="url(#whiteCoreGlow)">
+                <animateMotion dur="2.5s" repeatCount="indefinite" path="M 160 80 Q 230 90, 288 94" />
+              </circle>
+
+              {/* Moving Glow Envelopes (Pink, Slower) */}
+              <circle r="3.5" fill="hsl(336, 100%, 75%)" opacity="0.7" filter="url(#neonPinkGlow)">
+                <animateMotion dur="4.2s" repeatCount="indefinite" path="M 160 80 Q 110 50, 48 36" />
+              </circle>
+              <circle r="3.5" fill="hsl(336, 100%, 75%)" opacity="0.7" filter="url(#neonPinkGlow)">
+                <animateMotion dur="4.8s" repeatCount="indefinite" path="M 160 80 Q 90 90, 32 94" />
+              </circle>
+              <circle r="3.5" fill="hsl(336, 100%, 75%)" opacity="0.7" filter="url(#neonPinkGlow)">
+                <animateMotion dur="4.5s" repeatCount="indefinite" path="M 160 80 Q 110 120, 78 138" />
+              </circle>
+              <circle r="3.5" fill="hsl(336, 100%, 75%)" opacity="0.7" filter="url(#neonPinkGlow)">
+                <animateMotion dur="3.8s" repeatCount="indefinite" path="M 160 80 Q 210 50, 272 36" />
+              </circle>
+              <circle r="3.5" fill="hsl(336, 100%, 75%)" opacity="0.7" filter="url(#neonPinkGlow)">
+                <animateMotion dur="4.4s" repeatCount="indefinite" path="M 160 80 Q 230 90, 288 94" />
               </circle>
 
               {/* Pedestal Base Floor */}
               <ellipse cx="160" cy="130" rx="36" ry="10" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
               <ellipse cx="160" cy="132" rx="38" ry="12" fill="none" stroke="hsl(336, 100%, 60%)" strokeWidth="2.5" strokeOpacity="0.8" filter="url(#neonPinkGlow)" />
-              <ellipse cx="160" cy="132" rx="38" ry="12" fill="url(#pedestalGlow)" opacity="0.3" />
+              <ellipse cx="160" cy="132" rx="38" ry="12" fill="url(#pedestalGlow)" opacity="0.35" />
 
               {/* Glass Dome Overlay */}
-              <path d="M 122 130 A 38 48 0 0 1 198 130 Z" fill="url(#jarReflect)" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
+              <path d="M 122 130 A 38 48 0 0 1 198 130 Z" fill="url(#jarReflect)" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
             </svg>
 
             {/* Glowing Brain image inside the dome */}
