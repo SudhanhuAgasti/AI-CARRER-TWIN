@@ -119,7 +119,21 @@ export function Login() {
           }
         }
         .animate-dash-flow {
-          animation: dash 12s linear infinite;
+          animation: dash 10s linear infinite;
+        }
+
+        /* Star spin animation */
+        @keyframes star-spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        .animate-star-spin-fast {
+          animation: star-spin 5s linear infinite;
+          transform-origin: center;
+        }
+        .animate-star-spin-slow {
+          animation: star-spin 10s linear infinite;
+          transform-origin: center;
         }
 
         /* Blinking stars animation */
@@ -145,84 +159,132 @@ export function Login() {
 
       {/* Fullscreen background constellation lines & blinking stars */}
       <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
-        <svg className="w-full h-full text-red-500/20" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Curved connection path linking top-left, bottom-left, bottom-right and top-right */}
+        <svg className="w-full h-full text-red-500/40" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Main Curved connection path (thicker and deeper color) */}
           <path
-            id="constellation-path"
+            id="constellation-path-1"
             d="M 6 12 C 10 50, 4 88, 8 88 C 20 88, 75 92, 92 85 C 94 48, 94 15, 94 15"
             stroke="currentColor"
-            strokeWidth="0.08"
-            strokeDasharray="0.3 0.6"
+            strokeWidth="0.18"
+            strokeDasharray="0.4 0.6"
             fill="none"
             className="animate-dash-flow"
             style={{ strokeDashoffset: 0 }}
           />
 
-          {/* Star 1 moving along the path */}
+          {/* Secondary Crossing path (adds depth to constellation network) */}
+          <path
+            id="constellation-path-2"
+            d="M 94 15 C 65 30, 35 70, 8 88"
+            stroke="currentColor"
+            strokeWidth="0.14"
+            strokeDasharray="0.3 0.5"
+            fill="none"
+            className="animate-dash-flow"
+            style={{ strokeDashoffset: 0, animationDirection: 'reverse' }}
+          />
+
+          {/* Star 1 moving and spinning along Path 1 (Enlarged) */}
           <g>
-            <path
-              d="M0,-1 Q0,0 1,0 Q0,0 0,1 Q0,0 -1,0 Q0,0 0,-1 Z"
-              fill="#FF3366"
-              className="animate-pulse"
-              style={{ filter: 'drop-shadow(0 0 4px #FF3366)' }}
-            />
+            <g className="animate-star-spin-fast">
+              <path
+                d="M0,-2.2 Q0,0 2.2,0 Q0,0 0,2.2 Q0,0 -2.2,0 Q0,0 0,-2.2 Z"
+                fill="#FF3366"
+                style={{ filter: 'drop-shadow(0 0 6px #FF3366)' }}
+              />
+            </g>
             <animateMotion
               path="M 6 12 C 10 50, 4 88, 8 88 C 20 88, 75 92, 92 85 C 94 48, 94 15, 94 15"
-              dur="12s"
+              dur="10s"
               repeatCount="indefinite"
             />
           </g>
 
-          {/* Star 2 moving along the path (delayed starting position) */}
+          {/* Star 2 moving along Path 1 (Enlarged and delayed) */}
           <g>
-            <path
-              d="M0,-0.8 Q0,0 0.8,0 Q0,0 0,0.8 Q0,0 -0.8,0 Q0,0 0,-0.8 Z"
-              fill="#FFA3B8"
-              className="animate-pulse"
-              style={{ filter: 'drop-shadow(0 0 3px #FFA3B8)' }}
-            />
+            <g className="animate-star-spin-slow">
+              <path
+                d="M0,-1.8 Q0,0 1.8,0 Q0,0 0,1.8 Q0,0 -1.8,0 Q0,0 0,-1.8 Z"
+                fill="#FFA3B8"
+                style={{ filter: 'drop-shadow(0 0 5px #FFA3B8)' }}
+              />
+            </g>
             <animateMotion
               path="M 6 12 C 10 50, 4 88, 8 88 C 20 88, 75 92, 92 85 C 94 48, 94 15, 94 15"
-              dur="18s"
-              begin="4s"
+              dur="15s"
+              begin="3s"
               repeatCount="indefinite"
             />
           </g>
 
-          {/* Star 3 moving along the path in reverse direction */}
+          {/* Star 3 moving along Path 1 in reverse direction (Enlarged) */}
           <g>
-            <path
-              d="M0,-0.9 Q0,0 0.9,0 Q0,0 0,0.9 Q0,0 -0.9,0 Q0,0 0,-0.9 Z"
-              fill="#FF2E5F"
-              className="animate-pulse"
-              style={{ filter: 'drop-shadow(0 0 4px #FF2E5F)' }}
-            />
+            <g className="animate-star-spin-fast">
+              <path
+                d="M0,-2 Q0,0 2,0 Q0,0 0,2 Q0,0 -2,0 Q0,0 0,-2 Z"
+                fill="#FF2E5F"
+                style={{ filter: 'drop-shadow(0 0 6px #FF2E5F)' }}
+              />
+            </g>
             <animateMotion
               path="M 94 15 C 94 48, 94 48, 92 85 C 75 92, 20 88, 8 88 C 4 88, 10 50, 6 12"
-              dur="15s"
-              begin="2s"
+              dur="12s"
+              begin="1s"
+              repeatCount="indefinite"
+            />
+          </g>
+
+          {/* Star 4 moving along Path 2 (New crossing star) */}
+          <g>
+            <g className="animate-star-spin-fast">
+              <path
+                d="M0,-1.6 Q0,0 1.6,0 Q0,0 0,1.6 Q0,0 -1.6,0 Q0,0 0,-1.6 Z"
+                fill="#FF3366"
+                style={{ filter: 'drop-shadow(0 0 5px #FF3366)' }}
+              />
+            </g>
+            <animateMotion
+              path="M 94 15 C 65 30, 35 70, 8 88"
+              dur="11s"
+              repeatCount="indefinite"
+            />
+          </g>
+
+          {/* Star 5 moving along Path 2 in reverse */}
+          <g>
+            <g className="animate-star-spin-slow">
+              <path
+                d="M0,-2 Q0,0 2,0 Q0,0 0,2 Q0,0 -2,0 Q0,0 0,-2 Z"
+                fill="#FFA3B8"
+                style={{ filter: 'drop-shadow(0 0 6px #FFA3B8)' }}
+              />
+            </g>
+            <animateMotion
+              path="M 8 88 C 35 70, 65 30, 94 15"
+              dur="14s"
+              begin="4s"
               repeatCount="indefinite"
             />
           </g>
         </svg>
 
-        {/* Static blinking stars positioned along the constellation paths */}
-        <div className="absolute top-[8%] left-[10%] w-6 h-6 animate-star-blink-1">
+        {/* Static blinking stars positioned along the constellation paths (Enlarged) */}
+        <div className="absolute top-[8%] left-[10%] w-9 h-9 animate-star-blink-1">
           <svg viewBox="0 0 24 24" fill="currentColor" className="text-[#FF3366]">
             <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
           </svg>
         </div>
-        <div className="absolute bottom-[20%] left-[8%] w-5 h-5 animate-star-blink-2">
+        <div className="absolute bottom-[20%] left-[8%] w-8 h-8 animate-star-blink-2">
           <svg viewBox="0 0 24 24" fill="currentColor" className="text-[#FF3366]">
             <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
           </svg>
         </div>
-        <div className="absolute top-[35%] right-[22%] w-6 h-6 animate-star-blink-3">
+        <div className="absolute top-[35%] right-[22%] w-9 h-9 animate-star-blink-3">
           <svg viewBox="0 0 24 24" fill="currentColor" className="text-[#FF3366]">
             <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
           </svg>
         </div>
-        <div className="absolute bottom-[22%] right-[10%] w-5 h-5 animate-star-blink-1">
+        <div className="absolute bottom-[22%] right-[10%] w-8 h-8 animate-star-blink-1">
           <svg viewBox="0 0 24 24" fill="currentColor" className="text-[#FF3366]">
             <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
           </svg>
