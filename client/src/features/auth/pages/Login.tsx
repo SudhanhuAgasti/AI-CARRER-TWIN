@@ -94,26 +94,8 @@ export function Login() {
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center relative overflow-hidden bg-[#020204]">
-      {/* Stylesheet Overrides to clean up parent column spacing and configure animations */}
+      {/* Stylesheet Overrides to configure animations */}
       <style>{`
-        /* Hide parent left column content on desktop to avoid overlap under our fixed panel */
-        .grid.min-h-screen > div:first-child {
-          display: none !important;
-        }
-        
-        .grid.min-h-screen > div:nth-child(2) {
-          grid-column: span 12 / span 12 !important;
-          background: #020204 !important;
-          padding: 0 !important;
-          width: 100% !important;
-          min-height: 100vh !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          position: relative !important;
-          overflow: hidden !important;
-        }
-
         /* Float animations for 3D Crystals */
         @keyframes float-slow {
           0%, 100% { transform: translateY(0px) rotate(0deg); }

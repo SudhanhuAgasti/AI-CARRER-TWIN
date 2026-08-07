@@ -46,9 +46,7 @@ export function AppRoutes() {
             path="/login"
             element={
               <PublicRoute>
-                <AuthLayout>
-                  <Login />
-                </AuthLayout>
+                <Login />
               </PublicRoute>
             }
           />
