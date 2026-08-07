@@ -114,19 +114,19 @@ export function ForgotPassword() {
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center bg-[#020204] text-white p-4 relative font-sans">
+    <div className="w-full min-h-screen flex flex-col items-center justify-center bg-[#000000] text-white p-4 relative font-sans">
       
       {/* Top Left Header Section Title (Matches "3. Forgot Password" exactly) */}
-      <div className="absolute top-6 left-6 text-sm font-semibold text-gray-400 select-none">
+      <div className="absolute top-6 left-6 text-[18px] font-bold text-white/90 select-none">
         3. Forgot Password
       </div>
 
       {/* Main split-pane container card */}
-      <div className="w-full max-w-[760px] grid grid-cols-1 md:grid-cols-2 bg-[#090B11] border border-white/5 rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.6)] overflow-hidden">
+      <div className="w-full max-w-[760px] grid grid-cols-1 md:grid-cols-2 bg-[#090B11] border border-white/5 rounded-[16px] shadow-[0_20px_50px_rgba(0,0,0,0.6)] overflow-hidden">
         
         {/* Left Side: Form Container (50% width on Desktop) */}
         <div className="col-span-1 p-8 sm:p-12 flex flex-col justify-between bg-[#090B11]">
-          <div>
+          <div className="flex-1 flex flex-col justify-center">
             {/* Brand logo */}
             <div className="flex items-center gap-2 mb-10 select-none">
               <div className="w-7 h-7 rounded-lg bg-[#FF2E5F] flex items-center justify-center shadow-lg shadow-[#FF2E5F]/20">
@@ -141,7 +141,7 @@ export function ForgotPassword() {
 
             {/* Title / Subtitle */}
             <div className="space-y-1 text-left mb-8">
-              <h2 className="text-xl font-bold text-white tracking-tight">Reset your password</h2>
+              <h2 className="text-[22px] font-bold text-white tracking-tight">Reset your password</h2>
               <p className="text-xs text-gray-400">
                 Enter your email and we'll send you a reset
               </p>
@@ -157,7 +157,7 @@ export function ForgotPassword() {
                   {...register('email')}
                   type="email"
                   placeholder="Enter your email"
-                  className={`w-full bg-[#121520] border ${
+                  className={`w-full bg-[#12141F] border ${
                     errors.email ? 'border-red-500/80 focus:border-red-500' : 'border-[#1E2333] focus:border-[#FF2E5F]/60'
                   } text-white rounded-xl px-4 py-3 placeholder:text-gray-500 text-sm focus:outline-none transition-all duration-200`}
                   autoComplete="email"
@@ -169,7 +169,7 @@ export function ForgotPassword() {
 
               <Button
                 type="submit"
-                className="w-full py-3 rounded-xl bg-[#FF2E5F] hover:bg-[#E02450] text-white font-bold transition-all duration-200 transform active:scale-[0.99] text-xs tracking-wide shadow-lg shadow-[#FF2E5F]/15"
+                className="w-full py-3.5 rounded-xl bg-[#FF2E5F] hover:bg-[#E02450] text-white font-bold transition-all duration-200 transform active:scale-[0.99] text-xs tracking-wide shadow-lg shadow-[#FF2E5F]/15"
                 isLoading={isSubmitting}
               >
                 Send reset link
@@ -177,8 +177,8 @@ export function ForgotPassword() {
             </form>
           </div>
 
-          {/* Footer Back Link */}
-          <div className="mt-12 text-center md:text-left">
+          {/* Footer Back Link (Centered) */}
+          <div className="mt-8 text-center w-full">
             <a
               href="/login"
               className="text-xs font-bold text-[#FF2E5F] hover:text-[#ff4773] transition-colors"
