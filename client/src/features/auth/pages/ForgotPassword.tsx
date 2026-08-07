@@ -122,10 +122,10 @@ export function ForgotPassword() {
       </div>
 
       {/* Main split-pane container card */}
-      <div className="w-full max-w-[760px] grid grid-cols-1 md:grid-cols-12 bg-[#090B11] border border-white/5 rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.6)] overflow-hidden">
+      <div className="w-full max-w-[760px] grid grid-cols-1 md:grid-cols-2 bg-[#090B11] border border-white/5 rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.6)] overflow-hidden">
         
-        {/* Left Side: Form Container (60% width on Desktop) */}
-        <div className="col-span-1 md:col-span-7 p-8 sm:p-12 flex flex-col justify-between bg-[#090B11]">
+        {/* Left Side: Form Container (50% width on Desktop) */}
+        <div className="col-span-1 p-8 sm:p-12 flex flex-col justify-between bg-[#090B11]">
           <div>
             {/* Brand logo */}
             <div className="flex items-center gap-2 mb-10 select-none">
@@ -188,8 +188,8 @@ export function ForgotPassword() {
           </div>
         </div>
 
-        {/* Right Side: Graphic Visual illustration (40% width on Desktop, hidden on mobile) */}
-        <div className="hidden md:flex md:col-span-5 flex-col justify-center items-center p-8 bg-[#050609] border-l border-white/5 text-center">
+        {/* Right Side: Graphic Visual illustration (50% width on Desktop, hidden on mobile) */}
+        <div className="hidden md:flex col-span-1 flex-col justify-center items-center p-8 bg-[#050609] border-l border-white/5 text-center">
           <GlowingEnvelope />
           <p className="text-[11px] text-gray-400 max-w-[200px] leading-relaxed mt-4">
             We'll send you a secure link to reset your password
