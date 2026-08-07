@@ -160,6 +160,21 @@ export function Login() {
         .animate-fall-fast-4 {
           animation: fall 7s linear infinite;
         }
+
+        /* Glowing pulse animation for the card border */
+        @keyframes border-glow-pulse {
+          0%, 100% {
+            border-color: rgba(255, 46, 95, 0.12);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.75), 0 0 25px rgba(255, 46, 95, 0.04);
+          }
+          50% {
+            border-color: rgba(255, 46, 95, 0.35);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.85), 0 0 45px rgba(255, 46, 95, 0.16);
+          }
+        }
+        .animate-card-pulse {
+          animation: border-glow-pulse 6s ease-in-out infinite;
+        }
       `}</style>
 
       {/* Denser falling star/snow particles simulating rain */}
@@ -334,7 +349,7 @@ export function Login() {
       <GlassCrystal className="absolute bottom-[8%] sm:bottom-[15%] right-[4%] sm:right-[8%] animate-float-medium" rotation="-10deg" scale="0.75" />
 
       {/* Main Login Card with exact styling & subtle pink/red outer glow border */}
-      <div className="relative z-10 w-full max-w-[375px] sm:max-w-[390px] mx-4 bg-[#090B11]/95 border border-red-500/10 rounded-[20px] p-6 sm:p-8 shadow-[0_15px_45px_rgba(0,0,0,0.7),0_0_35px_rgba(255,51,95,0.06)] backdrop-blur-md">
+      <div className="relative z-10 w-full max-w-[375px] sm:max-w-[390px] mx-4 bg-[#090B11]/90 border border-red-500/10 rounded-[20px] p-6 sm:p-8 backdrop-blur-xl animate-card-pulse">
         
         {/* Brand Logo */}
         <div className="flex items-center justify-center gap-2.5 mb-5">
