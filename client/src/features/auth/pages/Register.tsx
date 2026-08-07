@@ -158,7 +158,7 @@ export function Register() {
         .grid.min-h-screen > div:nth-child(2) {
           background: #050608 !important;
           position: relative;
-          overflow: hidden;
+          overflow-y: auto;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -178,18 +178,18 @@ export function Register() {
           100% { transform: rotate(600deg) translateY(-170px) rotate(-600deg) rotateY(15deg) rotateX(10deg); }
         }
 
-        /* Mobile orbits for mini cards (Radius: 80px) */
+        /* Mobile orbits for mini cards (Radius: 65px - perfectly scaled to avoid boundaries clipping) */
         @keyframes orbit-m1 {
-          0% { transform: rotate(0deg) translateY(-80px) rotate(0deg); }
-          100% { transform: rotate(360deg) translateY(-80px) rotate(-360deg); }
+          0% { transform: rotate(0deg) translateY(-65px) rotate(0deg); }
+          100% { transform: rotate(360deg) translateY(-65px) rotate(-360deg); }
         }
         @keyframes orbit-m2 {
-          0% { transform: rotate(120deg) translateY(-80px) rotate(-120deg); }
-          100% { transform: rotate(480deg) translateY(-80px) rotate(-480deg); }
+          0% { transform: rotate(120deg) translateY(-65px) rotate(-120deg); }
+          100% { transform: rotate(480deg) translateY(-65px) rotate(-480deg); }
         }
         @keyframes orbit-m3 {
-          0% { transform: rotate(240deg) translateY(-80px) rotate(-80px) rotate(-80deg); }
-          100% { transform: rotate(600deg) translateY(-80px) rotate(-600deg); }
+          0% { transform: rotate(240deg) translateY(-65px) rotate(-240deg); }
+          100% { transform: rotate(600deg) translateY(-65px) rotate(-600deg); }
         }
 
         .animate-orbit-d1 { animation: orbit-d1 30s linear infinite; }
@@ -455,20 +455,20 @@ export function Register() {
       <div className="relative z-10 w-full bg-[#0C0E14]/80 border border-primary/20 rounded-3xl p-8 md:p-10 shadow-[0_0_50px_rgba(255,51,102,0.12)] backdrop-blur-xl space-y-6">
         
         {/* Mobile-Only Responsive Orbit Banner with Mini Playing Cards */}
-        <div className="lg:hidden relative w-full h-[180px] flex items-center justify-center overflow-hidden bg-[#0F111A]/40 rounded-2xl border border-border/40 py-2">
-          <div className="absolute w-[140px] h-[140px] border border-primary/20 border-dashed rounded-full" />
-          <div className="absolute w-20 h-20 bg-primary/20 rounded-full blur-xl animate-pulse" />
+        <div className="lg:hidden relative w-full h-[220px] flex items-center justify-center overflow-hidden bg-[#0F111A]/40 rounded-2xl border border-border/40 py-4">
+          <div className="absolute w-[130px] h-[130px] border border-primary/20 border-dashed rounded-full" />
+          <div className="absolute w-16 h-16 bg-primary/20 rounded-full blur-xl animate-pulse" />
 
           {/* Connectors for mobile */}
           <svg className="absolute w-[180px] h-[180px] pointer-events-none" viewBox="0 0 180 180">
             <g style={{ transformOrigin: '90px 90px' }} className="animate-[spin_14s_linear_infinite]">
-              <line x1="90" y1="90" x2="90" y2="10" stroke="rgba(255, 51, 102, 0.4)" strokeWidth="1" strokeDasharray="3 2" />
+              <line x1="90" y1="90" x2="90" y2="25" stroke="rgba(255, 51, 102, 0.4)" strokeWidth="1" strokeDasharray="3 2" />
             </g>
             <g style={{ transformOrigin: '90px 90px', transform: 'rotate(120deg)' }} className="animate-[spin_14s_linear_infinite]">
-              <line x1="90" y1="90" x2="90" y2="10" stroke="rgba(147, 51, 234, 0.4)" strokeWidth="1" strokeDasharray="3 2" />
+              <line x1="90" y1="90" x2="90" y2="25" stroke="rgba(147, 51, 234, 0.4)" strokeWidth="1" strokeDasharray="3 2" />
             </g>
             <g style={{ transformOrigin: '90px 90px', transform: 'rotate(240deg)' }} className="animate-[spin_14s_linear_infinite]">
-              <line x1="90" y1="90" x2="90" y2="10" stroke="rgba(34, 197, 94, 0.4)" strokeWidth="1" strokeDasharray="3 2" />
+              <line x1="90" y1="90" x2="90" y2="25" stroke="rgba(34, 197, 94, 0.4)" strokeWidth="1" strokeDasharray="3 2" />
             </g>
           </svg>
 
@@ -477,29 +477,29 @@ export function Register() {
             <SmilingRobot />
           </div>
 
-          {/* Mini Playing Cards Orbiting on Mobile */}
-          <div className="absolute z-10 flex flex-col justify-between p-1 bg-[#0A0D14] border border-primary/40 rounded-lg shadow-md w-11 h-16 animate-orbit-m1 text-[8px] font-bold">
+          {/* Mini Playing Cards Orbiting on Mobile (Ace Cards with correct counter-rotations) */}
+          <div className="absolute z-20 flex flex-col justify-between p-1 bg-[#0A0D14] border border-primary/40 rounded-lg shadow-md w-11 h-16 animate-orbit-m1 text-[8px] font-bold">
             <div className="flex flex-col items-center self-start text-[6px] text-primary leading-none">
               <span>A</span>
               <Sparkles className="h-2 w-2 mt-0.5" />
             </div>
-            <span className="text-[6px] text-white text-center leading-none">Insights</span>
+            <span className="text-[5.5px] text-white text-center leading-none">Insights</span>
           </div>
 
-          <div className="absolute z-10 flex flex-col justify-between p-1 bg-[#0A0D14] border border-[#9333EA]/40 rounded-lg shadow-md w-11 h-16 animate-orbit-m2 text-[8px] font-bold">
+          <div className="absolute z-20 flex flex-col justify-between p-1 bg-[#0A0D14] border border-[#9333EA]/40 rounded-lg shadow-md w-11 h-16 animate-orbit-m2 text-[8px] font-bold">
             <div className="flex flex-col items-center self-start text-[6px] text-[#A855F7] leading-none">
               <span>A</span>
               <Brain className="h-2 w-2 mt-0.5" />
             </div>
-            <span className="text-[6px] text-white text-center leading-none">Learn</span>
+            <span className="text-[5.5px] text-white text-center leading-none">Learn</span>
           </div>
 
-          <div className="absolute z-10 flex flex-col justify-between p-1 bg-[#0A0D14] border border-[#22C55E]/40 rounded-lg shadow-md w-11 h-16 animate-orbit-m3 text-[8px] font-bold">
+          <div className="absolute z-20 flex flex-col justify-between p-1 bg-[#0A0D14] border border-[#22C55E]/40 rounded-lg shadow-md w-11 h-16 animate-orbit-m3 text-[8px] font-bold">
             <div className="flex flex-col items-center self-start text-[6px] text-[#4ADE80] leading-none">
               <span>A</span>
               <Briefcase className="h-2 w-2 mt-0.5" />
             </div>
-            <span className="text-[6px] text-white text-center leading-none">Jobs</span>
+            <span className="text-[5.5px] text-white text-center leading-none">Jobs</span>
           </div>
         </div>
 
