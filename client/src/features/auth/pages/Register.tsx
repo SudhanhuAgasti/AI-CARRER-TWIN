@@ -73,13 +73,11 @@ function SmilingRobot() {
         <path d="M13 18h28L28 36H13z" fill="url(#visor-glare)" pointerEvents="none" />
 
         {/* Realistic Cyber Camera Lenses (Eyes) */}
-        {/* Left eye camera lens */}
         <circle cx="21" cy="27" r="5" fill="#030712" stroke="#38BDF8" strokeWidth="1" />
         <circle cx="21" cy="27" r="3.2" fill="#0284C7" />
         <circle cx="21" cy="27" r="1.5" fill="#0EA5E9" />
-        <circle cx="20" cy="26" r="0.8" fill="#FFF" /> {/* Reflection dot */}
+        <circle cx="20" cy="26" r="0.8" fill="#FFF" />
 
-        {/* Right eye camera lens */}
         <circle cx="43" cy="27" r="5" fill="#030712" stroke="#38BDF8" strokeWidth="1" />
         <circle cx="43" cy="27" r="3.2" fill="#0284C7" />
         <circle cx="43" cy="27" r="1.5" fill="#0EA5E9" />
@@ -160,13 +158,13 @@ export function Register() {
         .grid.min-h-screen > div:nth-child(2) {
           background: #050608 !important;
           position: relative;
-          overflow-y: auto;
+          overflow: hidden;
           display: flex;
           align-items: center;
           justify-content: center;
         }
 
-        /* Coordinated 3D orbit animations for playing cards (Radius: 180px with a 3D perspective tilt) */
+        /* Coordinated 3D orbit animations for playing cards (Radius: 170px with a 3D perspective tilt) */
         @keyframes orbit-d1 {
           0% { transform: rotate(0deg) translateY(-170px) rotate(0deg) rotateY(15deg) rotateX(10deg); }
           100% { transform: rotate(360deg) translateY(-170px) rotate(-360deg) rotateY(15deg) rotateX(10deg); }
@@ -190,7 +188,7 @@ export function Register() {
           100% { transform: rotate(480deg) translateY(-80px) rotate(-480deg); }
         }
         @keyframes orbit-m3 {
-          0% { transform: rotate(240deg) translateY(-80px) rotate(-240deg); }
+          0% { transform: rotate(240deg) translateY(-80px) rotate(-80px) rotate(-80deg); }
           100% { transform: rotate(600deg) translateY(-80px) rotate(-600deg); }
         }
 
@@ -217,7 +215,75 @@ export function Register() {
         .animate-pulse-light {
           animation: pulse-light 5s ease-in-out infinite;
         }
+
+        /* Connecting lines animation */
+        @keyframes dash {
+          to {
+            stroke-dashoffset: -40;
+          }
+        }
+        .animate-dash {
+          animation: dash 2s linear infinite;
+        }
+
+        /* Background drift */
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-12px) rotate(3deg); }
+        }
       `}</style>
+
+      {/* Background Graphic Assets (As shown in login layout) */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        {/* Large circular orbit path centered behind registration card */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] border border-primary/10 rounded-full animate-[spin_70s_linear_infinite]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[620px] h-[620px] border border-[#9333EA]/5 border-dashed rounded-full animate-[spin_55s_linear_infinite_reverse]" />
+
+        {/* Floating 3D Crystal 1 (Top Left) */}
+        <div className="absolute top-[12%] left-[4%] w-24 h-24 animate-[float_8s_ease-in-out_infinite]" style={{ transformStyle: 'preserve-3d' }}>
+          <svg className="w-full h-full filter drop-shadow-[0_0_12px_rgba(255,51,102,0.25)]" viewBox="0 0 100 100">
+            <defs>
+              <linearGradient id="crystal-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="rgba(255, 51, 102, 0.6)" />
+                <stop offset="60%" stopColor="rgba(147, 51, 234, 0.25)" />
+                <stop offset="100%" stopColor="rgba(10, 11, 15, 0.7)" />
+              </linearGradient>
+            </defs>
+            <polygon points="50,10 90,40 70,85 30,85 10,40" fill="url(#crystal-grad-1)" stroke="rgba(255, 51, 102, 0.4)" strokeWidth="1.2" />
+            <line x1="50" y1="10" x2="50" y2="85" stroke="rgba(255,255,255,0.18)" strokeWidth="1" />
+            <line x1="10" y1="40" x2="90" y2="40" stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
+          </svg>
+        </div>
+
+        {/* Floating 3D Crystal 2 (Bottom Right) */}
+        <div className="absolute bottom-[8%] right-[4%] w-22 h-22 animate-[float_10s_ease-in-out_infinite_reverse]" style={{ transformStyle: 'preserve-3d' }}>
+          <svg className="w-full h-full filter drop-shadow-[0_0_15px_rgba(255,51,102,0.2)]" viewBox="0 0 100 100">
+            <defs>
+              <linearGradient id="crystal-grad-2" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="rgba(255, 51, 102, 0.55)" />
+                <stop offset="55%" stopColor="rgba(219, 39, 119, 0.2)" />
+                <stop offset="100%" stopColor="rgba(5, 6, 8, 0.8)" />
+              </linearGradient>
+            </defs>
+            <polygon points="50,15 85,50 50,85 15,50" fill="url(#crystal-grad-2)" stroke="rgba(255, 51, 102, 0.35)" strokeWidth="1.2" />
+            <line x1="50" y1="15" x2="50" y2="85" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+            <line x1="15" y1="50" x2="85" y2="50" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
+          </svg>
+        </div>
+
+        {/* Floating 3D Crystal 3 (Bottom Left) */}
+        <div className="absolute bottom-[16%] left-[6%] w-18 h-18 animate-[float_7s_ease-in-out_infinite_1.5s]">
+          <svg className="w-full h-full filter drop-shadow-[0_0_10px_rgba(255,51,102,0.18)]" viewBox="0 0 100 100">
+            <polygon points="50,10 80,75 20,75" fill="url(#crystal-grad-1)" stroke="rgba(255, 51, 102, 0.3)" strokeWidth="1" />
+            <line x1="50" y1="10" x2="50" y2="75" stroke="rgba(255,255,255,0.12)" strokeWidth="0.8" />
+          </svg>
+        </div>
+
+        {/* Glowing holographic ambient rings */}
+        <div className="absolute top-[28%] right-[8%] w-12 h-12 border border-primary/20 rounded-full animate-pulse blur-[1px]" />
+        <div className="absolute bottom-[35%] left-[10%] w-8 h-8 border border-[#9333EA]/35 rounded-full animate-pulse blur-[1px]" />
+        <div className="absolute top-[65%] right-[12%] w-10 h-10 border border-primary/15 rounded-full animate-pulse" />
+      </div>
 
       {/* Desktop Fixed Left Illustration Panel (5/12 width is 41.666667%) */}
       <div className="fixed left-0 top-0 bottom-0 w-[41.666667vw] z-30 bg-[#08090D] border-r border-primary/12 hidden lg:flex flex-col justify-between p-12 overflow-hidden select-none text-left">
@@ -241,10 +307,77 @@ export function Register() {
         {/* Orbit System */}
         <div className="relative w-full flex items-center justify-center my-auto min-h-[460px] perspective-[1200px]">
           {/* Concentric rotating orbits */}
-          <div className="absolute w-[360px] h-[360px] border border-primary/15 border-dashed rounded-full" />
-          <div className="absolute w-[240px] h-[240px] border border-primary/10 rounded-full" />
+          <div className="absolute w-[340px] h-[340px] border border-primary/15 border-dashed rounded-full" />
+          <div className="absolute w-[220px] h-[220px] border border-primary/10 rounded-full" />
           
           <div className="absolute w-36 h-36 bg-primary/15 rounded-full blur-[25px] animate-pulse-light" />
+
+          {/* Sync rotating connecting lines & card-to-card arcs */}
+          <svg className="absolute w-[460px] h-[460px] pointer-events-none z-10" viewBox="0 0 460 460">
+            <defs>
+              <linearGradient id="line-glow-primary" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stopColor="rgba(255, 51, 102, 0.05)" />
+                <stop offset="100%" stopColor="rgba(255, 51, 102, 0.75)" />
+              </linearGradient>
+              <linearGradient id="line-glow-purple" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stopColor="rgba(147, 51, 234, 0.05)" />
+                <stop offset="100%" stopColor="rgba(147, 51, 234, 0.75)" />
+              </linearGradient>
+              <linearGradient id="line-glow-green" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stopColor="rgba(34, 197, 94, 0.05)" />
+                <stop offset="100%" stopColor="rgba(34, 197, 94, 0.75)" />
+              </linearGradient>
+            </defs>
+
+            {/* Main revolving group containing lines and stars */}
+            <g style={{ transformOrigin: '230px 230px' }} className="animate-[spin_30s_linear_infinite]">
+              {/* Spoke Connectors (Core to Cards) */}
+              <line x1="230" y1="230" x2="230" y2="60" stroke="url(#line-glow-primary)" strokeWidth="1.8" strokeDasharray="6 4" className="animate-dash" />
+              <circle cx="230" cy="60" r="4.5" fill="#FF3366" className="filter drop-shadow-[0_0_6px_#FF3366] animate-pulse" />
+
+              <g style={{ transformOrigin: '230px 230px', transform: 'rotate(120deg)' }}>
+                <line x1="230" y1="230" x2="230" y2="60" stroke="url(#line-glow-purple)" strokeWidth="1.8" strokeDasharray="6 4" className="animate-dash" />
+                <circle cx="230" cy="60" r="4.5" fill="#9333EA" className="filter drop-shadow-[0_0_6px_#9333EA] animate-pulse" />
+              </g>
+
+              <g style={{ transformOrigin: '230px 230px', transform: 'rotate(240deg)' }}>
+                <line x1="230" y1="230" x2="230" y2="60" stroke="url(#line-glow-green)" strokeWidth="1.8" strokeDasharray="6 4" className="animate-dash" />
+                <circle cx="230" cy="60" r="4.5" fill="#22C55E" className="filter drop-shadow-[0_0_6px_#22C55E] animate-pulse" />
+              </g>
+
+              {/* Stylish Outward Curved Constellation Arcs (Card to Card) */}
+              {/* Card 1 (230, 60) -> Card 2 (377.2, 315) */}
+              <path d="M 230,60 A 170 170 0 0 1 377.2,315" fill="none" stroke="rgba(255, 51, 102, 0.3)" strokeWidth="1.5" strokeDasharray="4 4" />
+              
+              {/* Card 2 (377.2, 315) -> Card 3 (82.8, 315) */}
+              <path d="M 377.2,315 A 170 170 0 0 1 82.8,315" fill="none" stroke="rgba(147, 51, 234, 0.3)" strokeWidth="1.5" strokeDasharray="4 4" />
+              
+              {/* Card 3 (82.8, 315) -> Card 1 (230, 60) */}
+              <path d="M 82.8,315 A 170 170 0 0 1 230,60" fill="none" stroke="rgba(34, 197, 94, 0.3)" strokeWidth="1.5" strokeDasharray="4 4" />
+
+              {/* Gliding Blinking Stars Along Curved Paths */}
+              {/* Star on Arc 1 */}
+              <g className="animate-pulse">
+                <path d="M 0,-4.5 L 1.2,-1.2 L 4.5,0 L 1.2,1.2 L 0,4.5 L -1.2,1.2 L -4.5,0 L -1.2,-1.2 Z" fill="#FFF" className="filter drop-shadow-[0_0_8px_#FFF]">
+                  <animateMotion dur="6s" repeatCount="indefinite" path="M 230,60 A 170 170 0 0 1 377.2,315" />
+                </path>
+              </g>
+
+              {/* Star on Arc 2 */}
+              <g className="animate-pulse">
+                <path d="M 0,-4.5 L 1.2,-1.2 L 4.5,0 L 1.2,1.2 L 0,4.5 L -1.2,1.2 L -4.5,0 L -1.2,-1.2 Z" fill="#FFF" className="filter drop-shadow-[0_0_8px_#FFF]">
+                  <animateMotion dur="6s" repeatCount="indefinite" path="M 377.2,315 A 170 170 0 0 1 82.8,315" />
+                </path>
+              </g>
+
+              {/* Star on Arc 3 */}
+              <g className="animate-pulse">
+                <path d="M 0,-4.5 L 1.2,-1.2 L 4.5,0 L 1.2,1.2 L 0,4.5 L -1.2,1.2 L -4.5,0 L -1.2,-1.2 Z" fill="#FFF" className="filter drop-shadow-[0_0_8px_#FFF]">
+                  <animateMotion dur="6s" repeatCount="indefinite" path="M 82.8,315 A 170 170 0 0 1 230,60" />
+                </path>
+              </g>
+            </g>
+          </svg>
 
           {/* Center Smiling Robot Avatar Core */}
           <div className="relative z-10 w-28 h-28 rounded-full bg-[#07090E] border border-primary/40 flex items-center justify-center shadow-[0_0_40px_rgba(255,51,102,0.4)]">
@@ -252,23 +385,19 @@ export function Register() {
           </div>
 
           {/* Premium Desktop Orbiting Cards (3D Playing Card Styles) */}
-          
           {/* Playing Card 1: Career Insights (Ace of Sparkles) */}
           <div className="absolute z-20 flex flex-col justify-between p-4 bg-[#0A0D14]/95 backdrop-blur-md border border-primary/30 rounded-2xl shadow-[0_10px_35px_rgba(255,51,102,0.2)] hover:border-primary transition-all duration-300 animate-orbit-d1 w-[140px] h-[200px]">
-            {/* Top-Left Corner Rank & Suit */}
             <div className="flex flex-col items-center self-start text-xs font-black text-primary font-outfit leading-none">
               <span>A</span>
               <Sparkles className="h-3 w-3 mt-1" />
             </div>
 
-            {/* Central Large Suite Emblem */}
             <div className="flex items-center justify-center my-auto">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 border border-primary/30 shadow-[0_0_15px_rgba(255,51,102,0.4)] text-primary">
                 <Sparkles className="h-6 w-6 animate-pulse" />
               </div>
             </div>
 
-            {/* Bottom Info & Rank */}
             <div className="flex flex-col items-center">
               <span className="text-[11px] font-bold text-white tracking-wide text-center leading-tight">Career Insights</span>
               <span className="text-[9px] text-primary/80 font-bold uppercase tracking-wider mt-1">97% Match</span>
@@ -277,20 +406,17 @@ export function Register() {
 
           {/* Playing Card 2: AI Learning (Ace of Brains) */}
           <div className="absolute z-20 flex flex-col justify-between p-4 bg-[#0A0D14]/95 backdrop-blur-md border border-[#9333EA]/35 rounded-2xl shadow-[0_10px_35px_rgba(147,51,234,0.2)] hover:border-[#9333EA] transition-all duration-300 animate-orbit-d2 w-[140px] h-[200px]">
-            {/* Top-Left Corner */}
             <div className="flex flex-col items-center self-start text-xs font-black text-[#A855F7] font-outfit leading-none">
               <span>A</span>
               <Brain className="h-3 w-3 mt-1" />
             </div>
 
-            {/* Central Large Emblem */}
             <div className="flex items-center justify-center my-auto">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#9333EA]/10 border border-[#9333EA]/30 shadow-[0_0_15px_rgba(147,51,234,0.4)] text-[#A855F7]">
                 <Brain className="h-6 w-6 animate-pulse" />
               </div>
             </div>
 
-            {/* Bottom Info */}
             <div className="flex flex-col items-center">
               <span className="text-[11px] font-bold text-white tracking-wide text-center leading-tight">AI Learning</span>
               <span className="text-[9px] text-[#A855F7]/80 font-bold uppercase tracking-wider mt-1">Roadmaps</span>
@@ -299,20 +425,17 @@ export function Register() {
 
           {/* Playing Card 3: Job Matching (Ace of Briefcases) */}
           <div className="absolute z-20 flex flex-col justify-between p-4 bg-[#0A0D14]/95 backdrop-blur-md border border-[#22C55E]/35 rounded-2xl shadow-[0_10px_35px_rgba(34,197,94,0.2)] hover:border-[#22C55E] transition-all duration-300 animate-orbit-d3 w-[140px] h-[200px]">
-            {/* Top-Left Corner */}
             <div className="flex flex-col items-center self-start text-xs font-black text-[#4ADE80] font-outfit leading-none">
               <span>A</span>
               <Briefcase className="h-3 w-3 mt-1" />
             </div>
 
-            {/* Central Large Emblem */}
             <div className="flex items-center justify-center my-auto">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#22C55E]/10 border border-[#22C55E]/30 shadow-[0_0_15px_rgba(34,197,94,0.4)] text-[#4ADE80]">
                 <Briefcase className="h-6 w-6 animate-pulse" />
               </div>
             </div>
 
-            {/* Bottom Info */}
             <div className="flex flex-col items-center">
               <span className="text-[11px] font-bold text-white tracking-wide text-center leading-tight">Job Matches</span>
               <span className="text-[9px] text-[#4ADE80]/80 font-bold uppercase tracking-wider mt-1">10+ Roles</span>
@@ -335,6 +458,19 @@ export function Register() {
         <div className="lg:hidden relative w-full h-[180px] flex items-center justify-center overflow-hidden bg-[#0F111A]/40 rounded-2xl border border-border/40 py-2">
           <div className="absolute w-[140px] h-[140px] border border-primary/20 border-dashed rounded-full" />
           <div className="absolute w-20 h-20 bg-primary/20 rounded-full blur-xl animate-pulse" />
+
+          {/* Connectors for mobile */}
+          <svg className="absolute w-[180px] h-[180px] pointer-events-none" viewBox="0 0 180 180">
+            <g style={{ transformOrigin: '90px 90px' }} className="animate-[spin_14s_linear_infinite]">
+              <line x1="90" y1="90" x2="90" y2="10" stroke="rgba(255, 51, 102, 0.4)" strokeWidth="1" strokeDasharray="3 2" />
+            </g>
+            <g style={{ transformOrigin: '90px 90px', transform: 'rotate(120deg)' }} className="animate-[spin_14s_linear_infinite]">
+              <line x1="90" y1="90" x2="90" y2="10" stroke="rgba(147, 51, 234, 0.4)" strokeWidth="1" strokeDasharray="3 2" />
+            </g>
+            <g style={{ transformOrigin: '90px 90px', transform: 'rotate(240deg)' }} className="animate-[spin_14s_linear_infinite]">
+              <line x1="90" y1="90" x2="90" y2="10" stroke="rgba(34, 197, 94, 0.4)" strokeWidth="1" strokeDasharray="3 2" />
+            </g>
+          </svg>
 
           {/* Glowing AI Core Sphere with Smiling Robot */}
           <div className="relative z-10 w-14 h-14 rounded-full bg-[#0D1017] border border-primary/40 flex items-center justify-center shadow-[0_0_20px_hsla(336,100%,60%,0.4)]">
