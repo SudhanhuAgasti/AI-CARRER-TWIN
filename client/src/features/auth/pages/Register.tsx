@@ -163,14 +163,14 @@ export function Register() {
           justify-content: center;
         }
 
-        @media (min-width: 1024px) {
+        @media (min-width: 768px) {
           .grid.min-h-screen > div:nth-child(2) {
             height: 100vh !important;
             overflow: hidden !important;
           }
         }
 
-        @media (max-width: 1023px) {
+        @media (max-width: 767px) {
           .grid.min-h-screen > div:nth-child(2) {
             overflow-y: auto !important;
           }
@@ -309,7 +309,7 @@ export function Register() {
       </div>
 
       {/* Desktop Fixed Left Illustration Panel (5/12 width is 41.666667%) */}
-      <div className="fixed left-0 top-0 bottom-0 w-[41.666667vw] z-30 bg-[#08090D] border-r border-primary/12 hidden lg:flex flex-col justify-between p-12 overflow-hidden select-none text-left">
+      <div className="fixed left-0 top-0 bottom-0 w-[41.666667vw] z-30 bg-[#08090D] border-r border-primary/12 hidden md:flex flex-col justify-between p-12 overflow-hidden select-none text-left">
         {/* Glow ambient background layers */}
         <div className="absolute top-[20%] left-[-15%] w-[400px] h-[400px] bg-primary/10 rounded-full blur-[100px] animate-pulse-light" />
         <div className="absolute bottom-[10%] right-[-15%] w-[350px] h-[350px] bg-[#E20042]/5 rounded-full blur-[90px] animate-pulse-light" />
@@ -478,7 +478,7 @@ export function Register() {
       <div className="relative z-10 w-full bg-[#0C0E14]/80 border border-primary/20 rounded-2xl p-5 md:p-7 lg:p-6 xl:p-7 shadow-[0_0_50px_rgba(255,51,102,0.12)] backdrop-blur-xl space-y-4 md:space-y-5">
         
         {/* Mobile-Only Responsive Orbit Banner with Mini Playing Cards */}
-        <div className="lg:hidden relative w-full h-[220px] flex items-center justify-center overflow-hidden bg-[#0F111A]/40 rounded-2xl border border-border/40 py-4">
+        <div className="md:hidden relative w-full h-[220px] flex items-center justify-center overflow-hidden bg-[#0F111A]/40 rounded-2xl border border-border/40 py-4">
           <div className="absolute w-[130px] h-[130px] border border-primary/20 border-dashed rounded-full" />
           <div className="absolute w-16 h-16 bg-primary/20 rounded-full blur-xl animate-pulse" />
 

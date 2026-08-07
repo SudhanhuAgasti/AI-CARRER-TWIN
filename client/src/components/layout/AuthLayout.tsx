@@ -11,10 +11,10 @@ interface AuthLayoutProps {
 
 export function AuthLayout({ children }: AuthLayoutProps) {
   return (
-    <div className="grid min-h-screen grid-cols-1 overflow-hidden lg:grid-cols-12 bg-background text-foreground">
+    <div className="grid min-h-screen grid-cols-1 overflow-hidden md:grid-cols-12 bg-background text-foreground">
 
-      {/* Left Column: Visual branding panels (Visible only on desktop screens) */}
-      <div className="hidden lg:flex lg:col-span-5 flex-col justify-between bg-card p-12 border-r border-border/80 relative overflow-hidden select-none">
+      {/* Left Column: Visual branding panels (Visible on tablets and desktops) */}
+      <div className="hidden md:flex md:col-span-5 flex-col justify-between bg-card p-12 border-r border-border/80 relative overflow-hidden select-none">
 
         {/* Subtle decorative background grid pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--color-primary)/10,transparent_50%)]" />
@@ -40,7 +40,7 @@ export function AuthLayout({ children }: AuthLayoutProps) {
       </div>
 
       {/* Right Column: Centered authentication card container */}
-      <div className="col-span-1 lg:col-span-7 flex items-center justify-center p-6 md:p-12 relative">
+      <div className="col-span-1 md:col-span-7 flex items-center justify-center p-6 md:p-12 relative">
         <div className="w-full max-w-md space-y-6">
           {children}
         </div>
