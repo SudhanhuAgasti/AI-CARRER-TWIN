@@ -111,7 +111,63 @@ export function Login() {
         .animate-float-medium {
           animation: float-medium 8s ease-in-out infinite;
         }
+
+        /* Blinking stars animation */
+        @keyframes star-blink {
+          0%, 100% { opacity: 0.15; transform: scale(0.65) rotate(0deg); }
+          50% { opacity: 1; transform: scale(1.3) rotate(45deg); filter: drop-shadow(0 0 8px rgba(255, 51, 95, 0.9)); }
+        }
+        .animate-star-blink-1 {
+          animation: star-blink 3.5s ease-in-out infinite;
+          transform-origin: center;
+        }
+        .animate-star-blink-2 {
+          animation: star-blink 4.2s ease-in-out infinite;
+          animation-delay: 1.5s;
+          transform-origin: center;
+        }
+        .animate-star-blink-3 {
+          animation: star-blink 3.8s ease-in-out infinite;
+          animation-delay: 2.5s;
+          transform-origin: center;
+        }
       `}</style>
+
+      {/* Fullscreen background constellation lines & blinking stars */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
+        <svg className="w-full h-full text-red-500/15" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Curved connection path linking top-left, bottom-left, bottom-right and top-right */}
+          <path
+            d="M 6 12 Q 10 50, 4 88 T 92 85 Q 94 48, 94 15"
+            stroke="currentColor"
+            strokeWidth="0.08"
+            strokeDasharray="0.3 0.6"
+            fill="none"
+          />
+        </svg>
+
+        {/* Blinking 4-pointed stars positioned along the constellation paths */}
+        <div className="absolute top-[8%] left-[10%] w-6 h-6 animate-star-blink-1">
+          <svg viewBox="0 0 24 24" fill="currentColor" className="text-[#FF3366]">
+            <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
+          </svg>
+        </div>
+        <div className="absolute bottom-[20%] left-[8%] w-5 h-5 animate-star-blink-2">
+          <svg viewBox="0 0 24 24" fill="currentColor" className="text-[#FF3366]">
+            <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
+          </svg>
+        </div>
+        <div className="absolute top-[35%] right-[22%] w-6 h-6 animate-star-blink-3">
+          <svg viewBox="0 0 24 24" fill="currentColor" className="text-[#FF3366]">
+            <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
+          </svg>
+        </div>
+        <div className="absolute bottom-[22%] right-[10%] w-5 h-5 animate-star-blink-1">
+          <svg viewBox="0 0 24 24" fill="currentColor" className="text-[#FF3366]">
+            <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
+          </svg>
+        </div>
+      </div>
 
       {/* Background large tilted thin red/purple ring/orbit (exact layout as photo) */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
