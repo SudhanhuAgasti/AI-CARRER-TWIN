@@ -464,7 +464,7 @@ export function Register() {
       </div>
 
       {/* Main Glassmorphic Registration Card Container */}
-      <div className="relative z-10 w-full bg-[#0C0E14]/80 border border-primary/20 rounded-3xl p-8 md:p-10 shadow-[0_0_50px_rgba(255,51,102,0.12)] backdrop-blur-xl space-y-6">
+      <div className="relative z-10 w-full bg-[#0C0E14]/80 border border-primary/20 rounded-2xl p-5 md:p-7 lg:p-6 xl:p-7 shadow-[0_0_50px_rgba(255,51,102,0.12)] backdrop-blur-xl space-y-4 md:space-y-5">
         
         {/* Mobile-Only Responsive Orbit Banner with Mini Playing Cards */}
         <div className="lg:hidden relative w-full h-[220px] flex items-center justify-center overflow-hidden bg-[#0F111A]/40 rounded-2xl border border-border/40 py-4">
@@ -516,32 +516,32 @@ export function Register() {
         </div>
 
         {/* Brand Header */}
-        <div className="flex flex-col items-center text-center space-y-3.5">
+        <div className="flex flex-col items-center text-center space-y-2.5">
           {/* CareerTwin Logo */}
           <div className="flex items-center gap-2 select-none">
-            <svg className="h-6 w-6 text-primary filter drop-shadow-[0_0_8px_var(--color-primary)]" viewBox="0 0 24 24" fill="currentColor">
+            <svg className="h-5 w-5 text-primary filter drop-shadow-[0_0_8px_var(--color-primary)]" viewBox="0 0 24 24" fill="currentColor">
               <rect x="3" y="3" width="7" height="7" rx="1.5" />
               <rect x="14" y="3" width="7" height="7" rx="1.5" />
               <rect x="3" y="14" width="7" height="7" rx="1.5" />
               <rect x="14" y="14" width="7" height="7" rx="1.5" className="text-white" />
             </svg>
-            <span className="font-extrabold tracking-tight text-xl font-outfit text-white">
+            <span className="font-extrabold tracking-tight text-lg font-outfit text-white">
               Career<span className="text-primary font-bold">Twin</span>
             </span>
           </div>
 
-          <div className="space-y-1">
-            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white font-outfit">
+          <div className="space-y-0.5">
+            <h1 className="text-xl md:text-2xl font-extrabold tracking-tight text-white font-outfit">
               Create your account
             </h1>
-            <p className="text-xs text-muted-foreground/80 font-medium">
+            <p className="text-[11px] text-muted-foreground/80 font-medium">
               Start your AI-powered career transformation
             </p>
           </div>
         </div>
 
         {/* Main Sign Up Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
           <Input
             {...register('name')}
             label="Full Name"
@@ -587,7 +587,7 @@ export function Register() {
           />
 
           {/* Terms of Service Checkbox */}
-          <div className="flex items-start space-x-2.5 pt-1">
+          <div className="flex items-start space-x-2.5 pt-0.5">
             <input
               type="checkbox"
               id="terms"
@@ -609,7 +609,7 @@ export function Register() {
           {/* Submit Button */}
           <Button 
             type="submit" 
-            className="w-full py-6 mt-2 rounded-xl bg-gradient-to-r from-primary to-[#FF3366] hover:from-primary/95 hover:to-[#FF3366]/95 text-white font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 transform active:scale-[0.99]" 
+            className="w-full py-4 mt-1 rounded-xl bg-gradient-to-r from-primary to-[#FF3366] hover:from-primary/95 hover:to-[#FF3366]/95 text-white font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 transform active:scale-[0.99] text-sm" 
             isLoading={isSubmitting}
           >
             Create account
@@ -617,7 +617,7 @@ export function Register() {
         </form>
 
         {/* Alternative Social Logins */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           <div className="relative flex items-center justify-center">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-border/40"></div>
@@ -631,7 +631,7 @@ export function Register() {
             <Button
               type="button"
               variant="outline"
-              className="w-full py-5 rounded-xl flex items-center justify-center gap-2 border-border/40 hover:bg-muted/40 hover:border-primary/30 text-sm font-semibold transition-all duration-200"
+              className="w-full py-3 rounded-xl flex items-center justify-center gap-2 border-border/40 hover:bg-muted/40 hover:border-primary/30 text-xs font-semibold transition-all duration-200"
             >
               <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -645,7 +645,7 @@ export function Register() {
             <Button
               type="button"
               variant="outline"
-              className="w-full py-5 rounded-xl flex items-center justify-center gap-2 border-border/40 hover:bg-muted/40 hover:border-primary/30 text-sm font-semibold transition-all duration-200"
+              className="w-full py-3 rounded-xl flex items-center justify-center gap-2 border-border/40 hover:bg-muted/40 hover:border-primary/30 text-xs font-semibold transition-all duration-200"
             >
               <svg className="h-4 w-4 text-white" viewBox="0 0 24 24" fill="currentColor">
                 <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.167 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.164 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
