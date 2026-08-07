@@ -187,6 +187,26 @@ export function Register() {
           -ms-overflow-style: none !important;
         }
 
+        /* Scale down orbit system on medium/tablet viewports to fit the left column */
+        @media (min-width: 768px) and (max-width: 1023px) {
+          .orbit-container-wrapper {
+            transform: scale(0.62) translateY(-10px);
+            transform-origin: center center;
+          }
+          .grid.min-h-screen > div:first-child {
+            padding: 1.5rem !important;
+          }
+        }
+        @media (min-width: 1024px) and (max-width: 1279px) {
+          .orbit-container-wrapper {
+            transform: scale(0.8);
+            transform-origin: center center;
+          }
+          .grid.min-h-screen > div:first-child {
+            padding: 2rem !important;
+          }
+        }
+
         /* Coordinated 3D orbit animations for playing cards (Radius: 170px with a 3D perspective tilt) */
         @keyframes orbit-d1 {
           0% { transform: rotate(0deg) translateY(-170px) rotate(0deg) rotateY(15deg) rotateX(10deg); }
@@ -328,7 +348,7 @@ export function Register() {
         </div>
 
         {/* Orbit System */}
-        <div className="relative w-full flex items-center justify-center my-auto min-h-[460px] perspective-[1200px]">
+        <div className="relative w-full flex items-center justify-center my-auto min-h-[460px] perspective-[1200px] orbit-container-wrapper">
           {/* Concentric rotating orbits */}
           <div className="absolute w-[340px] h-[340px] border border-primary/15 border-dashed rounded-full" />
           <div className="absolute w-[220px] h-[220px] border border-primary/10 rounded-full" />
@@ -475,7 +495,7 @@ export function Register() {
       </div>
 
       {/* Main Glassmorphic Registration Card Container */}
-      <div className="relative z-10 w-full bg-[#0C0E14]/80 border border-primary/20 rounded-2xl p-5 md:p-7 lg:p-6 xl:p-7 shadow-[0_0_50px_rgba(255,51,102,0.12)] backdrop-blur-xl space-y-4 md:space-y-5">
+      <div className="relative z-10 w-full bg-[#0C0E14]/80 border border-primary/20 rounded-2xl p-4 sm:p-6 md:p-7 shadow-[0_0_50px_rgba(255,51,102,0.12)] backdrop-blur-xl space-y-4">
         
         {/* Mobile-Only Responsive Orbit Banner with Mini Playing Cards */}
         <div className="md:hidden relative w-full h-[220px] flex items-center justify-center overflow-hidden bg-[#0F111A]/40 rounded-2xl border border-border/40 py-4">
