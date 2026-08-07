@@ -159,32 +159,32 @@ export function Login() {
 
       {/* Fullscreen background constellation lines & blinking stars */}
       <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
-        <svg className="w-full h-full text-red-500/40" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Main Curved connection path (thicker and deeper color) */}
+        <svg className="w-full h-full text-red-500/35" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Diagonal Path 1 (Top-Left to Bottom-Right) */}
           <path
-            id="constellation-path-1"
-            d="M 6 12 C 10 50, 4 88, 8 88 C 20 88, 75 92, 92 85 C 94 48, 94 15, 94 15"
+            id="diagonal-path-1"
+            d="M 6 12 C 30 35, 70 65, 92 85"
             stroke="currentColor"
-            strokeWidth="0.18"
-            strokeDasharray="0.4 0.6"
+            strokeWidth="0.16"
+            strokeDasharray="0.3 0.5"
             fill="none"
             className="animate-dash-flow"
             style={{ strokeDashoffset: 0 }}
           />
 
-          {/* Secondary Crossing path (adds depth to constellation network) */}
+          {/* Diagonal Path 2 (Top-Right to Bottom-Left) */}
           <path
-            id="constellation-path-2"
-            d="M 94 15 C 65 30, 35 70, 8 88"
+            id="diagonal-path-2"
+            d="M 94 15 C 70 35, 30 65, 8 88"
             stroke="currentColor"
-            strokeWidth="0.14"
+            strokeWidth="0.16"
             strokeDasharray="0.3 0.5"
             fill="none"
             className="animate-dash-flow"
             style={{ strokeDashoffset: 0, animationDirection: 'reverse' }}
           />
 
-          {/* Star 1 moving and spinning along Path 1 (Enlarged) */}
+          {/* Star 1 moving along Diagonal Path 1 (Top-Left -> Bottom-Right) */}
           <g>
             <g className="animate-star-spin-fast">
               <path
@@ -194,13 +194,13 @@ export function Login() {
               />
             </g>
             <animateMotion
-              path="M 6 12 C 10 50, 4 88, 8 88 C 20 88, 75 92, 92 85 C 94 48, 94 15, 94 15"
+              path="M 6 12 C 30 35, 70 65, 92 85"
               dur="10s"
               repeatCount="indefinite"
             />
           </g>
 
-          {/* Star 2 moving along Path 1 (Enlarged and delayed) */}
+          {/* Star 2 moving along Diagonal Path 1 in reverse (Bottom-Right -> Top-Left) */}
           <g>
             <g className="animate-star-spin-slow">
               <path
@@ -210,14 +210,14 @@ export function Login() {
               />
             </g>
             <animateMotion
-              path="M 6 12 C 10 50, 4 88, 8 88 C 20 88, 75 92, 92 85 C 94 48, 94 15, 94 15"
-              dur="15s"
-              begin="3s"
+              path="M 92 85 C 70 65, 30 35, 6 12"
+              dur="14s"
+              begin="2s"
               repeatCount="indefinite"
             />
           </g>
 
-          {/* Star 3 moving along Path 1 in reverse direction (Enlarged) */}
+          {/* Star 3 moving along Diagonal Path 2 (Top-Right -> Bottom-Left) */}
           <g>
             <g className="animate-star-spin-fast">
               <path
@@ -227,14 +227,13 @@ export function Login() {
               />
             </g>
             <animateMotion
-              path="M 94 15 C 94 48, 94 48, 92 85 C 75 92, 20 88, 8 88 C 4 88, 10 50, 6 12"
+              path="M 94 15 C 70 35, 30 65, 8 88"
               dur="12s"
-              begin="1s"
               repeatCount="indefinite"
             />
           </g>
 
-          {/* Star 4 moving along Path 2 (New crossing star) */}
+          {/* Star 4 moving along Diagonal Path 2 in reverse (Bottom-Left -> Top-Right) */}
           <g>
             <g className="animate-star-spin-fast">
               <path
@@ -244,25 +243,9 @@ export function Login() {
               />
             </g>
             <animateMotion
-              path="M 94 15 C 65 30, 35 70, 8 88"
+              path="M 8 88 C 30 65, 70 35, 94 15"
               dur="11s"
-              repeatCount="indefinite"
-            />
-          </g>
-
-          {/* Star 5 moving along Path 2 in reverse */}
-          <g>
-            <g className="animate-star-spin-slow">
-              <path
-                d="M0,-2 Q0,0 2,0 Q0,0 0,2 Q0,0 -2,0 Q0,0 0,-2 Z"
-                fill="#FFA3B8"
-                style={{ filter: 'drop-shadow(0 0 6px #FFA3B8)' }}
-              />
-            </g>
-            <animateMotion
-              path="M 8 88 C 35 70, 65 30, 94 15"
-              dur="14s"
-              begin="4s"
+              begin="3s"
               repeatCount="indefinite"
             />
           </g>
