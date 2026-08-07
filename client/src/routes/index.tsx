@@ -64,9 +64,7 @@ export function AppRoutes() {
             path="/forgot-password"
             element={
               <PublicRoute>
-                <AuthLayout>
-                  <ForgotPassword />
-                </AuthLayout>
+                <ForgotPassword />
               </PublicRoute>
             }
           />
