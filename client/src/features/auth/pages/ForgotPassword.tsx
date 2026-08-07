@@ -13,61 +13,67 @@ function GlowingEnvelope() {
   return (
     <div className="relative w-full flex flex-col items-center justify-center py-6 select-none">
       {/* Red Glowing aura behind the envelope */}
-      <div className="absolute w-44 h-44 rounded-full bg-[#FF2E5F]/20 blur-3xl filter pointer-events-none" />
+      <div className="absolute w-44 h-44 rounded-full bg-[#FF2E5F]/15 blur-3xl filter pointer-events-none" />
 
-      {/* Sparkling particle animations */}
+      {/* Sparkling particle animations (Matching the 2 circles above the envelope) */}
       <div className="absolute inset-0 pointer-events-none">
         <style>{`
-          @keyframes spark-float {
-            0%, 100% { transform: translateY(15px) scale(0.6); opacity: 0; }
-            30%, 70% { opacity: 0.8; }
-            100% { transform: translateY(-35px) scale(1.1); opacity: 0; filter: drop-shadow(0 0 6px #FF2E5F); }
+          @keyframes spark-drift-1 {
+            0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.4; }
+            50% { transform: translateY(-6px) translateX(3px); opacity: 0.9; }
           }
-          .spark-1 { animation: spark-float 3s ease-in-out infinite; }
-          .spark-2 { animation: spark-float 3.6s ease-in-out infinite 0.8s; }
-          .spark-3 { animation: spark-float 4.2s ease-in-out infinite 1.6s; }
+          @keyframes spark-drift-2 {
+            0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.5; }
+            50% { transform: translateY(-8px) translateX(-2px); opacity: 0.8; }
+          }
+          .spark-pink {
+            animation: spark-drift-1 4s ease-in-out infinite;
+            transform-origin: center;
+          }
+          .spark-white {
+            animation: spark-drift-2 5s ease-in-out infinite;
+            transform-origin: center;
+          }
         `}</style>
-        {/* Floating Sparks */}
-        <div className="absolute top-[20%] left-[48%] w-2 h-2 bg-[#FF2E5F] rounded-full spark-1" />
-        <div className="absolute top-[35%] left-[35%] w-1.5 h-1.5 bg-[#FF809F] rounded-full spark-2" />
-        <div className="absolute top-[28%] right-[38%] w-2.5 h-2.5 bg-[#FF2E5F] rounded-full spark-3" />
-        <div className="absolute top-[42%] right-[45%] w-1.5 h-1.5 bg-white rounded-full spark-1" />
+        
+        {/* Exact circular particles from the photo */}
+        {/* Pink dot above envelope */}
+        <div className="absolute top-[18%] left-[58%] w-3 h-3 bg-[#FF2E5F] rounded-full filter drop-shadow-[0_0_6px_#FF2E5F] spark-pink" />
+        {/* Grey/White dot slightly lower and to the left */}
+        <div className="absolute top-[22%] left-[48%] w-2 h-2 bg-white/50 rounded-full spark-white" />
       </div>
 
       {/* Main SVG Envelope */}
       <svg
-        className="w-44 h-44 filter drop-shadow-[0_0_25px_rgba(255,46,95,0.5)]"
+        className="w-44 h-44 filter drop-shadow-[0_0_20px_rgba(255,46,95,0.4)]"
         viewBox="0 0 120 120"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
-          <radialGradient id="seal-glow" cx="50%" cy="50%" r="50%">
+          <radialGradient id="center-glow" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#FFFFFF" />
-            <stop offset="30%" stopColor="#FF2E5F" />
+            <stop offset="35%" stopColor="#FF2E5F" />
             <stop offset="100%" stopColor="#FF2E5F" stopOpacity="0" />
           </radialGradient>
         </defs>
 
-        {/* Envelope back panel */}
-        <rect x="15" y="38" width="90" height="55" rx="8" fill="#181B26" stroke="#FF2E5F" strokeWidth="1.5" />
+        {/* Envelope back panel (Rounded rectangle, dark filled body) */}
+        <rect x="15" y="25" width="90" height="58" rx="8" fill="#11131E" />
 
-        {/* Glowing interior shape */}
-        <path d="M15 45 L 60 70 L 105 45 V 93 H 15 Z" fill="rgba(255, 46, 95, 0.05)" />
+        {/* Crossing fold lines forming a perfect "X" */}
+        <line x1="15" y1="25" x2="105" y2="83" stroke="#FF2E5F" strokeWidth="2" strokeLinecap="round" />
+        <line x1="105" y1="25" x2="15" y2="83" stroke="#FF2E5F" strokeWidth="2" strokeLinecap="round" />
 
-        {/* Diagonal side folds */}
-        <path d="M15 38 L 56 68" stroke="#FF2E5F" strokeWidth="1.5" opacity="0.8" />
-        <path d="M105 38 L 64 68" stroke="#FF2E5F" strokeWidth="1.5" opacity="0.8" />
+        {/* Outer border outline (Rounded rectangle) */}
+        <rect x="15" y="25" width="90" height="58" rx="8" stroke="#FF2E5F" strokeWidth="2.2" fill="none" />
 
-        {/* Bottom fold */}
-        <path d="M15 93 L 60 68 L 105 93 Z" fill="#10121C" stroke="#FF2E5F" strokeWidth="1.5" />
+        {/* Horizontal bottom base line extending slightly past edges */}
+        <line x1="12" y1="83" x2="108" y2="83" stroke="#FF2E5F" strokeWidth="2.5" strokeLinecap="round" />
 
-        {/* Main upper flap overlay */}
-        <path d="M15 38 L 60 68 L 105 38" fill="#141724" stroke="#FF2E5F" strokeWidth="2" />
-
-        {/* Bright Glowing seal at the center */}
-        <circle cx="60" cy="62" r="14" fill="url(#seal-glow)" className="animate-pulse" />
-        <circle cx="60" cy="62" r="2.5" fill="#FFFFFF" />
+        {/* Bright Glowing seal at the exact center intersection */}
+        <circle cx="60" cy="54" r="15" fill="url(#center-glow)" opacity="0.85" className="animate-pulse" />
+        <circle cx="60" cy="54" r="3" fill="#FFFFFF" style={{ filter: 'drop-shadow(0 0 3px #FFFFFF)' }} />
       </svg>
     </div>
   );
