@@ -141,53 +141,83 @@ export function Login() {
           animation-delay: 2.5s;
           transform-origin: center;
         }
-        /* Falling star snow animation */
+        /* Falling star snow animation (rain style) */
         @keyframes fall {
-          0% { transform: translateY(-10px) translateX(0); opacity: 0; }
+          0% { transform: translateY(-20px) translateX(0); opacity: 0; }
           10% { opacity: 0.8; }
           90% { opacity: 0.8; }
-          100% { transform: translateY(105vh) translateX(15px); opacity: 0; }
+          100% { transform: translateY(105vh) translateX(25px); opacity: 0; }
         }
-        .animate-fall-slow-1 {
-          animation: fall 15s linear infinite;
+        .animate-fall-fast-1 {
+          animation: fall 6s linear infinite;
         }
-        .animate-fall-slow-2 {
-          animation: fall 20s linear infinite;
+        .animate-fall-fast-2 {
+          animation: fall 8s linear infinite;
         }
-        .animate-fall-slow-3 {
-          animation: fall 25s linear infinite;
+        .animate-fall-fast-3 {
+          animation: fall 10s linear infinite;
         }
-        .animate-fall-slow-4 {
-          animation: fall 18s linear infinite;
+        .animate-fall-fast-4 {
+          animation: fall 7s linear infinite;
         }
       `}</style>
 
-      {/* Subtle falling star snow particles */}
+      {/* Denser falling star/snow particles simulating rain */}
       <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden">
-        <div className="absolute left-[12%] top-[-20px] w-2 h-2 text-white/40 animate-fall-slow-1">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
-          </svg>
+        {/* Row 1 */}
+        <div className="absolute left-[5%] top-[-20px] w-1.5 h-1.5 text-white/40 animate-fall-fast-1">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" /></svg>
         </div>
-        <div className="absolute left-[28%] top-[-20px] w-1.5 h-1.5 text-white/30 animate-fall-slow-2" style={{ animationDelay: '4s' }}>
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
-          </svg>
+        <div className="absolute left-[15%] top-[-20px] w-2 h-2 text-white/50 animate-fall-fast-2" style={{ animationDelay: '1.5s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" /></svg>
         </div>
-        <div className="absolute left-[45%] top-[-20px] w-2 h-2 text-[#FF3366]/30 animate-fall-slow-3" style={{ animationDelay: '8s' }}>
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <circle cx="12" cy="12" r="8" className="blur-[1px]" />
-          </svg>
+        <div className="absolute left-[25%] top-[-20px] w-1.5 h-1.5 text-[#FF3366]/40 animate-fall-fast-3" style={{ animationDelay: '3s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" /></svg>
         </div>
-        <div className="absolute left-[65%] top-[-20px] w-1.5 h-1.5 text-white/50 animate-fall-slow-4" style={{ animationDelay: '2s' }}>
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
-          </svg>
+        <div className="absolute left-[35%] top-[-20px] w-2 h-2 text-white/30 animate-fall-fast-4" style={{ animationDelay: '0.5s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8" className="blur-[1px]" /></svg>
         </div>
-        <div className="absolute left-[82%] top-[-20px] w-2.5 h-2.5 text-white/20 animate-fall-slow-1" style={{ animationDelay: '10s' }}>
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
-          </svg>
+        
+        {/* Row 2 */}
+        <div className="absolute left-[45%] top-[-20px] w-1.5 h-1.5 text-white/40 animate-fall-fast-1" style={{ animationDelay: '2.2s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" /></svg>
+        </div>
+        <div className="absolute left-[55%] top-[-20px] w-2 h-2 text-[#FF3366]/30 animate-fall-fast-2" style={{ animationDelay: '4.5s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" /></svg>
+        </div>
+        <div className="absolute left-[65%] top-[-20px] w-1.5 h-1.5 text-white/50 animate-fall-fast-3" style={{ animationDelay: '1s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" /></svg>
+        </div>
+        <div className="absolute left-[75%] top-[-20px] w-2 h-2 text-white/20 animate-fall-fast-4" style={{ animationDelay: '3.8s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8" className="blur-[1px]" /></svg>
+        </div>
+
+        {/* Row 3 */}
+        <div className="absolute left-[85%] top-[-20px] w-1.5 h-1.5 text-white/40 animate-fall-fast-1" style={{ animationDelay: '5s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" /></svg>
+        </div>
+        <div className="absolute left-[95%] top-[-20px] w-2 h-2 text-[#FF3366]/40 animate-fall-fast-2" style={{ animationDelay: '2.8s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" /></svg>
+        </div>
+        <div className="absolute left-[20%] top-[-20px] w-2 h-2 text-white/30 animate-fall-fast-3" style={{ animationDelay: '5.5s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" /></svg>
+        </div>
+        <div className="absolute left-[50%] top-[-20px] w-1.5 h-1.5 text-white/50 animate-fall-fast-4" style={{ animationDelay: '6s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" /></svg>
+        </div>
+
+        {/* Row 4 */}
+        <div className="absolute left-[10%] top-[-20px] w-1.5 h-1.5 text-white/30 animate-fall-fast-2" style={{ animationDelay: '7.2s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" /></svg>
+        </div>
+        <div className="absolute left-[40%] top-[-20px] w-2 h-2 text-white/20 animate-fall-fast-3" style={{ animationDelay: '0.8s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8" className="blur-[1px]" /></svg>
+        </div>
+        <div className="absolute left-[70%] top-[-20px] w-1.5 h-1.5 text-[#FF3366]/40 animate-fall-fast-1" style={{ animationDelay: '6.5s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" /></svg>
+        </div>
+        <div className="absolute left-[80%] top-[-20px] w-2.5 h-2.5 text-white/30 animate-fall-fast-4" style={{ animationDelay: '8.2s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" /></svg>
         </div>
       </div>
 
