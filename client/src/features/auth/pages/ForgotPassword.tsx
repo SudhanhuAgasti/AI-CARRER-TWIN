@@ -26,6 +26,10 @@ function GlowingEnvelope() {
             0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.5; }
             50% { transform: translateY(-8px) translateX(-2px); opacity: 0.8; }
           }
+          @keyframes beam-rise {
+            0%, 100% { opacity: 0.25; transform: scaleX(0.85) scaleY(0.85); }
+            50% { opacity: 0.7; transform: scaleX(1.2) scaleY(1.15); filter: drop-shadow(0 0 15px rgba(255, 46, 95, 0.5)); }
+          }
           .spark-pink {
             animation: spark-drift-1 4s ease-in-out infinite;
             transform-origin: center;
@@ -33,6 +37,9 @@ function GlowingEnvelope() {
           .spark-white {
             animation: spark-drift-2 5s ease-in-out infinite;
             transform-origin: center;
+          }
+          .animate-beam {
+            animation: beam-rise 4.5s ease-in-out infinite;
           }
         `}</style>
         
@@ -56,10 +63,23 @@ function GlowingEnvelope() {
             <stop offset="35%" stopColor="#FF2E5F" />
             <stop offset="100%" stopColor="#FF2E5F" stopOpacity="0" />
           </radialGradient>
+          <linearGradient id="light-beam" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stopColor="#FF2E5F" stopOpacity="0.85" />
+            <stop offset="45%" stopColor="#FF2E5F" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#FF2E5F" stopOpacity="0" />
+          </linearGradient>
         </defs>
 
         {/* Envelope back panel (Rounded rectangle, dark filled body) */}
         <rect x="15" y="25" width="90" height="58" rx="8" fill="#11131E" />
+
+        {/* Animated Light Beam rising out of the center dot */}
+        <polygon
+          points="55,54 65,54 85,-40 35,-40"
+          fill="url(#light-beam)"
+          className="animate-beam pointer-events-none"
+          style={{ transformOrigin: '60px 54px' }}
+        />
 
         {/* Crossing fold lines forming a perfect "X" */}
         <line x1="15" y1="25" x2="105" y2="83" stroke="#FF2E5F" strokeWidth="2" strokeLinecap="round" />
