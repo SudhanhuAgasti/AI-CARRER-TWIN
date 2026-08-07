@@ -176,6 +176,17 @@ export function Register() {
           }
         }
 
+        /* Cross-browser scrollbar removal */
+        ::-webkit-scrollbar {
+          display: none !important;
+          width: 0 !important;
+          height: 0 !important;
+        }
+        * {
+          scrollbar-width: none !important;
+          -ms-overflow-style: none !important;
+        }
+
         /* Coordinated 3D orbit animations for playing cards (Radius: 170px with a 3D perspective tilt) */
         @keyframes orbit-d1 {
           0% { transform: rotate(0deg) translateY(-170px) rotate(0deg) rotateY(15deg) rotateX(10deg); }
