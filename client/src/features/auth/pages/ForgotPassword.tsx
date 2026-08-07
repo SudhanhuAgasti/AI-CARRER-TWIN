@@ -8,93 +8,46 @@ import { forgotPasswordSchema, type ForgotPasswordFields } from '../auth.validat
 import { useUIStore } from '../../../store/uiStore';
 import Button from '../../../components/ui/Button';
 
-// 3D Glowing Red Envelope SVG
+// 3D Glowing Red Envelope Image
 function GlowingEnvelope() {
   return (
     <div className="relative w-full flex flex-col items-center justify-center py-6 select-none">
       {/* Red Glowing aura behind the envelope */}
-      <div className="absolute w-44 h-44 rounded-full bg-[#FF2E5F]/15 blur-3xl filter pointer-events-none" />
+      <div className="absolute w-48 h-48 rounded-full bg-[#FF2E5F]/15 blur-3xl filter pointer-events-none" />
 
-      {/* Sparkling particle animations (Matching the 2 circles above the envelope) */}
+      {/* Sparkling particle animations */}
       <div className="absolute inset-0 pointer-events-none">
         <style>{`
-          @keyframes spark-drift-1 {
-            0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.4; }
-            50% { transform: translateY(-6px) translateX(3px); opacity: 0.9; }
+          @keyframes spark-float {
+            0%, 100% { transform: translateY(15px) scale(0.6); opacity: 0; }
+            30%, 70% { opacity: 0.8; }
+            100% { transform: translateY(-35px) scale(1.1); opacity: 0; filter: drop-shadow(0 0 6px #FF2E5F); }
           }
-          @keyframes spark-drift-2 {
-            0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.5; }
-            50% { transform: translateY(-8px) translateX(-2px); opacity: 0.8; }
+          .spark-1 { animation: spark-float 4s ease-in-out infinite; }
+          .spark-2 { animation: spark-float 3s ease-in-out infinite 1s; }
+          .spark-3 { animation: spark-float 5s ease-in-out infinite 2s; }
+          
+          @keyframes envelope-pulse {
+            0%, 100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 15px rgba(255, 46, 95, 0.3)); }
+            50% { transform: translateY(-8px) scale(1.02); filter: drop-shadow(0 0 25px rgba(255, 46, 95, 0.55)); }
           }
-          @keyframes beam-rise {
-            0%, 100% { opacity: 0.25; transform: scaleX(0.85) scaleY(0.85); }
-            50% { opacity: 0.7; transform: scaleX(1.2) scaleY(1.15); filter: drop-shadow(0 0 15px rgba(255, 46, 95, 0.5)); }
-          }
-          .spark-pink {
-            animation: spark-drift-1 4s ease-in-out infinite;
-            transform-origin: center;
-          }
-          .spark-white {
-            animation: spark-drift-2 5s ease-in-out infinite;
-            transform-origin: center;
-          }
-          .animate-beam {
-            animation: beam-rise 4.5s ease-in-out infinite;
+          .animate-envelope-image {
+            animation: envelope-pulse 6s ease-in-out infinite;
           }
         `}</style>
-        
-        {/* Exact circular particles from the photo */}
-        {/* Pink dot above envelope */}
-        <div className="absolute top-[18%] left-[58%] w-3 h-3 bg-[#FF2E5F] rounded-full filter drop-shadow-[0_0_6px_#FF2E5F] spark-pink" />
-        {/* Grey/White dot slightly lower and to the left */}
-        <div className="absolute top-[22%] left-[48%] w-2 h-2 bg-white/50 rounded-full spark-white" />
+        {/* Floating Sparks */}
+        <div className="absolute top-[20%] left-[48%] w-2 h-2 bg-[#FF2E5F] rounded-full spark-1" />
+        <div className="absolute top-[35%] left-[35%] w-1.5 h-1.5 bg-[#FF809F] rounded-full spark-2" />
+        <div className="absolute top-[28%] right-[38%] w-2.5 h-2.5 bg-[#FF2E5F] rounded-full spark-3" />
+        <div className="absolute top-[42%] right-[45%] w-1.5 h-1.5 bg-white rounded-full spark-1" />
       </div>
 
-      {/* Main SVG Envelope */}
-      <svg
-        className="w-44 h-44 filter drop-shadow-[0_0_20px_rgba(255,46,95,0.4)]"
-        viewBox="0 0 120 120"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <radialGradient id="center-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#FFFFFF" />
-            <stop offset="35%" stopColor="#FF2E5F" />
-            <stop offset="100%" stopColor="#FF2E5F" stopOpacity="0" />
-          </radialGradient>
-          <linearGradient id="light-beam" x1="0%" y1="100%" x2="0%" y2="0%">
-            <stop offset="0%" stopColor="#FF2E5F" stopOpacity="0.85" />
-            <stop offset="45%" stopColor="#FF2E5F" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="#FF2E5F" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-
-        {/* Envelope back panel (Rounded rectangle, dark filled body) */}
-        <rect x="15" y="25" width="90" height="58" rx="8" fill="#11131E" />
-
-        {/* Animated Light Beam rising out of the center dot */}
-        <polygon
-          points="55,54 65,54 85,-40 35,-40"
-          fill="url(#light-beam)"
-          className="animate-beam pointer-events-none"
-          style={{ transformOrigin: '60px 54px' }}
-        />
-
-        {/* Crossing fold lines forming a perfect "X" */}
-        <line x1="15" y1="25" x2="105" y2="83" stroke="#FF2E5F" strokeWidth="2" strokeLinecap="round" />
-        <line x1="105" y1="25" x2="15" y2="83" stroke="#FF2E5F" strokeWidth="2" strokeLinecap="round" />
-
-        {/* Outer border outline (Rounded rectangle) */}
-        <rect x="15" y="25" width="90" height="58" rx="8" stroke="#FF2E5F" strokeWidth="2.2" fill="none" />
-
-        {/* Horizontal bottom base line extending slightly past edges */}
-        <line x1="12" y1="83" x2="108" y2="83" stroke="#FF2E5F" strokeWidth="2.5" strokeLinecap="round" />
-
-        {/* Bright Glowing seal at the exact center intersection */}
-        <circle cx="60" cy="54" r="15" fill="url(#center-glow)" opacity="0.85" className="animate-pulse" />
-        <circle cx="60" cy="54" r="3" fill="#FFFFFF" style={{ filter: 'drop-shadow(0 0 3px #FFFFFF)' }} />
-      </svg>
+      {/* Realistic 3D Generated Envelope Image */}
+      <img
+        src="/glowing_neon_envelope.png"
+        alt="Futuristic Email Envelope"
+        className="w-48 h-48 object-contain rounded-2xl animate-envelope-image select-none pointer-events-none"
+      />
     </div>
   );
 }
