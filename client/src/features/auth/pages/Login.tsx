@@ -119,21 +119,7 @@ export function Login() {
           }
         }
         .animate-dash-flow {
-          animation: dash 10s linear infinite;
-        }
-
-        /* Star spin animation */
-        @keyframes star-spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        .animate-star-spin-fast {
-          animation: star-spin 5s linear infinite;
-          transform-origin: center;
-        }
-        .animate-star-spin-slow {
-          animation: star-spin 10s linear infinite;
-          transform-origin: center;
+          animation: dash 12s linear infinite;
         }
 
         /* Blinking stars animation */
@@ -155,119 +141,136 @@ export function Login() {
           animation-delay: 2.5s;
           transform-origin: center;
         }
+        /* Falling star snow animation */
+        @keyframes fall {
+          0% { transform: translateY(-10px) translateX(0); opacity: 0; }
+          10% { opacity: 0.8; }
+          90% { opacity: 0.8; }
+          100% { transform: translateY(105vh) translateX(15px); opacity: 0; }
+        }
+        .animate-fall-slow-1 {
+          animation: fall 15s linear infinite;
+        }
+        .animate-fall-slow-2 {
+          animation: fall 20s linear infinite;
+        }
+        .animate-fall-slow-3 {
+          animation: fall 25s linear infinite;
+        }
+        .animate-fall-slow-4 {
+          animation: fall 18s linear infinite;
+        }
       `}</style>
+
+      {/* Subtle falling star snow particles */}
+      <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden">
+        <div className="absolute left-[12%] top-[-20px] w-2 h-2 text-white/40 animate-fall-slow-1">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
+          </svg>
+        </div>
+        <div className="absolute left-[28%] top-[-20px] w-1.5 h-1.5 text-white/30 animate-fall-slow-2" style={{ animationDelay: '4s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
+          </svg>
+        </div>
+        <div className="absolute left-[45%] top-[-20px] w-2 h-2 text-[#FF3366]/30 animate-fall-slow-3" style={{ animationDelay: '8s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <circle cx="12" cy="12" r="8" className="blur-[1px]" />
+          </svg>
+        </div>
+        <div className="absolute left-[65%] top-[-20px] w-1.5 h-1.5 text-white/50 animate-fall-slow-4" style={{ animationDelay: '2s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
+          </svg>
+        </div>
+        <div className="absolute left-[82%] top-[-20px] w-2.5 h-2.5 text-white/20 animate-fall-slow-1" style={{ animationDelay: '10s' }}>
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
+          </svg>
+        </div>
+      </div>
 
       {/* Fullscreen background constellation lines & blinking stars */}
       <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
-        <svg className="w-full h-full text-red-500/35" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Diagonal Path 1 (Top-Left to Bottom-Right) */}
+        <svg className="w-full h-full text-red-500/20" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Curved connection path linking top-left, bottom-left, bottom-right and top-right */}
           <path
-            id="diagonal-path-1"
-            d="M 6 12 C 30 35, 70 65, 92 85"
+            id="constellation-path"
+            d="M 6 12 C 10 50, 4 88, 8 88 C 20 88, 75 92, 92 85 C 94 48, 94 15, 94 15"
             stroke="currentColor"
-            strokeWidth="0.16"
-            strokeDasharray="0.3 0.5"
+            strokeWidth="0.08"
+            strokeDasharray="0.3 0.6"
             fill="none"
             className="animate-dash-flow"
             style={{ strokeDashoffset: 0 }}
           />
 
-          {/* Diagonal Path 2 (Top-Right to Bottom-Left) */}
-          <path
-            id="diagonal-path-2"
-            d="M 94 15 C 70 35, 30 65, 8 88"
-            stroke="currentColor"
-            strokeWidth="0.16"
-            strokeDasharray="0.3 0.5"
-            fill="none"
-            className="animate-dash-flow"
-            style={{ strokeDashoffset: 0, animationDirection: 'reverse' }}
-          />
-
-          {/* Star 1 moving along Diagonal Path 1 (Top-Left -> Bottom-Right) */}
+          {/* Star 1 moving along the path */}
           <g>
-            <g className="animate-star-spin-fast">
-              <path
-                d="M0,-2.2 Q0,0 2.2,0 Q0,0 0,2.2 Q0,0 -2.2,0 Q0,0 0,-2.2 Z"
-                fill="#FF3366"
-                style={{ filter: 'drop-shadow(0 0 6px #FF3366)' }}
-              />
-            </g>
-            <animateMotion
-              path="M 6 12 C 30 35, 70 65, 92 85"
-              dur="10s"
-              repeatCount="indefinite"
+            <path
+              d="M0,-1 Q0,0 1,0 Q0,0 0,1 Q0,0 -1,0 Q0,0 0,-1 Z"
+              fill="#FF3366"
+              className="animate-pulse"
+              style={{ filter: 'drop-shadow(0 0 4px #FF3366)' }}
             />
-          </g>
-
-          {/* Star 2 moving along Diagonal Path 1 in reverse (Bottom-Right -> Top-Left) */}
-          <g>
-            <g className="animate-star-spin-slow">
-              <path
-                d="M0,-1.8 Q0,0 1.8,0 Q0,0 0,1.8 Q0,0 -1.8,0 Q0,0 0,-1.8 Z"
-                fill="#FFA3B8"
-                style={{ filter: 'drop-shadow(0 0 5px #FFA3B8)' }}
-              />
-            </g>
             <animateMotion
-              path="M 92 85 C 70 65, 30 35, 6 12"
-              dur="14s"
-              begin="2s"
-              repeatCount="indefinite"
-            />
-          </g>
-
-          {/* Star 3 moving along Diagonal Path 2 (Top-Right -> Bottom-Left) */}
-          <g>
-            <g className="animate-star-spin-fast">
-              <path
-                d="M0,-2 Q0,0 2,0 Q0,0 0,2 Q0,0 -2,0 Q0,0 0,-2 Z"
-                fill="#FF2E5F"
-                style={{ filter: 'drop-shadow(0 0 6px #FF2E5F)' }}
-              />
-            </g>
-            <animateMotion
-              path="M 94 15 C 70 35, 30 65, 8 88"
+              path="M 6 12 C 10 50, 4 88, 8 88 C 20 88, 75 92, 92 85 C 94 48, 94 15, 94 15"
               dur="12s"
               repeatCount="indefinite"
             />
           </g>
 
-          {/* Star 4 moving along Diagonal Path 2 in reverse (Bottom-Left -> Top-Right) */}
+          {/* Star 2 moving along the path (delayed starting position) */}
           <g>
-            <g className="animate-star-spin-fast">
-              <path
-                d="M0,-1.6 Q0,0 1.6,0 Q0,0 0,1.6 Q0,0 -1.6,0 Q0,0 0,-1.6 Z"
-                fill="#FF3366"
-                style={{ filter: 'drop-shadow(0 0 5px #FF3366)' }}
-              />
-            </g>
+            <path
+              d="M0,-0.8 Q0,0 0.8,0 Q0,0 0,0.8 Q0,0 -0.8,0 Q0,0 0,-0.8 Z"
+              fill="#FFA3B8"
+              className="animate-pulse"
+              style={{ filter: 'drop-shadow(0 0 3px #FFA3B8)' }}
+            />
             <animateMotion
-              path="M 8 88 C 30 65, 70 35, 94 15"
-              dur="11s"
-              begin="3s"
+              path="M 6 12 C 10 50, 4 88, 8 88 C 20 88, 75 92, 92 85 C 94 48, 94 15, 94 15"
+              dur="18s"
+              begin="4s"
+              repeatCount="indefinite"
+            />
+          </g>
+
+          {/* Star 3 moving along the path in reverse direction */}
+          <g>
+            <path
+              d="M0,-0.9 Q0,0 0.9,0 Q0,0 0,0.9 Q0,0 -0.9,0 Q0,0 0,-0.9 Z"
+              fill="#FF2E5F"
+              className="animate-pulse"
+              style={{ filter: 'drop-shadow(0 0 4px #FF2E5F)' }}
+            />
+            <animateMotion
+              path="M 94 15 C 94 48, 94 48, 92 85 C 75 92, 20 88, 8 88 C 4 88, 10 50, 6 12"
+              dur="15s"
+              begin="2s"
               repeatCount="indefinite"
             />
           </g>
         </svg>
 
-        {/* Static blinking stars positioned along the constellation paths (Enlarged) */}
-        <div className="absolute top-[8%] left-[10%] w-9 h-9 animate-star-blink-1">
+        {/* Static blinking stars positioned along the constellation paths */}
+        <div className="absolute top-[8%] left-[10%] w-6 h-6 animate-star-blink-1">
           <svg viewBox="0 0 24 24" fill="currentColor" className="text-[#FF3366]">
             <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
           </svg>
         </div>
-        <div className="absolute bottom-[20%] left-[8%] w-8 h-8 animate-star-blink-2">
+        <div className="absolute bottom-[20%] left-[8%] w-5 h-5 animate-star-blink-2">
           <svg viewBox="0 0 24 24" fill="currentColor" className="text-[#FF3366]">
             <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
           </svg>
         </div>
-        <div className="absolute top-[35%] right-[22%] w-9 h-9 animate-star-blink-3">
+        <div className="absolute top-[35%] right-[22%] w-6 h-6 animate-star-blink-3">
           <svg viewBox="0 0 24 24" fill="currentColor" className="text-[#FF3366]">
             <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
           </svg>
         </div>
-        <div className="absolute bottom-[22%] right-[10%] w-8 h-8 animate-star-blink-1">
+        <div className="absolute bottom-[22%] right-[10%] w-5 h-5 animate-star-blink-1">
           <svg viewBox="0 0 24 24" fill="currentColor" className="text-[#FF3366]">
             <path d="M12 2c0 5.523-4.477 10-10 10 5.523 0 10 4.477 10 10 0-5.523 4.477-10 10-10-5.523 0-10-4.477-10-10z" />
           </svg>
