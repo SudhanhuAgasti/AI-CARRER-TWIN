@@ -158,10 +158,22 @@ export function Register() {
         .grid.min-h-screen > div:nth-child(2) {
           background: #050608 !important;
           position: relative;
-          overflow-y: auto;
           display: flex;
           align-items: center;
           justify-content: center;
+        }
+
+        @media (min-width: 1024px) {
+          .grid.min-h-screen > div:nth-child(2) {
+            height: 100vh !important;
+            overflow: hidden !important;
+          }
+        }
+
+        @media (max-width: 1023px) {
+          .grid.min-h-screen > div:nth-child(2) {
+            overflow-y: auto !important;
+          }
         }
 
         /* Coordinated 3D orbit animations for playing cards (Radius: 170px with a 3D perspective tilt) */
